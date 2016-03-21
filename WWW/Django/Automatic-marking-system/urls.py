@@ -4,11 +4,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
     # Examples:
-    # url(r'^$', 'myblog.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^home/', include('blog.urls')),
+    url(r'^home/', include('home.urls')),
     url(r'', 'django.contrib.auth.views.login',
 	name='login',
 	kwargs={
