@@ -35,7 +35,10 @@
                      <li><a href="#pricing">PRICING</a></li>
                      <li><a href="#contact">CONTACT</a></li> -->
                      <li><a href="mailto:kgm0219@gmail.com?Subject=" target="_top"> <i class="fa fa-envelope-o"></i><span class="home-mail">e-mail: kgm0219@gmail.com</span></a></li>
-                </ul>
+		{% if user.is_authenticated %}
+		     <li><a href="/home/web_logout">Logout</a></li>
+		{% endif %}
+		</ul>
             </div>
            
         </div>
