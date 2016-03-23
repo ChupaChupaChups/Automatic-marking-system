@@ -7,8 +7,8 @@ def post_list(request):
 
 def index(request):
 	checkuser = request.user
-	username = request.username;
-	password = request.password;
+	username = user.username;
+	password = user.password;
 	user = auth.authenticate(username=username, password=password)
 	if user is not None:
 		if user.is_active:
