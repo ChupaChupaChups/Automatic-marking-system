@@ -14,7 +14,7 @@
  </head>
 
   <body>
-{% if user.username %}
+{% if user.is_authenticated %}
 <script type="text/javascript">
 window.location.replace('http://kgm0219.pythonanywhere.com/home/index')
 </script>
