@@ -8,7 +8,7 @@ def index(request):
 		return render(request, 'AMS/professor.html', {})
 	else:
 		return render(request, 'AMS/student.html', {})
-def logout(request):
+def web_logout(request):
 	logout(request)
 	return render(request, '/', {}) 
 
