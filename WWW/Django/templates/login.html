@@ -15,9 +15,13 @@
 
   <body>
 {% if form.errors %}
-wow
-<script type="text/javascript">
-toastr["info"]("INVALID ACCOUNT")
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    toastr.('Page Loaded!');
+  });
 toastr.options = {
   "closeButton": false,
   "debug": false,
@@ -48,11 +52,6 @@ toastr.options = {
     <p><input type="submit" value="Log in"></p>
   </form>
 </div>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script src="{% static "login/js/toastr.js"%}"></script>
-    
-    
-    
-    
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>    
   </body>
 </html>
