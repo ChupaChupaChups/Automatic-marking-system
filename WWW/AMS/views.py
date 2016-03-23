@@ -6,10 +6,16 @@ def post_list(request):
 	return render(request, 'blog/post_list.html', {})
 
 def index(request):
-    user = request.user
-    if user.is_staff:
-        return render(request, 'blog/professor.html', {})
-    else:
-	    return render(request, 'blog/student.html', {})
+    checkuser = request.user
+    username = request.username;
+    password = request.password;
+    user = authenticate(username, password)
+    if user is not None:
+	 if user.is_active:
+		login(request, user)
+		if checkuser.is_staff:
+			return render(request, 'blog/professor.html', {})
+		else:
+			return render(request, 'blog/student.html', {})
 
 
