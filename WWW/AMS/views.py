@@ -10,5 +10,5 @@ def index(request):
 		return render(request, 'AMS/student.html', {})
 def web_logout(request):
 	logout(request)
-	return render(request, '/', {}) 
+	return render(request, 'AMS/student.html', {}) 
 
