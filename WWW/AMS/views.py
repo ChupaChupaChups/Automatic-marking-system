@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login, forms
+from django.contrib.auth import authenticate, login, form, logout
 # Create your views here.
 
 def index(request):
