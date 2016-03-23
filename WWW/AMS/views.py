@@ -7,15 +7,10 @@ def post_list(request):
 
 def index(request):
 	checkuser = request.user
-	username = request.POST.get('username')
-	password = request.POST.get('password')
-	user = authenticate(username=username, password=password)
-	if user is not None:
-		if user.is_active:
-			login(request, user)
-			if checkuser.is_staff:
-				return render(request, 'AMS/professor.html', {})
-			else:
-				return render(request, 'AMS/student.html', {})
+	login(request)
+	if checkuser.is_staff:
+		return render(request, 'AMS/professor.html', {})
+	else:
+		return render(request, 'AMS/student.html', {})
 
 
