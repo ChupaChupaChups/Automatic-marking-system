@@ -9,13 +9,13 @@ def index(request):
     checkuser = request.user
     username = request.username;
     password = request.password;
-    user = authenticate(username, password)
+    user = auth.authenticate(username=username, password=password)
     if user is not None:
 	 if user.is_active:
-		login(request, user)
+		auth.login(request, user)
 		if checkuser.is_staff:
-			return render(request, 'blog/professor.html', {})
+			return render(request, 'AMS/professor.html', {})
 		else:
-			return render(request, 'blog/student.html', {})
+			return render(request, 'AMS/student.html', {})
 
 
