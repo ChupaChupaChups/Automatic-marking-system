@@ -7,7 +7,6 @@ def post_list(request):
 
 def index(request):
 	checkuser = request.user
-	login(request)
 	if checkuser.is_staff:
 		return render(request, 'AMS/professor.html', {})
 	else:
