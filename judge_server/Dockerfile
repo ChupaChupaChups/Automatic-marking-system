@@ -4,7 +4,8 @@ MAINTAINER ByeongHun, Yoo <isac322@naver.com>
 RUN apt update
 RUN apt install software-properties-common -y
 
-RUN add-apt-repository ppa:ubuntu-toolchain-r/test ppa:webupd8team/java -y
+RUN add-apt-repository ppa:ubuntu-toolchain-r/test -y
+RUN add-apt-repository ppa:webupd8team/java -y
 RUN apt update
 RUN apt install gcc-5 g++-5 python python3 -y
 
