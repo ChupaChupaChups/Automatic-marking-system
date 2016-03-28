@@ -8,6 +8,9 @@ CONST_configFile = path.join(path.dirname(__file__), "config.json")
 
 
 class MetaConfig(type):
+	"""Read server configuration from ``config.json`` placed in same directory with this file.
+	"""
+
 	config = None
 
 	@staticmethod
@@ -41,4 +44,18 @@ class MetaConfig(type):
 
 
 class Config(metaclass=MetaConfig):
+	"""This is metaclass of `MetaConfig`_.
+	It's used for static referencing of special method like ``__getitem__()``.
+
+	So you can access to class statically without create any instance of `Config`_ whenever and wherever.
+
+
+	Usage:
+		>>> Config["Docker"]["version"]
+
+	Role and explain of this class is in `MetaConfig`_.
+
+	More info about metaclass and static access in python:
+	http://stackoverflow.com/questions/6187932/how-to-write-a-static-python-getitem-method
+	"""
 	pass

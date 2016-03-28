@@ -11,18 +11,25 @@ import docker
 
 __author__ = "isac322"
 
-#: docker daemon address
-dockerDaemon = Config["Docker"]["daemon_address"]
-dockerClient = docker.Client(base_url=dockerDaemon, version="auto")
 
-dockerTag = Config["Docker"]["tag"]
+def main():
+	#: docker daemon address
+	docker_daemon = Config["Docker"]["daemon_address"]
+	#: python interface of docker's client handler
+	docker_client = docker.Client(base_url=docker_daemon, version="auto")
 
-# if docker image that named dockerTag is not exist than, generate it
-if len(dockerClient.images(name=dockerTag)) is 0:
-	DockerfileFP = open(os.path.join(os.path.dirname(__file__), Config["Docker"]["Dockerfile"]))
-	DockerfileText = io.BytesIO(DockerfileFP.read().encode("UTF-8"))
-	DockerfileFP.close()
+	docker_tag = Config["Docker"]["tag"]
 
-	for line in dockerClient.build(fileobj=DockerfileText, tag=dockerTag, rm=True):
-		j = json.loads(line.decode())
-		print(j["stream"], end='')
+	# if docker image that named `docker_tag` is not exist than, generate it
+	if len(docker_client.images(name=docker_tag)) is 0:
+		dockerfile_fp = open(os.path.join(os.path.dirname(__file__), Config["Docker"]["Dockerfile"]))
+		dockerfile_text = io.BytesIO(dockerfile_fp.read().encode("UTF-8"))
+		dockerfile_fp.close()
+
+		for line in docker_client.build(fileobj=dockerfile_text, tag=docker_tag, rm=True):
+			j = json.loads(line.decode())
+			print(j["stream"], end='')
+
+
+if __name__ == "__main__":
+	main()
