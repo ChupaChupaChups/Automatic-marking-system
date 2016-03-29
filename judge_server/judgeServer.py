@@ -12,7 +12,7 @@ import docker
 __author__ = "isac322"
 
 
-def main():
+def build_image():
 	#: docker daemon address
 	docker_daemon = Config["Docker"]["daemon_address"]
 	#: python interface of docker's client handler
@@ -29,7 +29,8 @@ def main():
 		for line in docker_client.build(fileobj=dockerfile_text, tag=docker_tag, rm=True):
 			j = json.loads(line.decode())
 			print(j["stream"], end='')
-
+	else:
+		print("'{0}' image is already exist".format(docker_tag))
 
 if __name__ == "__main__":
-	main()
+	build_image()
