@@ -5,7 +5,7 @@ import io
 import json
 import os
 
-from configuration.config import Config
+from judge_server.configuration.config import Config
 
 import docker
 
