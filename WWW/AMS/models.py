@@ -3,15 +3,13 @@ from django.db import models
 # Create your models here.
 
 class problem(models.Model):		
-	p_name = models.CharField(max_length=100)			# 문제이름
-	p_content = models.TextField(null=False)			# 문제내용
+	p_condition =  models.Foreignkey('problem_condition')		# problem condition
+	p_name = models.CharField(max_length=100)			# 문제 이름
+	p_content = models.TextField(null=False)			# 문제 내용
 	p_input = models.TextField(null=False)				# 입력 예제
 	p_output = models.TextField(null=False)				# 출력 예제
-	def __str__(self):
-		return self.p_name
 
 class problem_condition(models.Model):
-	problem = models.ForeignKey('problem')
 	day_limit = models.DateField()					# 제출기간 
 	day_over = models.BooleanField()				# 제출기간을 초과 하였는지
 	c_ok = models.BooleanField()					# C언어로 채점 가능 여부
