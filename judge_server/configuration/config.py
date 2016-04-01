@@ -44,7 +44,7 @@ class MetaConfig(type):
 
 
 class Config(metaclass=MetaConfig):
-	"""This is metaclass of `MetaConfig`_.
+	"""This is realization of metaclass `MetaConfig`_.
 	It's used for static referencing of special method like ``__getitem__()``.
 
 	So you can access to class statically without create any instance of `Config`_ whenever and wherever.
@@ -53,7 +53,7 @@ class Config(metaclass=MetaConfig):
 	Usage:
 		>>> Config["Docker"]["version"]
 
-	Role and explain of this class is in `MetaConfig`_.
+	Role and explains of this class are in `MetaConfig`_.
 
 	More info about metaclass and static access in python:
 	http://stackoverflow.com/questions/6187932/how-to-write-a-static-python-getitem-method

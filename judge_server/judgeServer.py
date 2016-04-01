@@ -5,9 +5,8 @@ import io
 import json
 import os
 
-from judge_server.configuration.config import Config
-
 import docker
+from judge_server.configuration.config import Config
 
 __author__ = "isac322"
 
@@ -28,9 +27,12 @@ def build_image():
 
 		for line in docker_client.build(fileobj=dockerfile_text, tag=docker_tag, rm=True):
 			j = json.loads(line.decode())
-			print(j["stream"], end='')
+			for _, v in j.items():
+				print(v, end='')
+
 	else:
 		print("'{0}' image is already exist".format(docker_tag))
+
 
 if __name__ == "__main__":
 	build_image()
