@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER ByeongHun, Yoo <isac322@naver.com>
 
-RUN /bin/bash -c "
+RUN /bin/bash -c "\
 apt update; \
 apt install software-properties-common -y; \
 
