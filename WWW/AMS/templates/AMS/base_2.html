@@ -1,0 +1,21 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<link href="{% static "assets/css/style.css" %}" rel="stylesheet"/>	
+</head>
+
+<body>
+	<div class="secondMenu">
+	 <ul>
+		<li><a class="{% block problem_class %} {% endblock %}" href="#">Problem</a></li>
+		<li><a class="{% block submit_class %} {% endblock %}" href="#"> Submit</a></li>
+		<li><a class="{% block result_class %} {% endblock %}" href="#"> Result</a></li>
+		<li><a class="{% block source_class %} {% endblock %}" href="#"> My source</a></li> 		
+	 </ul>
+	</div>
+	{% block content %}
+	{% endblock %}
+</body>
+</html>

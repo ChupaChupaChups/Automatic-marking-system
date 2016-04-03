@@ -28,7 +28,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li ><a href="#home">문제목록</a></li>
+                    <li><a href="#home">문제목록</a></li>
+		    <li><a href={% "url problem_read" %}>테스트</a></li>
                     <li><a href="mailto:kgm0219@gmail.com?Subject=" target="_top"> <i class="fa fa-envelope-o"></i><span class="home-mail">e-mail: kgm0219@gmail.com</span></a></li>
 		  {% if user.is_authenticated %}
 		    <li><a href="/home/logout/">Logout</a></li>

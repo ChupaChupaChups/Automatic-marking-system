@@ -14,3 +14,6 @@ def index(request):
 def web_logout(req):
 	logout(req)
 	return HttpResponseRedirect('/')
+
+def problem_read(req):
+	return render(req, 'AMS/Read.html', {})
