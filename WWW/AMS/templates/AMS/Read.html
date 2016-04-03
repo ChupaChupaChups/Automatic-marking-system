@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<link href="{% static "assets/css/style.css" %}" rel="stylesheet"/>	
+</head>
+
+<body>
+	<div class="secondMenu">
+	 <ul>
+		<li><a class="active" href="#">Problem</a></li>
+		<li><a href="#"> Submit</a></li>
+ 		<li><a href="#">Result</a></li>
+		<li><a href="#">My source</a><li>
+	 </ul>
+	</div>
+        <div class="grading">
+                <h1>A+B</h1>
+                <table>
+                  <tr>
+                    <th>Language</th>
+                    <th>Deadline</th>
+                    <th>Standard</th>
+                    <th>Hint</th>
+                    <th>#Try</th>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                 </table>
+                 <h2>Problem</h2>
+                 <p>Add A and B</p>
+                 <h2 class="in">Input</h2>
+                 <p class="in">A, B</p>
+                 <h2 class="out">Output</h2>
+                 <p class="out">Sum of A and B</p>
+                 <h2 class="ex">Examples</h2>
+                 <p class="ex">1 + 3 = 4</p>
+        </div>
+</body>
+
+
+</html>
+
+
