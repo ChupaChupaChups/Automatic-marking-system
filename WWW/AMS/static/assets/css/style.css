@@ -1,174 +1,102 @@
-﻿/*=============================================================
-    Authour URI: www.binarytheme.com
-    License: Commons Attribution 3.0
+﻿	.secondMenu .active{
+		display: block;
+		color: white;
+		background-color: powderblue;
+	}
+	.secondMenu {
+		margin: auto;
+		height: 40px;
+		width: 100%;
+		background-color: lightblue;
 
-    http://creativecommons.org/licenses/by/3.0/
+	}
+	.secondMenu ul{			
+	}
+	.secondMenu ul li{		
+		list-style: none;
+		color: white;
+		background-color: lightblue;
+		float: left;
+		line-height: 40px;
+		vertical-align: middle;
+		text-align: center;
+		text-decoration: none;
+		color: white;
+		display: block;
+		width: 150px;
+		font-size: 12px;
+		font-weight: bold;
+		font-family: "Trebuchet MS", Dotum, Arial;
+	}
+	.secondMenu ul li a{
+		text-decoration: none;
+	}
+	.secondMenu ul li:hover{
+		color: white;
+		background-color: powderblue;
+	}
+        p {
+            font-family: 'Raleway', sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            padding-left: 15px;
+            margin-top: 250px;
+            position: absolute;
+            width: 100%;
+            z-index: 9999;
+        }
+        p.in {
+            margin-top: 350px;
+        }
+        p.out {
+            margin-top: 450px;
+        }
 
-    100% To use For Personal And Commercial Use.
-    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
-   
-    ========================================================  */
+        p.ex {
+            margin-top: 550px;
+        }
 
-/* =============================================================
-   GENERAL STYLES
- ============================================================ */
-body {
-    font-family: 'Open Sans', sans-serif;
-    line-height: 30px;
-    
-}
+        h1 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 50px;
+            font-weight: 200;
+            padding-left: 15px;
+            margin-top: 10px;
+            position: absolute;
+            width: 100%;
+            z-index: 9999;
+        }
+        h2 {
+            //color: #3487f7;
+            font-family: 'Raleway', sans-serif;
+            font-size: 40px;
+            font-weight: 200;
+            padding-left: 15px;
+            margin-top: 200px;
+            position: absolute;
+            width: 100%;
+            z-index: 9999;
+        }
+        h2.in {
+            margin-top: 300px;
+        }
+        h2.out {
+            margin-top: 400px;
+        }
+        h2.ex {
+            margin-top: 500px;
+        }
+        table {
+            position: absolute;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 90px;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
 
-
-h2 {
-    padding-top:50px;
-    text-transform: uppercase;  
-    padding-bottom:20px;  
-    color:#000;
-}
-h3 {
-    padding-top:30px;
-     padding-bottom:40px;
-     text-align:center;
-     font-weight:900;
-     text-transform:uppercase;
-}
-section {
-    padding-top:30px;
-    padding-bottom:40px;
-}
-.just-pad {
-    padding-bottom:50px;
-    padding-top:80px;
-}
-
-p {
-    padding:10px 0px;
-}
-/*=====================================
-  NAVBAR STYLES 
-    ===================================*/
-
-.logo-custom {
-     max-height:30px
-}
-#menu {
-    background-color:#4bb777;
-    color:#fff;
-    font-size:12px;
-    font-weight:900;
-    letter-spacing:1px;
-   
-}
-.navbar-inverse {
-border-color:transparent;
-}
-.navbar-inverse .navbar-nav > li > a,.navbar-inverse .navbar-nav > li > a:hover {
-color: #FFF;
-}
-
-.home-mail {
-    font-size:12px; 
-    font-weight:normal;
-    padding-left:5px;
-}
-/*=====================================
-  HEADERS STYLES 
-    ===================================*/
-
-
-.header-sec {
-  
-    padding-top: 10px;
-    padding-bottom: 60px;
-    background: url(../img/head.jpg) no-repeat center center;
-padding: 0;
--webkit-background-size: cover;
-background-size: cover;
- color:#fff;
- background-attachment:fixed;
-}
-.header-sec .overlay{
-    background:rgba(8, 134, 74, 0.90);
-min-height: 500px;
-}
-    .header-sec h2 {
-        color:#fff;
-        padding-top:150px;
-    }
-
-
-
-    /*=====================================
-  TESTIMONIALS STYLES 
-    ===================================*/
-
-
-.testi-sec {
-  
-    padding-top: 10px;
-    padding-bottom: 60px;
-    background: url(../img/testi.jpg) no-repeat center center;
-padding: 0;
--webkit-background-size: cover;
-background-size: cover;
- color:#fff;
- background-attachment:fixed;
-
-}
-.testi-sec .overlay{
-    background:rgba(8, 134, 74, 0.80);
-min-height: 300px;
-}
-    .testi-sec h3 {
-        color:#fff;
-        padding-top:60px;
-        padding-bottom:30px;
-    }
-
-.testi-sec h4 {
-    line-height:35px;
-}
-
-
-/*=====================================
-  PRICING STYLES 
-    ===================================*/
-
-.price-sec {
-  
-    padding-top: 40px;
-    padding-bottom: 60px;
-    color:#fff;
-   
-
-}
-    .price-sec span {
-        font-size:90px;
-    }
-
-.single-price {
-    background-color:rgba(8, 134, 74,1);
-    padding:50px;
-}
-.multi-price {
-    background-color:#4bb777;
-    padding:50px;
-}
-  /*=====================================
-  CONTACT STYLES 
-    ===================================*/
-.contact {
-    font-size:20px;
-    line-height:35px;
-}
- /*=====================================
-  FOOTER STYLES 
-    ===================================*/
-
- .myfooter {
-    background-color:#4bb777;
-    padding:5px 40px 5px 40px;
-    color:#fff;
-    font-size:14px;
-    text-align:right;
-}
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
