@@ -27,7 +27,7 @@
 		</ul>
 		{% if user.is_authenticated %}
 		<ul id="log-out-ul">
-			<li><a href="#" id="log-out">로그아웃</a></li>
+			<li><a href={% url "web_logout" %} id="log-out">로그아웃</a></li>
 		</ul>
 		{% endif %}
 	</nav>
