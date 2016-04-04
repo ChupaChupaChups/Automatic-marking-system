@@ -17,7 +17,7 @@
 </head>
 
 <body id="nav-body">
-<div>
+<div class="header">
 	<nav class="nav">
 		<ul class="page-nav">
 			<li><a href={% url "problem_read" %} class="{% block problem_list %}{% endblock %}">문제 목록</a></li>
@@ -31,9 +31,9 @@
 		</ul>
 		{% endif %}
 	</nav>
+	</div>
 	{% block content %}
 	{% endblock %}
-</div>
 </body>
 
 </html>
