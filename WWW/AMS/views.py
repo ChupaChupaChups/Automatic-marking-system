@@ -6,11 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def index(request):
-	checkuser = request.user
-	if checkuser.is_staff:
-		return render(request, 'AMS/professor_base.html', {})
-	else:
-		return render(request, 'AMS/student_base.html', {})
+		return render(request, 'AMS/header.html', {})
 def web_logout(req):
 	logout(req)
 	return HttpResponseRedirect('/')
