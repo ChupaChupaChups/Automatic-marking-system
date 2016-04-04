@@ -1,5 +1,4 @@
 ﻿	.secondMenu .active{
-		display: block;
 		color: white;
 		background-color: powderblue;
 	}
@@ -26,10 +25,11 @@
 		width: 150px;
 		font-size: 12px;
 		font-weight: bold;
-		font-family: "Trebuchet MS", Dotum, Arial;
+		font-family: "Raleway", sans-serif;
 	}
 	.secondMenu ul li a{
 		text-decoration: none;
+		display: block;
 	}
 	.secondMenu ul li:hover{
 		color: white;
