@@ -23,7 +23,7 @@
 		color: white;
 		display: block;
 		width: 150px;
-		font-size: 12px;
+		font-size: 20px;
 		font-weight: bold;
 		font-family: "Raleway", sans-serif;
 	}
@@ -40,20 +40,20 @@
             font-size: 18px;
             font-weight: 300;
             padding-left: 15px;
-            margin-top: 250px;
-            position: absolute;
+            position: relative;
+	    margin-bottom: 30px;
             width: 100%;
             z-index: 9999;
         }
         .grading p.in {
-            margin-top: 350px;
+            margin-top: auto;
         }
         .grading p.out {
-            margin-top: 450px;
+            margin-top: auto;
         }
 
         .grading p.ex {
-            margin-top: 550px;
+            margin-top: auto;
         }
 
         .grading h1 {
@@ -62,7 +62,7 @@
             font-weight: 200;
             padding-left: 15px;
             margin-top: 10px;
-            position: absolute;
+            position: relative;
             width: 100%;
             z-index: 9999;
         }
@@ -72,25 +72,24 @@
             font-size: 40px;
             font-weight: 200;
             padding-left: 15px;
-            margin-top: 200px;
-            position: absolute;
+            position: relative;
             width: 100%;
             z-index: 9999;
         }
         .grading h2.in {
-            margin-top: 300px;
+            margin-top: auto;
         }
         .grading h2.out {
-            margin-top: 400px;
+            margin-top: auto;
         }
         .grading h2.ex {
-            margin-top: 500px;
+            margin-top: auto;
         }
         .grading table {
-            position: absolute;
+            position: relative;
             border-collapse: collapse;
             width: 100%;
-            margin-top: 90px;
+            margin-top: auto;
             margin-left: 15px;
             margin-right: 15px;
         }
