@@ -3,42 +3,22 @@ body, ul, li, a, div {
 }
 
 @menu-color: #009688;
-@menu-hover-color: #00897B;
-@menu-active-color: #26A69A;
-@logout-hover-color: #4DB6AC;
+@menu-hover-color: #26A69A;
+@menu-active-color: #00897B;
+@logout-hover-color: #F44336;
 
-#nav-body {
-  .active {
-	background-color: @menu-active-color;
-  }
-
-  height: 60px;
+body {
   width: 100%;
 
-  div {
+  .nav-wrapper {
 	background-color: @menu-color;
 	height: 60px;
 
 	.nav {
-	  margin-right: 40px;
-	  display: inline-block;
+	  margin-right: 3%;
 	  float: right;
 
-	  .page-nav {
-		margin-right: 20px;
-
-		a:hover {
-		  background-color: @menu-hover-color;
-		}
-	  }
-
-	  #log-out-ul {
-		a:hover {
-		  background-color: @logout-hover-color;
-		}
-	  }
-
-	  ul {
+	  .nav-container {
 		padding: 0;
 		float: left;
 
@@ -46,15 +26,33 @@ body, ul, li, a, div {
 		  float: left;
 		  list-style: none;
 		  display: block;
-		}
 
-		a {
-		  padding: 20px;
-		  display: block;
-		  line-height: 20px;
-		  font-size: 18px;
-		  text-decoration: none;
-		  color: #ffffff;
+		  .nav-item {
+			padding: 20px;
+			display: block;
+			line-height: 20px;
+			font-size: 18px;
+			text-decoration: none;
+			color: #ffffff;
+		  }
+
+		  .active {
+			background-color: @menu-active-color;
+		  }
+		}
+	  }
+
+	  .nav-page {
+		margin-right: 20px;
+
+		a:hover {
+		  background-color: @menu-hover-color;
+		}
+	  }
+
+	  .nav-log-out {
+		a:hover {
+		  background-color: @logout-hover-color;
 		}
 	  }
 	}
