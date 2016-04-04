@@ -35,7 +35,7 @@
 		color: white;
 		background-color: powderblue;
 	}
-        p {
+        .grading p {
             font-family: 'Raleway', sans-serif;
             font-size: 18px;
             font-weight: 300;
@@ -45,18 +45,18 @@
             width: 100%;
             z-index: 9999;
         }
-        p.in {
+        .grading p.in {
             margin-top: 350px;
         }
-        p.out {
+        .grading p.out {
             margin-top: 450px;
         }
 
-        p.ex {
+        .grading p.ex {
             margin-top: 550px;
         }
 
-        h1 {
+        .grading h1 {
             font-family: 'Raleway', sans-serif;
             font-size: 50px;
             font-weight: 200;
@@ -66,7 +66,7 @@
             width: 100%;
             z-index: 9999;
         }
-        h2 {
+        .grading h2 {
             //color: #3487f7;
             font-family: 'Raleway', sans-serif;
             font-size: 40px;
@@ -77,16 +77,16 @@
             width: 100%;
             z-index: 9999;
         }
-        h2.in {
+        .grading h2.in {
             margin-top: 300px;
         }
-        h2.out {
+        .grading h2.out {
             margin-top: 400px;
         }
-        h2.ex {
+        .grading h2.ex {
             margin-top: 500px;
         }
-        table {
+        .grading table {
             position: absolute;
             border-collapse: collapse;
             width: 100%;
@@ -95,7 +95,7 @@
             margin-right: 15px;
         }
 
-        th, td {
+        .grading th, td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #ddd;
