@@ -24,7 +24,7 @@ class Problem(models.Model):
 
 class Submit_record(models.Model):
 	submit_p_name = models.CharField(max_length=100)
-	submit_user_name = models.CharField()
+	submit_user_name = models.CharField(max_length=100)
 	submit_time = models.DateTimeField()
 	submit_result = models.BooleanField()
 	submit_correct_percent = models.IntegerField()
