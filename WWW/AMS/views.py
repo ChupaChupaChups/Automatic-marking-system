@@ -17,13 +17,11 @@ def problem_read(req):
 
 def problem_add(req):
 	if req.method == 'POST':
-		form = ProblemForm(request.POST)
+		form = ProblemForm(req.POST)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('AMS/header.html')
-		else:
-			print form.errors
-			return HttpResponseRedirect('AMS/base_2.html')
+			return HttpResponseRedirect('/')
 	else:
 		form = ProblemForm()
-		return render(req, 'AMS/problem_add.html', {'create_form': form, })
+	
+	return render(req, 'AMS/problem_add.html', {'create_form': form, })
