@@ -3,10 +3,13 @@ from django.db import models
 # Create your models here.
 
 class Problem(models.Model):
-	upload_to = 'problem/testcase/%s'
-	
-	def _get_upload_to(instance, filename):
-		return instance.upload_to % (instance.p_name) 
+	upload_to_in  = 'problem/%s/testcase/%s.in'
+	upload_to_out = 'problem/%s/testcase/%s.out'
+
+	def _get_upload_to_in(instance, filename):
+		return instance.upload_to_in % (instance.p_name, filename) 
+	def _get_upload_to_out(instance, filename):
+		return instance.upload_to_out % (instance.p_name, filename)
 
 	p_day_limit = models.DateTimeField()
 	p_submissions_count = models.IntegerField(default=0)
@@ -15,8 +18,8 @@ class Problem(models.Model):
 	p_java_ok = models.BooleanField()
 	p_py_ok = models.BooleanField()
 	p_hint_integer = models.IntegerField(default=100)
-	p_infile = models.FileField(upload_to=_get_upload_to)
-	p_outfile = models.FileField(upload_to=_get_upload_to)
+	p_infile = models.FileField(upload_to=_get_upload_to_in)
+	p_outfile = models.FileField(upload_to=_get_upload_to_out)
 	p_judge = models.BooleanField()
 	p_name = models.CharField(max_length=100)			# 문제 이름
 	p_content = models.TextField(null=False)			# 문제 내용
