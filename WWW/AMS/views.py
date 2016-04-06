@@ -13,9 +13,11 @@ def web_logout(req):
 	logout(req)
 	return HttpResponseRedirect('/')
 
+@login_required
 def problem_read(req):
 	return render(req, 'AMS/Read.html', {})
 
+@login_required
 def problem_add(req):
 	if req.method == 'POST':
 		form = ProblemForm(req.POST, req.FILES)
