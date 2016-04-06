@@ -15,7 +15,8 @@ class Problem(models.Model):
 	p_java_ok = models.BooleanField()
 	p_py_ok = models.BooleanField()
 	p_hint_integer = models.IntegerField(default=100)
-	p_pwd = models.FileField(upload_to=_get_upload_to)
+	p_infile = models.FileField(upload_to=_get_upload_to)
+	p_outfile = models.FileField(upload_to=_get_upload_to)
 	p_judge = models.BooleanField()
 	p_name = models.CharField(max_length=100)			# 문제 이름
 	p_content = models.TextField(null=False)			# 문제 내용

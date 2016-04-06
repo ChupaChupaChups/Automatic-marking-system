@@ -20,7 +20,7 @@ def problem_add(req):
 		form = ProblemForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('header.html')
+			return HttpResponseRedirect('AMS/header.html')
 	else:
 		form = ProblemForm()
-		return render(req, 'problem_add.html', {'create_form': form, })
+		return render(req, 'AMS/problem_add.html', {'create_form': form, })
