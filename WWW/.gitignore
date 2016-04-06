@@ -1,5 +1,12 @@
 *.pyc
+*.swo
+*.swp
+*.swn
 __pycache__
 env
 db.sqlite3
 .DS_Store
+
+# Directories #
+###############
+AMS/migrations/
