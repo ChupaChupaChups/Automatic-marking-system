@@ -1,0 +1,8 @@
+{% extends "AMS/header.html" %}
+{% block problem_add %}active{% endblock %}
+{% block content %}
+<form action="." method="post">
+	{% csrf_token %}
+	{{ create_form }}
+	<input type="submit" value="Add" />
+{% endblock %}
