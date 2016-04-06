@@ -21,6 +21,8 @@ def problem_add(req):
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect('AMS/header.html')
+		else:
+			return HttpResponseRedirect('AMS/base_2.html')
 	else:
 		form = ProblemForm()
 		return render(req, 'AMS/problem_add.html', {'create_form': form, })
