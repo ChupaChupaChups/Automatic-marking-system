@@ -6,8 +6,16 @@ from .forms import ProblemForm
 # Create your views here.
 
 @login_required
-def index(request):
-		return render(request, 'AMS/header.html', {})
+def index(req):
+	username = req.POST['username']
+	password = req.POST['password']
+	user = authenticate(username=username, password=password)
+	if user is not None:
+		if user.is_active:
+			login(request, user)
+			return render(req, 'AMS/header.html', {})
+	return HttpResponseRedirect('/')
+			
 def web_logout(req):
 	logout(req)
 	return HttpResponseRedirect('/')
