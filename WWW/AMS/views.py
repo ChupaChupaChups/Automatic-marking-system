@@ -22,6 +22,7 @@ def problem_add(req):
 			form.save()
 			return HttpResponseRedirect('AMS/header.html')
 		else:
+			print form.errors
 			return HttpResponseRedirect('AMS/base_2.html')
 	else:
 		form = ProblemForm()
