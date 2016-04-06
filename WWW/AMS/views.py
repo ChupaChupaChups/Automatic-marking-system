@@ -7,14 +7,7 @@ from .forms import ProblemForm
 
 @login_required
 def index(req):
-	username = req.POST['username']
-	password = req.POST['password']
-	user = authenticate(username=username, password=password)
-	if user is not None:
-		if user.is_active:
-			login(request, user)
-			return render(req, 'AMS/header.html', {})
-	return HttpResponseRedirect('/')
+	return render(req, 'AMS/header.html', {})
 			
 def web_logout(req):
 	logout(req)
