@@ -17,7 +17,7 @@ def problem_read(req):
 
 def problem_add(req):
 	if req.method == 'POST':
-		form = ProblemForm(req.POST)
+		form = ProblemForm(req.POST, req.FILES)
 		if form.is_valid():
 			form.save()
 			return HttpResponseRedirect('/')

@@ -1,7 +1,7 @@
 {% extends "AMS/header.html" %}
 {% block problem_add %}active{% endblock %}
 {% block content %}
-<form action="." method="post">
+<form enctype="multipart/form-data" action="." method="post">
 	{% csrf_token %}
 	{{ create_form.as_p }}
 	<input type="submit" value="Add" />
