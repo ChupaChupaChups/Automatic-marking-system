@@ -2,18 +2,19 @@
 {% block problem_list %}active{% endblock %}
 {% block content %}
 <div class="wrapper">
+	{% if problems %}
+	{% for problem in problems %}
 	<div class="table">
 		<div class="row header">
 			<div class="cell">
-				<a href="#">nachos programming</a>
+				<a href="#" class="name">{{problem.p_name}}</a>
 			</div>
 			<div class="cell">
-				<a href="#"> 채점결과</a>
+				<a href="#" class="name"> 채점결과</a>
 			</div>
 		</div>
 		<div class="row">
 			<div class="cell">
-				최적화 정도
 			</div>
 			<div class="cell">
 				#
@@ -21,71 +22,24 @@
 		</div>
 		<div class="row">
 			<div class="cell">
-				힌트제공
 			</div>
 			<div class="cell">
-				X
 			</div>
 		</div>
 		<div class="row">
 			<div class="cell">
-				Maxwell Johnson
 			</div>
 			<div class="cell">
-				26
 			</div>
 		</div>
 		<div class="row">
 			<div class="cell">
-				마감기한
 			</div>
 			<div class="cell">
-				4월 7일 13:00
 			</div>
 		</div>
 	</div>
-
-	<div class="table">
-		<div class="row header">
-			<div class="cell">
-				<a href="#">종합 설계 1</a>
-			</div>
-			<div class="cell">
-				<a href="#"> 채점결과</a>
-			</div>
-		</div>
-		<div class="row">
-			<div class="cell">
-				최적화 정도
-			</div>
-			<div class="cell">
-				#
-			</div>
-		</div>
-		<div class="row">
-			<div class="cell">
-				힌트제공
-			</div>
-			<div class="cell">
-				X
-			</div>
-		</div>
-		<div class="row">
-			<div class="cell">
-				Maxwell Johnson
-			</div>
-			<div class="cell">
-				26
-			</div>
-		</div>
-		<div class="row">
-			<div class="cell">
-				마감기한
-			</div>
-			<div class="cell">
-				4월 7일 13:00
-			</div>
-		</div>
-	</div>
+	{% endfor %}
+	{% endif %}
 </div>
 {% endblock %}

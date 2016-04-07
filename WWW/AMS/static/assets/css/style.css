@@ -131,6 +131,9 @@
 	color: #ffffff;
 	background: #ea6153;
 }
+.row.header a{
+	text-decoration: none;	
+}
 .row.green {
 	background: #27ae60;
 }
