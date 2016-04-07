@@ -9,7 +9,7 @@ from .forms import ProblemForm
 @login_required
 def index(req):
 	problems = Problem.objects.all()
-	return render(req, 'AMS/header.html', {'problems' : problems})
+	return render(req, 'AMS/problem_list.html', {'problems' : problems})
 			
 def web_logout(req):
 	logout(req)
