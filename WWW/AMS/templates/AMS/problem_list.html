@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<link href="css.css" rel="stylesheet" type="text/css">
-	<script type="text/javascript" src="function.js" rel="stylesheet"  charset="utf-8"></script>
-</head>
-<body>
+{% extends "AMS/header.html" %}
+{% block problem_list %}active{% endblock %}
+{% block content %}
 <div class="wrapper">
 	<div class="table">
 		<div class="row header">
@@ -93,7 +88,4 @@
 		</div>
 	</div>
 </div>
-
-
-</body>
-</html>
+{% endblock %}

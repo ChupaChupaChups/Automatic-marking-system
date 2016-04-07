@@ -14,6 +14,10 @@ def web_logout(req):
 	return HttpResponseRedirect('/')
 
 @login_required
+def problem_list(req):
+	return render(req, 'AMS/problem_list.html', {})
+
+@login_required
 def problem_read(req):
 	return render(req, 'AMS/Read.html', {})
 
