@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login, forms, logout
 from django.contrib.auth.decorators import login_required
+from .models import Problem
 from .forms import ProblemForm
 # Create your views here.
 
 @login_required
 def index(req):
-	return render(req, 'AMS/header.html', {})
+	problems = Problem.objects.all()
+	return render(req, 'AMS/header.html', {'problems' : problems})
 			
 def web_logout(req):
 	logout(req)
@@ -15,7 +17,8 @@ def web_logout(req):
 
 @login_required
 def problem_list(req):
-	return render(req, 'AMS/problem_list.html', {})
+	problems = Problem.objects.all()
+	return render(req, 'AMS/problem_list.html', {'problems' : problems})
 
 @login_required
 def problem_read(req):
