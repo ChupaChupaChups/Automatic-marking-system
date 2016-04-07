@@ -30,7 +30,8 @@ def problem_add(req):
 		form = ProblemForm(req.POST, req.FILES)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/')
+			problems = Problem.objects.all()
+			return render(req, 'AMS/problem_list.html', {'problems' : problems} )
 	else:
 		form = ProblemForm()
 	
