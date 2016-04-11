@@ -23,18 +23,19 @@
 		<ul class="page-nav">
 			<li><a href={% url "problem_list" %} class="{% block problem_list %}{% endblock %}">문제 목록</a></li>
 			{% if user.is_staff %}
-			<li><a href={% url "problem_add" %} class="{% block problem_add %}{% endblock %}">문제 출제</a></li>
+				<li><a href={% url "problem_add" %} class="{% block problem_add %}{% endblock %}">문제 출제</a></li>
 			{% endif %}
 		</ul>
+
 		{% if user.is_authenticated %}
-		<ul id="log-out-ul">
-			<li><a href={% url "web_logout" %} id="log-out">로그아웃</a></li>
-		</ul>
+			<ul id="log-out-ul">
+				<li><a href={% url "web_logout" %} id="log-out">로그아웃</a></li>
+			</ul>
 		{% endif %}
 	</nav>
-	</div>
-	{% block content %}
-	{% endblock %}
+</div>
+{% block content %}
+{% endblock %}
 </body>
 
 </html>
