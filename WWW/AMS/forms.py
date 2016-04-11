@@ -1,8 +1,12 @@
 from django.forms import ModelForm
+from ckeditor,widgets import CKEditorWidget
+
 from .models import Problem
 
 
 class ProblemForm(ModelForm):
+	p_content = forms.CharField(widget = CKEditorWidget())
+
 	class Meta:
 		model = Problem
 		fields = ['p_day_limit', 'p_submissions_count', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
