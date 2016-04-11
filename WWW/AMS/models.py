@@ -41,6 +41,5 @@ class Submit_record(models.Model):
 	submit_language = models.IntegerField()  # 1 = c 2 = cpp 3 = java 4 = py
 	submit_use_time = models.IntegerField()  # 소요 시간
 
-	# TODO self.submit_p_name???
 	def __str__(self):
-		return submit_p_name
+		return self.submit_p_name

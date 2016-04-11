@@ -12,11 +12,6 @@
 </head>
 
 <body>
-{% if user.is_authenticated %}
-	<script type="text/javascript">
-		window.location.replace('http://kgm0219.pythonanywhere.com/home/index')
-	</script>
-{% endif %}
 {% if form.errors %}
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>

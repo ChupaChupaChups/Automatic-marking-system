@@ -1,8 +1,8 @@
+import re
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-
 from .forms import ProblemForm
 from .models import Problem
 
@@ -28,7 +28,11 @@ def problem_list(req):
 
 @login_required
 def problem_read(req):
-	return render(req, 'AMS/Read.html', {})
+	problem_number = re.sub(r'/home/problem_read/(\d)', r'\1', req.path)
+
+	problem = Problem.objects.get(id=problem_number)
+
+	return render(req, 'AMS/Read.html', {'problem': problem})
 
 
 @login_required
