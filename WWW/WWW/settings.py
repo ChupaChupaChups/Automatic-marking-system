@@ -41,8 +41,12 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+	#TextEditor
 	'ckeditor',
 	'ckeditor_uploader',
+	#DateTimePicker
+	'bootstrap3_datetime',
+	#Project
 	'AMS'
 ]
 

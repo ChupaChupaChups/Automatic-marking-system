@@ -25,6 +25,5 @@ urlpatterns = [
 			'template_name': 'login.html'
 		}
 	),
-	url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 	
 ]
