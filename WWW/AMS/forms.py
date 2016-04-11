@@ -1,5 +1,5 @@
-from AMS.models import Problem
 from django.forms import ModelForm
+from .models import Problem
 
 
 class ProblemForm(ModelForm):
