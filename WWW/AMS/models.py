@@ -23,7 +23,7 @@ class Problem(models.Model):
 	p_infile = models.FileField(upload_to=_get_upload_to_in)
 	p_outfile = models.FileField(upload_to=_get_upload_to_out)
 	p_judge = models.BooleanField()
-	p_name = models.CharField(max_length=100, primary_key=True)  # 문제 이름
+	p_name = models.CharField(max_length=100)  # 문제 이름
 	p_content = models.TextField(null=False)  # 문제 내용
 	p_input = models.TextField(null=False)  # 입력 예제
 	p_output = models.TextField(null=False)  # 출력 예제
