@@ -25,9 +25,10 @@ class Problem(models.Model):
 	p_judge = models.BooleanField()
 	p_name = models.CharField(max_length=100)  # 문제 이름
 	p_content = models.TextField(null=False)  # 문제 내용
-	p_input = models.TextField(null=False)  # 입력 예제
-	p_output = models.TextField(null=False)  # 출력 예제
-
+	p_input = models.TextField(null=False)  # 입력 조건
+	p_output = models.TextField(null=False)  # 출력 조건
+	p_inputex = models.TextField(null=False) # 입력 예제
+	p_outputex = models.TextField(null=False) # 출력 예제
 	def __str__(self):
 		return self.p_name
 
