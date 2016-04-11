@@ -4,8 +4,8 @@ from django.db import models
 # Create your models here.
 
 class Problem(models.Model):
-	upload_to_in = 'problem/%s/testcase/%s.in'
-	upload_to_out = 'problem/%s/testcase/%s.out'
+	upload_to_in = 'problem/%s/testcase/%s'
+	upload_to_out = 'problem/%s/testcase/%s'
 
 	def _get_upload_to_in(instance, filename):
 		return instance.upload_to_in % (instance.p_name, filename)
