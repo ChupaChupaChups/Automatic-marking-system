@@ -45,7 +45,7 @@ INSTALLED_APPS = [
 	'ckeditor',
 	'ckeditor_uploader',
 	#DateTimePicker
-	'bootstrap3_datetime',
+	'datetimewidget',
 	#Project
 	'AMS'
 ]
@@ -59,6 +59,9 @@ MIDDLEWARE_CLASSES = [
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	#DateTimePicker
+	'django.middleware.locale.LocaleMiddleware',
+
 ]
 
 ROOT_URLCONF = 'WWW.urls'
