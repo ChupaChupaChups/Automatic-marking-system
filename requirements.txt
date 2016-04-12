@@ -1,0 +1,6 @@
+django-datetime-widget (0.9.3)
+pip (8.1.1)
+pytz (2016.3)
+setuptools (20.3.1)
+wheel (0.29.0)
+whitenoise (2.0.6)
