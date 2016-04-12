@@ -4,14 +4,14 @@ from django.db import models
 # Create your models here.
 
 class Problem(models.Model):
-	upload_to_in = 'problem/%s/testcase/%s'
-	upload_to_out = 'problem/%s/testcase/%s'
+	upload_to_in = 'problem/{0}/testcase/{1}'
+	upload_to_out = 'problem/{0}/testcase/{1}'
 
-	def _get_upload_to_in(instance, filename):
-		return instance.upload_to_in % (instance.p_name, filename)
+	def _get_upload_to_in(self, filename):
+		return self.upload_to_in.format(self.p_name, filename)
 
-	def _get_upload_to_out(instance, filename):
-		return instance.upload_to_out % (instance.p_name, filename)
+	def _get_upload_to_out(self, filename):
+		return self.upload_to_out.format(self.p_name, filename)
 
 	p_day_limit = models.DateTimeField()
 	p_submissions_count = models.IntegerField(default=0)
@@ -27,8 +27,9 @@ class Problem(models.Model):
 	p_content = models.TextField(null=False)  # 문제 내용
 	p_input = models.TextField(null=False)  # 입력 조건
 	p_output = models.TextField(null=False)  # 출력 조건
-	p_inputex = models.TextField(null=False) # 입력 예제
-	p_outputex = models.TextField(null=False) # 출력 예제
+	p_inputex = models.TextField(null=False, default="")  # 입력 예제
+	p_outputex = models.TextField(null=False, default="")  # 출력 예제
+
 	def __str__(self):
 		return self.p_name
 

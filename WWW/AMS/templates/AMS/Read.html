@@ -15,18 +15,10 @@
 			</tr>
 			<tr>
 				<td>
-					{% if problem.p_c_ok %}
-						C
-					{% endif %}
-					{% if problem.p_cpp_ok %}
-						C++
-					{% endif %}
-					{% if problem.p_java_ok %}
-						Java
-					{% endif %}
-					{% if problem.p_py_ok %}
-						Python
-					{% endif %}
+					{% if problem.p_c_ok %}C {% endif %}
+					{% if problem.p_cpp_ok %}C++ {% endif %}
+					{% if problem.p_java_ok %}Java {% endif %}
+					{% if problem.p_py_ok %}Python {% endif %}
 				</td>
 				<td>{{ problem.p_day_limit }}</td>
 				<td></td>
