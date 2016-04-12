@@ -186,5 +186,5 @@ db.sqlite3
 # Directories #
 ###############
 AMS/migrations/
-static/
 media/
+statics/
