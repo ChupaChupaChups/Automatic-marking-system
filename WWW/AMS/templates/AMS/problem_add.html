@@ -1,18 +1,15 @@
 {% extends "AMS/header.html" %}
 {% block addproblemhead %}
 	{%load staticfiles %}
-	<script type ="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	<link href="{% static "css/datetimepicker.css"%}" type="text/css" media="all" rel="stylesheet"/>
-	<script type ="text/javascript" src="{% static "js/bootstrap-datetimepicker.js" %}"></script>
-	<script type ="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
-	<script type ="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
-	<link href="{% static "assets/bootstrap3/css/bootstrap.css" %}" rel="stylesheet"/>
-	<script src="{% static "assets/bootstrap3/js/bootstrap.js" %}"> </script>
+	<script src="{% static "django_summernote/jquery.ui.widget.js" %}"></script>
+	<script src="{% static "django_summernote/jquery.iframe-transport.js" %}"></script>	
+	<script type="text/javascript" src="{% static "django_summernote/jquery.fileupload.js" %}"></script>
+{{create_form.media}}
 {% endblock %}
 {% block problem_add %}active{% endblock %}
 {% block content %}
 <form enctype="multipart/form-data" action="." method="post">
 	{% csrf_token %}
-	{{ create_form.as_p }}
+	{{ create_form.as_p|safe }}
 	<input type="submit" value="Add" />
 {% endblock %}

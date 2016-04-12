@@ -1,6 +1,0 @@
--f /usr/share/pip-wheels                                                                                
-Django==1.9.4
-django-ckeditor==5.0.3
-django-datetime-widget==0.9.3
-pytz==2016.3
-whitenoise==2.0.6
