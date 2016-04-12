@@ -1,5 +1,0 @@
-Django==1.9.4
-django-datetime-widget==0.9.3
-django-summernote==0.8.5
-pytz==2016.3
-whitenoise==2.0.6
