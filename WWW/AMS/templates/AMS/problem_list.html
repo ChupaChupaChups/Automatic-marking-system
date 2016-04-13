@@ -1,0 +1,45 @@
+{% extends "AMS/header.html" %}
+{% block problem_list %}active{% endblock %}
+{% block content %}
+	<div class="wrapper">
+		{% if problems %}
+			{% for problem in problems %}
+				<div class="table">
+					<div class="row header">
+						<div class="cell">
+							<a href="/home/problem_read/{{ problem.id }}" class="name">{{ problem.p_name }}</a>
+						</div>
+						<div class="cell">
+							<a href="#" class="name"> 채점결과</a>
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell">
+						</div>
+						<div class="cell">
+							#
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell">
+						</div>
+						<div class="cell">
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell">
+						</div>
+						<div class="cell">
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell">
+						</div>
+						<div class="cell">
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		{% endif %}
+	</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "AMS/header.html" %}
+{% block content %}
+	<div class="secondMenu">
+		<ul>
+			<li><a class="{% block problem_class %} {% endblock %}" href="#">Problem</a></li>
+			<li><a class="{% block submit_class %} {% endblock %}" href="#"> Submit</a></li>
+			<li><a class="{% block result_class %} {% endblock %}" href="#"> Result</a></li>
+			<li><a class="{% block source_class %} {% endblock %}" href="#"> My source</a></li>
+		</ul>
+	</div>
+	{% block content2 %}
+	{% endblock %}
+
+{% endblock %}

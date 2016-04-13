@@ -1,0 +1,159 @@
+﻿	.secondMenu .active{
+		color: white;
+		background-color: powderblue;
+	}
+	.secondMenu {
+		margin: auto;
+		height: 40px;
+		width: 100%;
+		background-color: lightblue;
+
+	}
+	.secondMenu ul{			
+	}
+	.secondMenu ul li{		
+		list-style: none;
+		color: white;
+		background-color: lightblue;
+		float: left;
+		line-height: 40px;
+		vertical-align: middle;
+		text-align: center;
+		text-decoration: none;
+		color: white;
+		display: block;
+		width: 150px;
+		font-size: 20px;
+		font-weight: bold;
+		font-family: "Raleway", sans-serif;
+	}
+	.secondMenu ul li a{
+		text-decoration: none;
+		display: block;
+	}
+	.secondMenu ul li:hover{
+		color: white;
+		background-color: powderblue;
+	}
+        .grading p {
+            font-family: 'Raleway', sans-serif;
+            font-size: 18px;
+            font-weight: 300;
+            padding-left: 15px;
+            position: relative;
+	    margin-bottom: 30px;
+            width: 100%;
+            z-index: 9999;
+        }
+        .grading p.in {
+            margin-top: auto;
+        }
+        .grading p.out {
+            margin-top: auto;
+        }
+
+        .grading p.ex {
+            margin-top: auto;
+        }
+
+        .grading h1 {
+            font-family: 'Raleway', sans-serif;
+            font-size: 50px;
+            font-weight: 200;
+            padding-left: 15px;
+            margin-top: 10px;
+            position: relative;
+            width: 100%;
+            z-index: 9999;
+        }
+        .grading h2 {
+            //color: #3487f7;
+            font-family: 'Raleway', sans-serif;
+            font-size: 40px;
+            font-weight: 200;
+            padding-left: 15px;
+            position: relative;
+            width: 100%;
+            z-index: 9999;
+        }
+        .grading h2.in {
+            margin-top: auto;
+        }
+        .grading h2.out {
+            margin-top: auto;
+        }
+        .grading h2.ex {
+            margin-top: auto;
+        }
+        .grading table {
+            position: relative;
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: auto;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+        .grading th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+
+.wrapper {
+	margin: 0 auto;
+	padding: 40px;
+	max-width: 800px;
+}
+
+.table {
+	margin: 0 0 40px 0;
+	width: 100%;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+	display: table;
+}
+@media screen and (max-width: 580px) {
+	.table {
+		display: block;
+	}
+}
+
+.row {
+	display: table-row;
+	background: #f6f6f6;
+}
+.row:nth-of-type(odd) {
+	background: #e9e9e9;
+}
+.row.header {
+	font-weight: 900;
+	color: #ffffff;
+	background: #ea6153;
+}
+.row.header a{
+	text-decoration: none;	
+}
+.row.green {
+	background: #27ae60;
+}
+.row.blue {
+	background: #2980b9;
+}
+@media screen and (max-width: 580px) {
+	.row {
+		padding: 8px 0;
+		display: block;
+	}
+}
+
+.cell {
+	padding: 6px 12px;
+	display: table-cell;
+}
+@media screen and (max-width: 580px) {
+	.cell {
+		padding: 2px 12px;
+		display: block;
+	}
+}

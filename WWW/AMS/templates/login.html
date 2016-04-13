@@ -1,0 +1,52 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<link rel="stylesheet" href="{% static "login/css/style.css" %}">
+
+	<!--TODO: download external library to local-->
+	<script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css" rel="stylesheet"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"></script>
+</head>
+
+<body>
+{% if form.errors %}
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.error('Invalid Account!');
+		});
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-full-width",
+			"preventDuplicates": false,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
+	</script>
+{% endif %}
+<div class="login">
+	<div class="login-triangle"></div>
+
+	<h2 class="login-header">Log in</h2>
+
+	<form class="login-container" method="post" action="{% url 'login' %}">
+		{% csrf_token %}
+		<p><input type="text" name="username" placeholder="Username"></p>
+		<p><input type="password" name="password" placeholder="Password"></p>
+		<p><input type="submit" value="Log in"></p>
+	</form>
+</div>
+</body>
+</html>

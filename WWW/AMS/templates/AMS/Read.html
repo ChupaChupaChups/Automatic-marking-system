@@ -1,0 +1,44 @@
+{% extends "AMS/base_2.html" %}
+{% load staticfiles %}
+
+{% block problem_class %} active {% endblock %}
+{% block content2 %}
+	<div class="grading">
+		<h1>{{ problem.p_name }}</h1>
+		<table>
+			<tr>
+				<th>Language</th>
+				<th>Deadline</th>
+				<th>Standard</th>
+				<th>Hint</th>
+				<th>#Try</th>
+			</tr>
+			<tr>
+				<td>
+					{% if problem.p_c_ok %}C {% endif %}
+					{% if problem.p_cpp_ok %}C++ {% endif %}
+					{% if problem.p_java_ok %}Java {% endif %}
+					{% if problem.p_py_ok %}Python {% endif %}
+				</td>
+				<td>{{ problem.p_day_limit }}</td>
+				<td></td>
+				{% if problem.p_hint_integer != 100 %}
+					<td>true</td>
+				{% else %}
+					<td>false</td>
+				{% endif %}
+				<td></td>
+			</tr>
+		</table>
+		<h2>Problem</h2>
+		{% autoescape off %}{{ problem.p_content }}{% endautoescape %}
+		<h2 class="in">Input</h2>
+		<p class="in">{{ problem.p_input }}</p>
+		<h2 class="out">Output</h2>
+		<p class="out">{{ problem.p_output }}</p>
+		<h2 class="inex">입력예제</h2>
+		<p class="inex">{{ problem.p_inputex }}</p>
+		<h2 class="outex">출력예제</h2>
+		<p class="outex">{{ problem.p_outputex }}</p>
+	</div>
+{% endblock %}
