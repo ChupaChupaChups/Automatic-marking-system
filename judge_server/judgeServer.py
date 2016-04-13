@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import io
 import json
-import os
 
 import docker
+import io
+import os
 from judge_server.configuration.config import Config
 
 __author__ = "isac322"

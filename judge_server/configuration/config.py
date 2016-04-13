@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+
 from os import path
 
 CONST_configFile = path.join(path.dirname(__file__), "config.json")

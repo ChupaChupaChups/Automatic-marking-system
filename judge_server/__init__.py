@@ -1,5 +1,5 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 __author__ = "isac322"
-__all__ = ["configuration"]
+__version__ = "1.0"
