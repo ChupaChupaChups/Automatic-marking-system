@@ -25,23 +25,24 @@
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/header.less" %} ">
 	<script src="{% static "assets/js/less.min.js" %}" type="text/javascript"></script>
 	<link href="{% static "assets/css/style.css" %}" rel="stylesheet"/>
+
 	{% block addproblemhead %}
 	{% endblock %}
 </head>
 
-<body id="nav-body">
-<div class="header">
+<body>
+<div class="nav-wrapper" role="navigation">
 	<nav class="nav">
-		<ul class="page-nav">
-			<li><a href="{% url "problem_list" %}" class="{% block problem_list %}{% endblock %}">문제 목록</a></li>
+		<ul class="nav-container nav-page">
+			<li><a href="{% url "problem_list" %}" class="nav-item page_anchor {% block problem_list %}{% endblock %}">문제 목록</a></li>
 			{% if user.is_staff %}
-				<li><a href="{% url "problem_add" %}" class="{% block problem_add %}{% endblock %}">문제 출제</a></li>
+				<li><a href="{% url "problem_add" %}" class="nav-item page_anchor {% block problem_add %}{% endblock %}">문제 출제</a></li>
 			{% endif %}
 		</ul>
 
 		{% if user.is_authenticated %}
-			<ul id="log-out-ul">
-				<li><a href="{% url "web_logout" %}" id="log-out">로그아웃</a></li>
+			<ul class="nav-container nav-log-out">
+				<li><a href="{% url "web_logout" %}" class="nav-item" id="log-out">로그아웃</a></li>
 			</ul>
 		{% endif %}
 	</nav>
