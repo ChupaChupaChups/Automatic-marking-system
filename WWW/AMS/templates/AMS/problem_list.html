@@ -1,5 +1,32 @@
 {% extends "AMS/header.html" %}
+
 {% block problem_list %}active{% endblock %}
+
+{% block problem_list_header %}
+	<script type="text/javascript">
+		/*
+		 get CSRF token that given by django server for security from cookie of this page
+		 more info of CSRF in Django:
+		 https://docs.djangoproject.com/en/1.9/ref/csrf/
+		 */
+		var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
+
+		function btn_delete(url) {
+			var request = new XMLHttpRequest();
+
+			request.onreadystatechange = function () {
+				if (request.readyState == 4 && request.status == 200) {
+					location.reload();
+				}
+			};
+
+			request.open("DELETE", url, true);
+			request.setRequestHeader("X-CSRFToken", csrf_token[1]);
+			request.send();
+		}
+	</script>
+{% endblock %}
+
 {% block content %}
 	<div class="wrapper">
 		{% if problems %}
@@ -7,19 +34,15 @@
 				<div class="table">
 					<div class="row header">
 						<div class="cell">
-							<a  href="{% url 'problem_read' problem_number=problem.id %}"
-							   class="name">{{ problem.p_name }}</a>
-						</div>
-						<div class="cell">
-							<a href="#" class="name"> 수정</a>
-						</div>
-						<div class="cell">
-							<form method="" action="{% url 'problem_delete' problem_number=problem.id %}">
-								<input type="submit" class ="name" value="삭제">
-							</form>
+							<a href="{% url 'problem_read' problem_number=problem.id %}" class="name">{{ problem.p_name }}</a>
 						</div>
 						<div class="cell">
 							<a href="#" class="name"> 채점결과</a>
+						</div>
+						<div class="cell">
+							<button type="button" class="name"
+									onclick="btn_delete('{% url 'problem_delete' problem_number=problem.id %}');">삭제
+							</button>
 						</div>
 					</div>
 					<div class="row">

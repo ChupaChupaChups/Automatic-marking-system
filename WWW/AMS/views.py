@@ -1,8 +1,7 @@
-import re
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseNotFound, HttpResponse
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProblemForm
 from .models import Problem
 
@@ -17,12 +16,11 @@ def index(req):
 
 def web_logout(req):
 	logout(req)
-	return HttpResponseRedirect('/')
+	return redirect('/')
 
 
 @login_required
 def problem_list(req):
-
 	problems = Problem.objects.all()
 	return render(req, 'AMS/problem_list.html', {'problems': problems})
 
@@ -40,16 +38,20 @@ def problem_add(req):
 		form = ProblemForm(req.POST, req.FILES)
 		if form.is_valid():
 			form.save()
-			problems = Problem.objects.all()
-			return render(req, 'AMS/problem_list.html', {'problems': problems})
+			return redirect('/home/problem_list/')
 	else:
 		form = ProblemForm()
 
 	return render(req, 'AMS/problem_add.html', {'create_form': form,})
 
+
 @login_required
 def problem_delete(req, problem_number):
 	if req.method == 'DELETE':
-		Problem.objects.get(id=problem_number).delete()
-	problems = Problem.objects.all()
-	return render(req, 'AMS/problem_list.html', {'problems': problems})
+		problem_to_delete = Problem.objects.get(id=problem_number)
+
+		if problem_to_delete is not None:
+			problem_to_delete.delete()
+			return HttpResponse()
+
+	return HttpResponseNotFound()
