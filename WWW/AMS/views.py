@@ -34,6 +34,20 @@ def problem_read(req):
 
 	return render(req, 'AMS/Read.html', {'problem': problem})
 
+@login_required
+def problem_update(req):
+	problem_number = re.sub(r'/home/problem_update/(\d)',r'\1',req.path)
+	problem = Problem.objects.get(id=problem_number)
+	if req.method == 'POST':
+		form = ProblemForm(req.POST, req.FILES, instance = problem)
+		if form.is_valid():
+			form.save()
+			problems = Problem.objects.all()
+			return render(req, 'AMS/problem_list.html',{'problems':problems})
+	else:
+		form = ProblemForm(instance = problem)
+	return render(req,'AMS/problem_add.html',{'create_form':form})
+
 
 @login_required
 def problem_add(req):
@@ -46,4 +60,4 @@ def problem_add(req):
 	else:
 		form = ProblemForm()
 
-	return render(req, 'AMS/problem_add.html', {'create_form': form,})
+	return render(req, 'AMS/problem_add.html', {'create_form': form})
