@@ -2,7 +2,7 @@ import re
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .forms import ProblemForm
 from .models import Problem
 
@@ -27,10 +27,8 @@ def problem_list(req):
 
 
 @login_required
-def problem_read(req):
-	problem_number = re.sub(r'/home/problem_read/(\d)', r'\1', req.path)
-
-	problem = Problem.objects.get(id=problem_number)
+def problem_read(req, problem_number):
+	problem = get_object_or_404(Problem, id=problem_number)
 
 	return render(req, 'AMS/Read.html', {'problem': problem})
 

@@ -7,7 +7,7 @@
 				<div class="table">
 					<div class="row header">
 						<div class="cell">
-							<a href="/home/problem_read/{{ problem.id }}" class="name">{{ problem.p_name }}</a>
+							<a href="{% url 'problem_read' problem_number=problem.id %}" class="name">{{ problem.p_name }}</a>
 						</div>
 						<div class="cell">
 							<a href="#" class="name"> 채점결과</a>
