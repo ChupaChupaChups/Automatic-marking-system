@@ -22,6 +22,7 @@ def web_logout(req):
 
 @login_required
 def problem_list(req):
+
 	problems = Problem.objects.all()
 	return render(req, 'AMS/problem_list.html', {'problems': problems})
 
@@ -45,3 +46,10 @@ def problem_add(req):
 		form = ProblemForm()
 
 	return render(req, 'AMS/problem_add.html', {'create_form': form,})
+
+@login_required
+def problem_delete(req, problem_number):
+	if req.method == 'DELETE':
+		Problem.objects.get(id=problem_number).delete()
+	problems = Problem.objects.all()
+	return render(req, 'AMS/problem_list.html', {'problems': problems})
