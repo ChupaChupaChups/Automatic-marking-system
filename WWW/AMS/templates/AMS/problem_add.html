@@ -16,6 +16,6 @@
 	<form enctype="multipart/form-data" method="post">
 		{% csrf_token %}
 		{{ create_form.as_p|safe }}
-		<input type="submit" value="Add"/>
+		<input type="submit" value="add"/>
 	</form>
 {% endblock %}
