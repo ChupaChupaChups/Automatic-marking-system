@@ -13,6 +13,11 @@ class Problem(models.Model):
 	def _get_upload_to_out(self, filename):
 		return self.upload_to_out.format(self.p_name, filename)
 
+	def delete(self, *args, **kwargs):
+		self.p_infile.delete()
+		self.p_outfile.delete()
+		super(Problem, self).delete(*args, **kwargs)
+
 	p_day_limit = models.DateTimeField()
 	p_submissions_count = models.IntegerField(default=0)
 	p_c_ok = models.BooleanField()
