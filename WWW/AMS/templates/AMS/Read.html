@@ -33,7 +33,7 @@
 			</tr>
 		</table>
 		<h2>Problem</h2>
-		{% autoescape off %}{{ problem.p_content }}{% endautoescape %}
+		{{ problem.p_content|safe }}
 		<h2 class="in">Input</h2>
 		<p class="in">{{ problem.p_input }}</p>
 		<h2 class="out">Output</h2>
