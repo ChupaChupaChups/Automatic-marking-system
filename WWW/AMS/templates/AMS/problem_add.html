@@ -2,11 +2,6 @@
 
 {% block addproblemhead %}
 	{% load staticfiles %}
-
-	<script src="{% static "django_summernote/jquery.ui.widget.js" %}"></script>
-	<script src="{% static "django_summernote/jquery.iframe-transport.js" %}"></script>
-	<script type="text/javascript" src="{% static "django_summernote/jquery.fileupload.js" %}"></script>
-
 	{{ create_form.media }}
 {% endblock %}
 
