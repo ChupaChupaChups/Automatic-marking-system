@@ -2,8 +2,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import ProblemForm
-from .models import Problem
+from .forms import ProblemForm, SubmitForm
+from .models import Problem, Submit_record
 
 
 # Create your views here.
@@ -68,3 +68,15 @@ def problem_delete(req, problem_number):
 			return HttpResponse()
 
 	return HttpResponseNotFound()
+
+def answer_submit(req):
+        if req.method == 'POST':
+                form = SubmitForm(req.POST, req.FILES)
+                if form.is_valid():
+                        form.save()
+                        return redirect('/home/problem_list/')
+        else:
+                form = SubmitForm()
+
+        return render(req, 'AMS/answer_submit.html', {'create_form': form})
+

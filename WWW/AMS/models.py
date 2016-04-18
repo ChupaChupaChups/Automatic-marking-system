@@ -9,6 +9,7 @@ class Problem(models.Model):
 	upload_to_in = 'problem/{0}/testcase/{1}'
 	upload_to_out = 'problem/{0}/testcase/{1}'
 
+	
 	def _get_upload_to_in(self, filename):
 		return self.upload_to_in.format(self.p_name, filename)
 
@@ -16,10 +17,13 @@ class Problem(models.Model):
 		return self.upload_to_out.format(self.p_name, filename)
 
 	def delete(self, *args, **kwargs):
+#		self.p_infile.delete()
+#		self.p_outfile.delete()
 		path = settings.MEDIA_ROOT
-		folder = os.path.join(path, 'problem/' + self.p_name)
+		folder = os.path.join(path,'problem/'+self.p_name)
 		shutil.rmtree(folder)
 		super(Problem, self).delete(*args, **kwargs)
+	
 
 	def save(self, *args, **kwargs):
 		try:
@@ -28,7 +32,7 @@ class Problem(models.Model):
 				this.p_infile.delete(save=True)
 			if this.p_outfile != self.p_outfile:
 				this.p_outfile.delete(save=True)
-		except: pass
+		except:pass
 		super(Problem, self).save(*args, **kwargs)
 
 	p_day_limit = models.DateTimeField()
@@ -53,6 +57,12 @@ class Problem(models.Model):
 
 
 class Submit_record(models.Model):
+
+	submit_to_in = 'problem/{0}/answer/{1}'
+
+	def _get_submit_to_in(self, filename):
+		return self.upload_to_in.format(self.p_name, filename)
+
 	submit_p_name = models.CharField(max_length=100)
 	submit_user_name = models.CharField(max_length=100)
 	submit_time = models.DateTimeField()
@@ -60,6 +70,11 @@ class Submit_record(models.Model):
 	submit_correct_percent = models.IntegerField()
 	submit_language = models.IntegerField()  # 1 = c 2 = cpp 3 = java 4 = py
 	submit_use_time = models.IntegerField()  # 소요 시간
+	p_c_ok = models.BooleanField()
+	p_cpp_ok = models.BooleanField()
+	p_java_ok = models.BooleanField()
+	p_py_ok = models.BooleanField()
+	submit_file = models.FileField(upload_to=_get_submit_to_in)
 
 	def __str__(self):
 		return self.submit_p_name

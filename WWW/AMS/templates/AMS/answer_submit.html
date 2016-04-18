@@ -1,0 +1,13 @@
+{% extends "AMS/base_2.html" %}
+
+
+
+{% block submit_class %}active{% endblock %}
+{% block content2 %}
+        <form enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ create_form.as_p | safe }}
+                <input type="submit" value="add"/>
+        </form>
+{% endblock %}
+
