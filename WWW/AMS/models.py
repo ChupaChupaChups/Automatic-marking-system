@@ -18,6 +18,16 @@ class Problem(models.Model):
 		self.p_outfile.delete()
 		super(Problem, self).delete(*args, **kwargs)
 
+	def save(self, *args, **kwargs):
+		try:
+			this = Problem.objects.get(id=self.id)
+			if this.p_infile != self.p_infile:
+				this.p_infile.delete(save=True)
+			if this.p_outfile != self.p_outfile:
+				this.p_outfile.delete(save=True)
+		except: pass
+		super(Problem, self).save(*args, **kwargs)
+
 	p_day_limit = models.DateTimeField()
 	p_submissions_count = models.IntegerField(default=0)
 	p_c_ok = models.BooleanField()
