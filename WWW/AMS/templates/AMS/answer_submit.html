@@ -1,15 +1,15 @@
 {% extends "AMS/base_2.html" %}
 
-
+{% load staticfiles %}
 
 {% block submit_class %}active{% endblock %}
 {% block content2 %}
 	<form enctype="multipart/form-data">
 		{% csrf_token %}
 		{{ create_form.as_p | safe }}
-		<input type="submit" value="add"/>
 		<select id="mySelect" size="8"> </select>
+		<input type="submit" value="add"/>
 	</form>
-	<script type="text/javascript" src="{% static "assets/js/classfinder.js" %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
 {% endblock %}
 

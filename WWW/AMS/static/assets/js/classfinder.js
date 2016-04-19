@@ -23,7 +23,7 @@ reader.onerror = function(event) {
 	console.error("File could not be read!");
 };
 function readText(event){
-	reader.readAsText(document.getElementById('id_p_infile').files[0]);
+	reader.readAsText(document.getElementById('id_submit_file').files[0]);
 }
 
-document.getElementById('id_p_infile').addEventListener('change', readText, false);
+document.getElementById('id_submit_file').addEventListener('change', readText, false);
