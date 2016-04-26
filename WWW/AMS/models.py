@@ -74,7 +74,7 @@ class Submit_record(models.Model):
 	p_cpp_ok = models.BooleanField(default=False)
 	p_java_ok = models.BooleanField(default=False)
 	p_py_ok = models.BooleanField(default=False)
-	submit_file = models.FileField(upload_to=_get_submit_to_in)
+	submit_file = models.FileField(upload_to=_get_submit_to_in, default="")
 	submit_entry_pointer = models.TextField(null=False, default="")
 
 	def __str__(self):
