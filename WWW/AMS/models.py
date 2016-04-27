@@ -25,7 +25,7 @@ class Problem(models.Model):
 		shutil.rmtree(folder)
 		return super().delete(using, keep_parents)
 
-	def save(self, *args, **kwargs):
+	def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
 		try:
 			this = Problem.objects.get(id=self.id)
 			if this.p_infile != self.p_infile:
@@ -34,7 +34,7 @@ class Problem(models.Model):
 				this.p_outfile.delete(save=True)
 		except:
 			pass
-		super(Problem, self).save(*args, **kwargs)
+		super().save(force_insert, force_update, using, update_fields)
 
 	p_day_limit = models.DateTimeField()
 	p_submissions_count = models.IntegerField(default=0)
@@ -46,7 +46,7 @@ class Problem(models.Model):
 	p_infile = models.FileField(upload_to=_get_upload_to_in)
 	p_outfile = models.FileField(upload_to=_get_upload_to_out)
 	p_judge = models.BooleanField()
-	p_name = models.CharField(max_length=100)  # 문제 이름
+	p_name = models.CharField(max_length=100, unique=True)  # 문제 이름
 	p_content = models.TextField(null=False)  # 문제 내용
 	p_input = models.TextField(null=False)  # 입력 조건
 	p_output = models.TextField(null=False)  # 출력 조건
