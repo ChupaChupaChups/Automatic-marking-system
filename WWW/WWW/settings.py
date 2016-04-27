@@ -37,11 +37,11 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	#TextEditor
+	# for TextEditor
 	'django_summernote',
-	#DateTimePicker
+	# for DateTimePicker
 	'datetimewidget',
-	#Project
+	# Project
 	'AMS'
 ]
 
@@ -54,7 +54,7 @@ MIDDLEWARE_CLASSES = [
 	'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	#DateTimePicker
+	# for DateTimePicker
 	'django.middleware.locale.LocaleMiddleware',
 
 ]
