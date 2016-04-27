@@ -2,7 +2,8 @@
 
 {% block problem_list %}active{% endblock %}
 
-{% block problem_list_header %}
+{% load staticfiles %}
+{% block content_header %}
 	<script type="text/javascript">
 		/*
 		 get CSRF token that given by django server for security from cookie of this page
@@ -25,10 +26,13 @@
 			request.send();
 		}
 	</script>
+
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/problem_list.less" %} ">
 {% endblock %}
 
+
 {% block content %}
-	<div class="wrapper">
+	<div class="container content">
 		{% if problems %}
 			{% for problem in problems %}
 				<div class="table">
@@ -49,29 +53,22 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="cell">
-						</div>
-						<div class="cell">
-							#
-						</div>
+						<div class="cell"></div>
+						<div class="cell"></div>
+						<div class="cell">#</div>
+						<div class="cell"></div>
 					</div>
 					<div class="row">
-						<div class="cell">
-						</div>
-						<div class="cell">
-						</div>
+						<div class="cell"></div>
+						<div class="cell"></div>
+						<div class="cell">#</div>
+						<div class="cell"></div>
 					</div>
 					<div class="row">
-						<div class="cell">
-						</div>
-						<div class="cell">
-						</div>
-					</div>
-					<div class="row">
-						<div class="cell">
-						</div>
-						<div class="cell">
-						</div>
+						<div class="cell"></div>
+						<div class="cell"></div>
+						<div class="cell">#</div>
+						<div class="cell"></div>
 					</div>
 				</div>
 			{% endfor %}

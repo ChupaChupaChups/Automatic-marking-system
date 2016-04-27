@@ -30,7 +30,7 @@ def problem_list(req):
 def problem_read(req, problem_number):
 	problem = get_object_or_404(Problem, id=problem_number)
 
-	return render(req, 'AMS/Read.html', {'problem': problem})
+	return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number})
 
 
 @login_required
@@ -71,13 +71,15 @@ def problem_delete(req, problem_number):
 	return HttpResponseNotFound()
 
 
-def answer_submit(req):
+@login_required
+def answer_submit(req, problem_number):
 	if req.method == 'POST':
 		form = SubmitForm(req.POST, req.FILES)
 		if form.is_valid():
 			form.save()
+			# TODO: judge submitted codes
 			return redirect('/home/problem_list/')
 	else:
 		form = SubmitForm()
 
-	return render(req, 'AMS/answer_submit.html', {'create_form': form})
+	return render(req, 'AMS/answer_submit.html', {'create_form': form, 'p_number': problem_number})

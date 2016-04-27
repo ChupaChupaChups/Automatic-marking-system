@@ -2,12 +2,16 @@
 
 {% load staticfiles %}
 
-{% block problem_class %} active {% endblock %}
+{% block content_header %}
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
+{% endblock %}
 
+{% block problem_class %} active {% endblock %}
 {% block content2 %}
-	<div class="grading">
-		<h1>{{ problem.p_name }}</h1>
-		<table>
+	<div class="content container">
+		<h1 id="problem-name">{{ problem.p_name }}</h1>
+		<table id="problem-info">
+			<thead>
 			<tr>
 				<th>Language</th>
 				<th>Deadline</th>
@@ -15,6 +19,8 @@
 				<th>Hint</th>
 				<th>#Try</th>
 			</tr>
+			</thead>
+			<tbody>
 			<tr>
 				<td>
 					{% if problem.p_c_ok %}C {% endif %}
@@ -31,16 +37,27 @@
 				{% endif %}
 				<td></td>
 			</tr>
+			</tbody>
 		</table>
-		<h2>Problem</h2>
-		{% autoescape off %}{{ problem.p_content }}{% endautoescape %}
-		<h2 class="in">Input</h2>
-		<p class="in">{{ problem.p_input }}</p>
-		<h2 class="out">Output</h2>
-		<p class="out">{{ problem.p_output }}</p>
-		<h2 class="inex">입력예제</h2>
-		<p class="inex">{{ problem.p_inputex }}</p>
-		<h2 class="outex">출력예제</h2>
-		<p class="outex">{{ problem.p_outputex }}</p>
+		<div class="problem-header" id="problem-content">
+			<h2 class="header">Problem</h2>
+			{{ problem.p_content|safe }}
+		</div>
+		<div class="problem-header">
+			<h2 class="header in">입력 설명</h2>
+			<p class="value in">{{ problem.p_input }}</p>
+		</div>
+		<div class="problem-header">
+			<h2 class="header out">출력 설명</h2>
+			<p class="value out">{{ problem.p_output }}</p>
+		</div>
+		<div class="problem-header">
+			<h2 class="header inex">입력예제</h2>
+			<p class="value inex">{{ problem.p_inputex }}</p>
+		</div>
+		<div class="problem-header">
+			<h2 class="header outex">출력예제</h2>
+			<p class="value outex">{{ problem.p_outputex }}</p>
+		</div>
 	</div>
 {% endblock %}

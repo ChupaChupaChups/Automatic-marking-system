@@ -3,13 +3,16 @@
 {% load staticfiles %}
 
 {% block submit_class %}active{% endblock %}
+
 {% block content2 %}
-	<form enctype="multipart/form-data">
-		{% csrf_token %}
-		{{ create_form.as_p | safe }}
-		<select id="mySelect" size="8"> </select>
-		<input type="submit" value="add"/>
-	</form>
-	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
+	<div class="content container">
+		<form enctype="multipart/form-data">
+			{% csrf_token %}
+			{{ create_form.as_p | safe }}
+			<select id="mySelect" size="8"></select>
+			<input type="submit" value="add"/>
+		</form>
+		<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
+	</div>
 {% endblock %}
 

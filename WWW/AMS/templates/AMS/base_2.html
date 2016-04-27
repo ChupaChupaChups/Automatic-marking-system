@@ -1,14 +1,19 @@
 {% extends "AMS/header.html" %}
 
+{% load staticfiles %}
+{% block base_2_header %}
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/base_2.less" %} ">
+{% endblock %}
+
 {% block content %}
-	<div class="secondMenu">
+	<nav class="secondMenu">
 		<ul>
-			<li><a class="{% block problem_class %} {% endblock %}" href="#">Problem</a></li>
-			<li><a class="{% block submit_class %} {% endblock %}" href="#"> Submit</a></li>
-			<li><a class="{% block result_class %} {% endblock %}" href="#"> Result</a></li>
-			<li><a class="{% block source_class %} {% endblock %}" href="#"> My source</a></li>
+			<li><a class="{% block problem_class %}{% endblock %}" href="{% url "problem_read" problem_number=p_number %}">Problem</a></li>
+			<li><a class="{% block submit_class %}{% endblock %}" href="{% url "answer_submit" problem_number=p_number %}">Submit</a></li>
+			<li><a class="{% block result_class %}{% endblock %}" href="#">Result</a></li>
+			<li><a class="{% block source_class %}{% endblock %}" href="#">My source</a></li>
 		</ul>
-	</div>
+	</nav>
 
 	{% block content2 %}
 	{% endblock %}
