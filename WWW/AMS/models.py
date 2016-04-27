@@ -17,13 +17,13 @@ class Problem(models.Model):
 	def _get_upload_to_out(self, filename):
 		return self.upload_to_out.format(self.p_name, filename)
 
-	def delete(self, *args, **kwargs):
-		#		self.p_infile.delete()
-		#		self.p_outfile.delete()
+	def delete(self, using=None, keep_parents=False):
+		# self.p_infile.delete()
+		# self.p_outfile.delete()
 		path = settings.MEDIA_ROOT
-		folder = os.path.join(path, 'problem/' + self.p_name)
+		folder = os.path.join(path, 'problem/' + str(self.p_name))
 		shutil.rmtree(folder)
-		super(Problem, self).delete(*args, **kwargs)
+		return super().delete(using, keep_parents)
 
 	def save(self, *args, **kwargs):
 		try:
