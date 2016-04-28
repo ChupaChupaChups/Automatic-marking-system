@@ -34,5 +34,8 @@ def build_image():
 		print("'{0}' image is already exist".format(docker_tag))
 
 
+def start_judge():
+	pass
+
 if __name__ == "__main__":
 	build_image()
