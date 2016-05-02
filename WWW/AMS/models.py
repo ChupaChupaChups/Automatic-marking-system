@@ -61,7 +61,7 @@ class Submit_record(models.Model):
 	submit_to_in = 'problem/{0}/answer/{1}'
 
 	def _get_submit_to_in(self, filename):
-		return self.upload_to_in.format(self.p_name, filename)
+		return self.submit_to_in.format(self.submit_p_name, filename)
 
 	submit_p_name = models.CharField(max_length=100)
 	submit_user_name = models.CharField(max_length=100)

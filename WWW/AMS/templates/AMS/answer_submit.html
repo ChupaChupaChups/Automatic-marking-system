@@ -6,7 +6,7 @@
 
 {% block content2 %}
 	<div class="content container">
-		<form enctype="multipart/form-data">
+		<form enctype="multipart/form-data" methos="post">
 			{% csrf_token %}
 			{{ create_form.as_p | safe }}
 			<select id="mySelect" size="8"></select>
