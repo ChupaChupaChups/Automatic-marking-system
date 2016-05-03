@@ -1,28 +1,28 @@
-
 var reader = new FileReader();
 
-reader.onload = function(event) {
+reader.onload = function (event) {
 	var contents = event.target.result;
-	var regex = /(class.+\w)/g;
-	var class_name = contents.match(regex);
-	var i = 0 ;
+	var regex = /class\s+([^\W]+)/g;
 	var x = document.getElementById("mySelect");
-	var option = [];
-	for(i = 0; i <class_name.length;i++){
-		console.log(class_name[i]);
-		option[i] = document.createElement("option");
-		console.log(option[i]);
-		option[i].text = class_name[i];
-		console.log(option[i].text);
-		x.add(option[i]);
+	var matches;
+
+	while (matches = regex.exec(contents)) {
+//		console.log(matches);
+		var option = document.createElement("option");
+		option.text = matches[1];
+		x.add(option);
 	}
 
 };
 
-reader.onerror = function(event) {
+reader.onerror = function () {
 	console.error("File could not be read!");
 };
-function readText(event){
+
+function readText() {
+	var x = document.getElementById("mySelect");
+	while (x.options.length) x.remove(0);
+
 	reader.readAsText(document.getElementById('id_submit_file').files[0]);
 }
 
