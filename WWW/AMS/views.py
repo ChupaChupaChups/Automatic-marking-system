@@ -6,7 +6,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProblemForm, SubmitForm
 from .models import Problem
 
-
+import os
+from json import dumps, load
 # Create your views here.
 
 @login_required
@@ -77,6 +78,20 @@ def answer_submit(req, problem_number):
 		form = SubmitForm(req.POST, req.FILES)
 		if form.is_valid():
 			form.save()
+			if form['p_c_ok'].data == 1:
+				language = 'c'
+			elif form['p_cpp_ok'].data == 1:
+				language = 'cpp'
+			elif form['p_java_ok'].data == 1:
+				language = 'java'
+			else:
+				language = 'python'
+			path = os.path.dirname(os.path.abspath(form['submit_file'].data))
+			jsonpath = os.path.join(path, "config.json")
+			with open(jsonpath, "w") as file:
+				dumps({'language':language, 'metafile':form['startfilename'].data, file, indent=4)
+			file.close()
+
 			# TODO: judge submitted codes
 			return redirect('/home/problem_list/')
 	else:
