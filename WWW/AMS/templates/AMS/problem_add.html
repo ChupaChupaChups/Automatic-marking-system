@@ -1,6 +1,8 @@
 {% extends "AMS/header.html" %}
 
-{% load staticfiles %}
+{% load static %}
+
+{% block title %}문제 제출{% endblock %}
 
 {% block content_header %}
 
@@ -11,7 +13,6 @@
 	<link rel="stylesheet" href="{% static "assets/bootstrap3/css/bootstrap-theme.min.css" %}">
 	<script src="{% static "assets/bootstrap3/js/bootstrap.min.js" %}"></script>
 
-	{% load staticfiles %}
 	{{ create_form.media }}
 {% endblock %}
 

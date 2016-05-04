@@ -1,12 +1,15 @@
 {% extends "AMS/base_2.html" %}
 
-{% load staticfiles %}
+{% load static %}
+
+{% block title %}{{ problem.p_name }}{% endblock %}
 
 {% block content_header %}
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
 {% endblock %}
 
 {% block problem_class %} active {% endblock %}
+
 {% block content2 %}
 	<div class="content container">
 		<h1 id="problem-name">{{ problem.p_name }}</h1>

@@ -1,8 +1,11 @@
 {% extends "AMS/header.html" %}
 
+{% load static %}
+
+{% block title %}문제 목록{% endblock %}
+
 {% block problem_list %}active{% endblock %}
 
-{% load staticfiles %}
 {% block content_header %}
 	<script type="text/javascript">
 		/*
@@ -38,18 +41,18 @@
 				<div class="table">
 					<div class="row header">
 						<div class="cell">
-							<a href="{% url 'problem_read' problem_number=problem.pk %}" class="name">{{ problem.p_name }}</a>
+							<a href="{% url 'problem' problem.pk %}" class="name">{{ problem.p_name }}</a>
 						</div>
 						<div class="cell">
 							<a href="#" class="name"> 채점결과</a>
 						</div>
 						<div class="cell">
 							<button type="button" class="name"
-									onclick="btn_delete('{% url 'problem_delete' problem_number=problem.pk %}');">삭제
+									onclick="btn_delete('{% url 'problem' problem.pk %}');">삭제
 							</button>
 						</div>
 						<div>
-							<a href="{% url 'problem_update' problem_number=problem.pk %}" class="name">수정</a>
+							<a href="{% url 'problem/update' problem.pk %}" class="name">수정</a>
 						</div>
 					</div>
 					<div class="row">

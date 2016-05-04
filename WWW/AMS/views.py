@@ -1,4 +1,6 @@
+import inspect
 import json
+import sys
 
 import os
 from django.conf import settings
@@ -9,14 +11,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProblemForm, SubmitForm
 from .models import Problem
 
+current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, os.path.dirname(parent_dir))
+
+from judge_server.configuration.config import Config
+
 
 # Create your views here.
-
-@login_required
-def index(req):
-	problems = Problem.objects.all()
-	return render(req, 'AMS/problem_list.html', {'problems': problems})
-
 
 def web_logout(req):
 	logout(req)
@@ -31,9 +33,17 @@ def problem_list(req):
 
 @login_required
 def problem_read(req, problem_number):
-	problem = get_object_or_404(Problem, pk=problem_number)
+	if req.method == 'DELETE':
+		problem_to_delete = Problem.objects.get(pk=problem_number)
 
-	return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number})
+		if problem_to_delete is not None:
+			problem_to_delete.delete()
+			return HttpResponse()
+		return HttpResponseNotFound()
+
+	else:
+		problem = get_object_or_404(Problem, pk=problem_number)
+		return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number})
 
 
 @login_required
@@ -43,7 +53,7 @@ def problem_update(req, problem_number):
 		form = ProblemForm(req.POST, req.FILES, instance=problem)
 		if form.is_valid():
 			form.save()
-			return redirect('/home/problem_list/')
+			return redirect('/problem/list')
 	else:
 		form = ProblemForm(instance=problem)
 	return render(req, 'AMS/problem_add.html', {'create_form': form})
@@ -55,23 +65,11 @@ def problem_add(req):
 		form = ProblemForm(req.POST, req.FILES)
 		if form.is_valid():
 			form.save()
-			return redirect('/home/problem_list/')
+			return redirect('/problem/list')
 	else:
 		form = ProblemForm()
 
 	return render(req, 'AMS/problem_add.html', {'create_form': form})
-
-
-@login_required
-def problem_delete(req, problem_number):
-	if req.method == 'DELETE':
-		problem_to_delete = Problem.objects.get(pk=problem_number)
-
-		if problem_to_delete is not None:
-			problem_to_delete.delete()
-			return HttpResponse()
-
-	return HttpResponseNotFound()
 
 
 @login_required
@@ -81,15 +79,25 @@ def answer_submit(req, problem_number):
 		if form.is_valid():
 			instance = form.save()
 
-			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-			json_path = os.path.join(media_path, "config.json")
-			with open(json_path, "w") as file:
-				json.dump({u'language': instance.language, u'entry_point': instance.entry_point}, file,
-						indent=4, ensure_ascii=False)
+			save_metadata(instance)
 			# TODO: judge submitted codes
 
-			return redirect('/home/problem_list/')
+			return redirect('/problem/list')
 	else:
 		form = SubmitForm(req.user, problem_number)
 
 	return render(req, 'AMS/answer_submit.html', {'create_form': form, 'p_number': problem_number})
+
+
+def save_metadata(instance):
+	media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+	json_path = os.path.join(media_path, Config["django"]["code_meta_file"])
+
+	with open(json_path, "w") as file:
+		json.dump(
+			{
+				'language': instance.language,
+				'entry_point': instance.entry_point,
+				'problem_number': instance.pk
+			},
+			file, ensure_ascii=False)

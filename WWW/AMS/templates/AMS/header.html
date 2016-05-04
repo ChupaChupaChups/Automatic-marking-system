@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 
 <!DOCTYPE html>
 
@@ -8,13 +8,12 @@
 	<meta charset="utf-8">
 
 	<!--TODO Django: title content-->
-	<title>
-	</title>
+	<title>{% block title %}{% endblock %}</title>
 
 	{% block content_header %}{% endblock %}
 	{% block base_2_header %}{% endblock %}
 
-	<link rel="shortcut icon" href="{% static "assets/img/favicon.ico" %}" />
+	<link rel="shortcut icon" href="{% static "assets/img/favicon.ico" %}"/>
 
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/header.less" %} ">
 	<link rel="stylesheet" type="text/css" href="{% static "assets/css/style.css" %} ">
@@ -25,15 +24,17 @@
 <div class="nav-wrapper" role="navigation">
 	<nav class="nav">
 		<ul class="nav-container nav-page">
-			<li><a href="{% url "problem_list" %}" class="nav-item page_anchor {% block problem_list %}{% endblock %}">문제 목록</a></li>
+			<li><a href="{% url 'problem/list' %}" class="nav-item page_anchor {% block problem_list %}{% endblock %}">문제
+				목록</a></li>
 			{% if user.is_staff %}
-				<li><a href="{% url "problem_add" %}" class="nav-item page_anchor {% block problem_add %}{% endblock %}">문제 출제</a></li>
+				<li><a href="{% url 'problem/add' %}"
+					   class="nav-item page_anchor {% block problem_add %}{% endblock %}">문제 출제</a></li>
 			{% endif %}
 		</ul>
 
 		{% if user.is_authenticated %}
 			<ul class="nav-container nav-log-out">
-				<li><a href="{% url "web_logout" %}" class="nav-item" id="log-out">로그아웃</a></li>
+				<li><a href="{% url 'logout' %}" class="nav-item" id="log-out">로그아웃</a></li>
 			</ul>
 		{% endif %}
 	</nav>

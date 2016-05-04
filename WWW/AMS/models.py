@@ -5,8 +5,9 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
-
 # Create your models here.
+from django.dispatch import receiver
+
 
 class Problem(models.Model):
 	upload_to_in = 'problem/{0}/testcase/{1}'
@@ -18,15 +19,13 @@ class Problem(models.Model):
 	def _get_upload_to_out(self, filename):
 		return self.upload_to_out.format(self.p_name, filename)
 
-	def delete(self, using=None, keep_parents=False):
-		# self.p_infile.delete()
-		# self.p_outfile.delete()
-		path = settings.MEDIA_ROOT
-		folder = os.path.join(path, 'problem/' + str(self.p_name))
+	def delete(self, *args, **kwargs):
+		ret = super(Problem, self).delete(*args, **kwargs)
+		folder = os.path.join(settings.MEDIA_ROOT, 'problem', self.p_name)
 		shutil.rmtree(folder)
-		return super().delete(using, keep_parents)
+		return ret
 
-	def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+	def save(self, *args, **kwargs):
 		try:
 			this = Problem.objects.get(pk=self.pk)
 			if this.p_infile != self.p_infile:
@@ -35,7 +34,7 @@ class Problem(models.Model):
 				this.p_outfile.delete(save=True)
 		except:
 			pass
-		super().save(force_insert, force_update, using, update_fields)
+		super(Problem, self).save(*args, **kwargs)
 
 	p_day_limit = models.DateTimeField()
 	p_submissions_count = models.IntegerField(default=0)
@@ -59,8 +58,6 @@ class Problem(models.Model):
 
 
 class SubmitRecord(models.Model):
-	temp_dir = 'D:/Program/'
-
 	class Meta:
 		unique_together = ('problem_num', 'user', 'submit_time')
 
@@ -84,6 +81,12 @@ class SubmitFile(models.Model):
 
 	record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
 	file = models.FileField(upload_to=save_path)
+
+
+@receiver(models.signals.post_delete, sender=SubmitRecord)
+def delete_file(sender, instance, *args, **kwargs):
+	folder = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+	shutil.rmtree(folder)
 
 
 class SubmitResult(models.Model):
