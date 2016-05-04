@@ -1,13 +1,15 @@
+import json
+
+import os
+from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-
 from .forms import ProblemForm, SubmitForm
 from .models import Problem
 
-import os
-from json import dumps, load
+
 # Create your views here.
 
 @login_required
@@ -29,14 +31,14 @@ def problem_list(req):
 
 @login_required
 def problem_read(req, problem_number):
-	problem = get_object_or_404(Problem, id=problem_number)
+	problem = get_object_or_404(Problem, pk=problem_number)
 
 	return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number})
 
 
 @login_required
 def problem_update(req, problem_number):
-	problem = Problem.objects.get(id=problem_number)
+	problem = Problem.objects.get(pk=problem_number)
 	if req.method == 'POST':
 		form = ProblemForm(req.POST, req.FILES, instance=problem)
 		if form.is_valid():
@@ -63,7 +65,7 @@ def problem_add(req):
 @login_required
 def problem_delete(req, problem_number):
 	if req.method == 'DELETE':
-		problem_to_delete = Problem.objects.get(id=problem_number)
+		problem_to_delete = Problem.objects.get(pk=problem_number)
 
 		if problem_to_delete is not None:
 			problem_to_delete.delete()
@@ -75,26 +77,19 @@ def problem_delete(req, problem_number):
 @login_required
 def answer_submit(req, problem_number):
 	if req.method == 'POST':
-		form = SubmitForm(req.POST, req.FILES)
+		form = SubmitForm(req.user, problem_number, req.POST, req.FILES)
 		if form.is_valid():
-			form.save()
-			if form['p_c_ok'].data == 1:
-				language = 'c'
-			elif form['p_cpp_ok'].data == 1:
-				language = 'cpp'
-			elif form['p_java_ok'].data == 1:
-				language = 'java'
-			else:
-				language = 'python'
-			path = os.path.dirname(os.path.abspath(form['submit_file'].data))
-			jsonpath = os.path.join(path, "config.json")
-			with open(jsonpath, "w") as file:
-				dumps({'language':language, 'metafile':form['startfilename'].data, file, indent=4)
-			file.close()
+			instance = form.save()
 
+			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+			json_path = os.path.join(media_path, "config.json")
+			with open(json_path, "w") as file:
+				json.dump({u'language': instance.language, u'entry_point': instance.entry_point}, file,
+						indent=4, ensure_ascii=False)
 			# TODO: judge submitted codes
+
 			return redirect('/home/problem_list/')
 	else:
-		form = SubmitForm()
+		form = SubmitForm(req.user, problem_number)
 
 	return render(req, 'AMS/answer_submit.html', {'create_form': form, 'p_number': problem_number})

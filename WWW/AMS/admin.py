@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Problem, Submit_record
+from .models import Problem, SubmitRecord
 
 # Register your models here.
 
 admin.site.register(Problem)
-admin.site.register(Submit_record)
+admin.site.register(SubmitRecord)

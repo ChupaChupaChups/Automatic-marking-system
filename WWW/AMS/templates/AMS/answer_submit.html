@@ -6,10 +6,13 @@
 
 {% block content2 %}
 	<div class="content container">
-		<form enctype="multipart/form-data" methos="post">
+		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
 			{{ create_form.as_p | safe }}
-			<select id="mySelect" size="8"></select>
+			<p>
+				<label for="id_entry_point">entry point :</label>
+				<select name="entry_point" id="id_entry_point" size="8"></select>
+			</p>
 			<input type="submit" value="add"/>
 		</form>
 		<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
