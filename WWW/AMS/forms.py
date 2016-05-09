@@ -34,7 +34,6 @@ class SubmitForm(forms.ModelForm):
 	def save(self, commit=True):
 		instance = super().save(commit=False)
 
-		instance.entry_point = self.data['entry_point']
 
 		instance.submit_time = timezone.now()
 		instance.user = User.objects.get(pk=self.user.pk)
@@ -46,6 +45,7 @@ class SubmitForm(forms.ModelForm):
 			instance.language = 2
 		elif self.cleaned_data['p_java_ok']:
 			instance.language = 3
+			instance.entry_point = self.data['entry_point']
 		elif self.cleaned_data['p_py_ok']:
 			instance.language = 4
 

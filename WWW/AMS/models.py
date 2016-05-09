@@ -69,7 +69,7 @@ class SubmitRecord(models.Model):
 	p_cpp_ok = models.BooleanField(default=False)
 	p_java_ok = models.BooleanField(default=False)
 	p_py_ok = models.BooleanField(default=False)
-	entry_point = models.TextField(null=False)
+	entry_point = models.TextField(null=True)
 
 	def __str__(self):
 		return str(self.problem_num)

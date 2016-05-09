@@ -1,7 +1,6 @@
 var regex = /class\s+([^\W]+)/g;
 var x = document.getElementById("id_entry_point");
 var fileUploadBtn = document.getElementById("id_attachments");
-
 function readText() {
 	while (x.options.length) x.remove(0);
 
@@ -32,5 +31,5 @@ function readText() {
 		reader.readAsText(fileUploadBtn.files[i]);
 	}
 }
-
 fileUploadBtn.addEventListener('change', readText, false);
+
