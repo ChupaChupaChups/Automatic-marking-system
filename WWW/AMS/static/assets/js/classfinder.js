@@ -34,9 +34,14 @@ function readText() {
 	else{
 		for (var i = 0; i < fileUploadBtn.files.length; i++){
 			var option = document.createElement("option");
+			var input = document.createElement("input");
+			input.setAttribute("type", "hidden");
+			input.name = fileUploadBtn.files.item(i).name;
+			input.value = fileUploadBtn.files.item(i).webkitRelativePath;
 			option.text = fileUploadBtn.files.item(i).name;
 			option.value = fileUploadBtn.files.item(i).name;
 			x.add(option);
+			fileUploadBtn.appendChild(input);
 		}
 	}
 }
