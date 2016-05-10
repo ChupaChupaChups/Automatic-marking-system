@@ -6,6 +6,7 @@
 
 {% block submit_class %}active{% endblock %}
 {% block content_header %}
+<script type="text/javascript" src="{% static 'assets/js/jquery-2.2.3.min.js' %}"></script>
 {% endblock %}
 {% block content2 %}
 	<div class="content container">
@@ -16,21 +17,21 @@
 				<label for="id_entry_point">entry point :</label>
 				<select name="entry_point" id="id_entry_point" size="8"></select>
 			</p>
-			
- <script type="text/javascript" src="{% static 'assets/js/jquery-2.2.3.min.js' %}"></script>
 			<script type="text/javascript">
 			$(document).ready(function(){
 				$(".ep").hide();
 			});
 			$("p").click(function(){
-				var checked = document.getElementById("id_p_java_ok").checked;
-				if(checked) $(".ep").show();
+				var isJava = document.getElementById("id_p_java_ok").checked;
+				var isC = document.getElementById("id_p_c_ok").checked;
+				var isCpp = document.getElementById("id_p_cpp_ok").checked;
+				var isPython = document.getElementById("id_p_py_ok").checked;
+				if(isJava || isC || isCpp || isPython) $(".ep").show();
 				else $(".ep").hide();
 			});
 			</script>		
 			<input type="submit" value="add"/>
 		</form>
-	
 		<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
 </div>
 {% endblock %}
