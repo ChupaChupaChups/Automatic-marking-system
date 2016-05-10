@@ -1,4 +1,5 @@
-find ./src -iname "*.java" > source_list.txt
-javac -cp . -d class @source_list.txt
+#!/usr/bin/env bash
+find /source_code -iname "*.java" > /compiler_and_judge/source_list.txt
+javac -cp /source_code -d /compiler_and_judge/class @/compiler_and_judge/source_list.txt
 
-java -cp class Main
+java -cp /compiler_and_judge/class:/source_code Main < /inputfiles/input.txt

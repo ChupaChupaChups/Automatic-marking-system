@@ -1,6 +1,7 @@
-arg_objs=$(find . -iname "*.cpp")
+#!/usr/bin/env bash
+arg_objs=$(find /source_code -iname "*.cpp")
 
-g++ $arg_objs
+g++-5 -o /compiler_and_judge/a.out $arg_objs
 
-./a.out > result.txt
+/compiler_and_judge/a.out < /inputfiles/input.txt > /source_code/result.txt
 
