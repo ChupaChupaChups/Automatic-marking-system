@@ -95,9 +95,9 @@ def save_metadata(instance):
 
 	with open(json_path, "w") as file:
 		json.dump(
-			{
-				'language': instance.language,
-				'entry_point': instance.entry_point,
-				'problem_number': instance.pk
-			},
-			file, ensure_ascii=False)
+				{
+					'language': instance.language,
+					'entry_point': instance.entry_point,
+					'problem_number': instance.problem_num.pk
+				},
+				file, ensure_ascii=False)
