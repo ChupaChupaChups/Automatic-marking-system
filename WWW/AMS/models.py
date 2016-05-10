@@ -84,6 +84,7 @@ class SubmitFile(models.Model):
 	file = models.FileField(upload_to=save_path)
 	file_path = models.TextField(null=True)
 
+
 @receiver(models.signals.post_delete, sender=SubmitRecord)
 def delete_file(sender, instance, *args, **kwargs):
 	folder = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
