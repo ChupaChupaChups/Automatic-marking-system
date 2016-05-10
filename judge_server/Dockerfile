@@ -19,6 +19,6 @@ RUN apt-get clean
 RUN mkdir source_code
 RUN mkdir compiler_and_judge
 
-ADD ./*.sh /compiler_and_judge/
+#ADD ./*.sh /compiler_and_judge/
 
 RUN mkdir inputfiles

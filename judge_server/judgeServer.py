@@ -6,6 +6,9 @@ import json
 import docker
 import io
 import os
+
+import dockerpty
+
 from judge_server.configuration.config import Config
 
 __author__ = "isac322"
@@ -34,42 +37,91 @@ def build_image():
 		print("'{0}' image is already exist".format(docker_tag))
 
 
-def judge(instance, media_path):
-	cli = docker.Client(base_url='tcp://0.0.0.0:2375');
-	cli.build(path='/judge_server', tag='ams')
+def judge(instance, media_path, inputfiles):
+	cli = docker.Client(base_url='tcp://0.0.0.0:2375')
+	image_tag = Config["Docker"]["tag"]
+
+	current = os.path.dirname(__file__)
+
+	container = None
 	if instance.language == 1:
-		cli.create_container(image='ams', command='/compiler_and_judge/c_compiler', name='judge',
-							 volumes=['/source_code'],
-							 host_config=cli.create_host_config(binds={
-								 media_path: {
-									 'bind': '/source_code'
-								 }
-							 }))
+		container = cli.create_container(image=image_tag, command='sh /compiler_and_judge/c_compile.sh', name='judge',
+										 tty=True,
+										 volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
+										 host_config=cli.create_host_config(binds={
+											 media_path: {
+												 'bind': '/source_code',
+												 'mode': 'rw'
+											 },
+											 current: {
+												 'bind': '/compiler_and_judge',
+												 'mode': 'rw'
+											 },
+											 inputfiles: {
+												 'bind': '/inputfiles',
+												 'mode': 'rw'
+											 }
+										 }))
 	elif instance.language == 2:
-		cli.create_container(image='ams', command='/compiler_and_judge/cpp_compiler', name='judge',
-							 volumes=['/source_code'],
-							 host_config=cli.create_host_config(binds={
-								 media_path: {
-									 'bind': '/source_code'
-								 }
-							 }))
+		container = cli.create_container(image=image_tag, command='sh /compiler_and_judge/cpp_compile.sh', name='judge',
+										 tty=True,
+										 volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
+										 host_config=cli.create_host_config(binds={
+											 media_path: {
+												 'bind': '/source_code',
+												 'mode': 'rw'
+											 },
+											 current: {
+												 'bind': '/compiler_and_judge',
+												 'mode': 'rw'
+											 },
+											 inputfiles: {
+												 'bind': '/inputfiles',
+												 'mode': 'rw'
+											 }
+										 }))
 	elif instance.language == 3:
-		cli.create_container(image='ams', command='/compiler_and_judge/java_compiler', name='judge',
-							 volumes=['/source_code'],
-							 host_config=cli.create_host_config(binds={
-								 media_path: {
-									 'bind': '/source_code'
-								 }
-							 }))
+		container = cli.create_container(image=image_tag, command='sh /compiler_and_judge/java_compile.sh', name='judge',
+										  tty=True,
+										  volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
+										  host_config=cli.create_host_config(binds={
+											  media_path: {
+												  'bind': '/source_code',
+												  'mode': 'rw'
+											  },
+											  current: {
+												  'bind': '/compiler_and_judge',
+												  'mode': 'rw'
+											  },
+											  inputfiles: {
+												  'bind': '/inputfiles',
+												  'mode': 'rw'
+											  }
+										  }))
 	elif instance.language == 4:
-		cli.create_container(image='ams', command='/compiler_and_judge/py_compiler', name='judge',
-							 volumes=['/source_code'],
-							 host_config=cli.create_host_config(binds={
-								 media_path: {
-									 'bind': '/source_code'
-								 }
-							 }))
-	cli.remove_container(container='judge')
+		container = cli.create_container(image=image_tag, command='sh /compiler_and_judge/run_python.sh', name='judge',
+										 tty=True,
+										 volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
+										 host_config=cli.create_host_config(binds={
+											 media_path: {
+												 'bind': '/source_code',
+												 'mode': 'rw'
+											 },
+											 current: {
+												 'bind': '/compiler_and_judge',
+												 'mode': 'rw'
+											 },
+											 inputfiles: {
+												 'bind': '/inputfiles',
+												 'mode': 'rw'
+											 }
+										 }))
+
+	dockerpty.start(cli, container)
+	try:
+		cli.remove_container(container='judge')
+	except:
+		pass
 
 
 if __name__ == "__main__":
