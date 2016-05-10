@@ -48,11 +48,10 @@ class SubmitForm(forms.ModelForm):
 			instance.language = 3
 		elif self.cleaned_data['p_py_ok']:
 			instance.language = 4
-
 		if commit:
 			instance.save()
-
 			for each in self.cleaned_data['attachments']:
-				SubmitFile.objects.create(record=instance, file=each)
+				file_path = self.data[each.name]
+				SubmitFile.objects.create(record=instance, file=each, file_path=file_path)
 
 		return instance

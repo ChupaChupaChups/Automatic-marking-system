@@ -77,11 +77,12 @@ class SubmitRecord(models.Model):
 
 class SubmitFile(models.Model):
 	def save_path(self, filename):
-		return 'answer/{0}/{1}'.format(self.record.pk, filename)
+		print(self.file_path)
+		return 'answer/{0}/{1}'.format(self.record.pk, self.file_path)
 
 	record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
 	file = models.FileField(upload_to=save_path)
-
+	file_path = models.TextField(null=True)
 
 @receiver(models.signals.post_delete, sender=SubmitRecord)
 def delete_file(sender, instance, *args, **kwargs):
