@@ -5,7 +5,7 @@ var fileUploadBtn = document.getElementById("id_attachments");
 function readText() {
 	// 이전목록 지움
 	while (x.options.length) x.remove(0);
-
+	while (fileUploadBtn.hasChildNodes()) fileUploadBtn.remoeChild(fileUploadBtn.lastChild);
 //	console.log(fileUploadBtn.files);
 	var isJava = document.getElementById("id_p_java_ok").checked;
 	if (isJava) {
