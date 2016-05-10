@@ -34,5 +34,43 @@ def build_image():
 		print("'{0}' image is already exist".format(docker_tag))
 
 
+def judge(instance, media_path):
+	cli = docker.Client(base_url='tcp://0.0.0.0:2375');
+	cli.build(path='/judge_server', tag='ams')
+	if instance.language == 1:
+		cli.create_container(image='ams', command='/compiler_and_judge/c_compiler', name='judge',
+							 volumes=['/source_code'],
+							 host_config=cli.create_host_config(binds={
+								 media_path: {
+									 'bind': '/source_code'
+								 }
+							 }))
+	elif instance.language == 2:
+		cli.create_container(image='ams', command='/compiler_and_judge/cpp_compiler', name='judge',
+							 volumes=['/source_code'],
+							 host_config=cli.create_host_config(binds={
+								 media_path: {
+									 'bind': '/source_code'
+								 }
+							 }))
+	elif instance.language == 3:
+		cli.create_container(image='ams', command='/compiler_and_judge/java_compiler', name='judge',
+							 volumes=['/source_code'],
+							 host_config=cli.create_host_config(binds={
+								 media_path: {
+									 'bind': '/source_code'
+								 }
+							 }))
+	elif instance.language == 4:
+		cli.create_container(image='ams', command='/compiler_and_judge/py_compiler', name='judge',
+							 volumes=['/source_code'],
+							 host_config=cli.create_host_config(binds={
+								 media_path: {
+									 'bind': '/source_code'
+								 }
+							 }))
+	cli.remove_container(container='judge')
+
+
 if __name__ == "__main__":
 	build_image()
