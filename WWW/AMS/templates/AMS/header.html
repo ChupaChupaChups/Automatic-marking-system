@@ -21,7 +21,7 @@
 </head>
 
 <body>
-<div class="nav-wrapper" role="navigation">
+<header class="nav-wrapper">
 	<nav class="nav">
 		<ul class="nav-container nav-page">
 			<li><a href="{% url 'problem/list' %}" class="nav-item page_anchor {% block problem_list %}{% endblock %}">문제
@@ -38,7 +38,7 @@
 			</ul>
 		{% endif %}
 	</nav>
-</div>
+</header>
 
 {% block content %}
 {% endblock %}
