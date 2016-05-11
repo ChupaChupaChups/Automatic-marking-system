@@ -1,38 +1,110 @@
-﻿.secondMenu {
-	margin: 0;
-	height: 40px;
+﻿@import "header.less";
+
+@menu2-background-color: #00897B;
+@menu2-hover-color: @menu-background-color;
+@menu2-active-color: @menu-background-color;
+
+.nav2-wrapper {
 	width: 100%;
-	background-color: lightblue;
+	background-color: @menu2-background-color;
+	box-shadow: 0 2px 1px #888;
 
-	.active {
-		color: white;
-		background-color: powderblue;
-	}
+	.secondMenu {
+		height: 40px;
 
-	li {
-		list-style: none;
-		color: white;
-		background-color: lightblue;
-		float: left;
-		line-height: 40px;
-		vertical-align: middle;
-		text-align: center;
-		text-decoration: none;
-		display: block;
-		width: 150px;
-		font-size: 20px;
-		font-weight: bold;
-		font-family: "Raleway", sans-serif;
+		.active {
+			color: white;
+			background-color: @menu2-active-color;
+			z-index: 3;
+			position: relative;
+			box-shadow: -4px 2px 5px -3px @menu-shadow-color, 4px 2px 5px -3px @menu-shadow-color;
+			border-bottom-left-radius: 15px;
+			border-bottom-right-radius: 15px;
 
-		a {
-			text-decoration: none;
-			color: #ffffff;
-			display: block;
+			// TODO: design is in progress
+			a {
+				&:before {
+					.circle;
+					left: -20px;
+					box-shadow: inset -4px 4px 4px -3px @menu-shadow-color, inset 0 3px 4px -4px @menu-shadow-color;
+				}
+
+				&:after {
+					.round-box;
+					right: -10px;
+				}
+			}
+
+
+			// TODO: design is in progress
+			&:before {
+				.round-box;
+				left: -10px;
+			}
+
+			// TODO: design is in progress
+			&:after {
+				.circle;
+				right: -20px;
+				box-shadow: inset 4px 4px 4px -3px @menu-shadow-color, inset 0 3px 4px -4px @menu-shadow-color;
+			}
+
+			// TODO: design is in progress
+			.round-box {
+				all: unset;
+				background-color: @menu2-active-color;
+				position: absolute;
+				bottom: 0;
+				width: 10px;
+				height: 10px;
+				top: 0;
+				content: "";
+				//border: 1px solid #AAA;
+			}
+
+			// TODO: design is in progress
+			.circle {
+				-webkit-transition: background-color 300ms;
+				transition: background-color 300ms;
+				background-color: @menu2-background-color;
+				position: absolute;
+				bottom: 0;
+				width: 20px;
+				height: 20px;
+				top: 0;
+				content: "";
+				border-radius: 10px;
+				//border: 1px solid #AAA;
+			}
 		}
 
-		&:hover {
-			 color: white;
-			 background-color: powderblue;
-		 }
+		li {
+			position: relative;
+			z-index: 2;
+			list-style: none;
+			background-color: @menu2-background-color;
+			float: left;
+			line-height: 40px;
+			display: block;
+			width: 150px;
+			-webkit-transition: background-color 300ms;
+			transition: background-color 300ms;
+
+			a {
+				text-decoration: none;
+				color: #ffffff;
+				font-size: 20px;
+				font-weight: bold;
+				font-family: "Raleway", sans-serif;
+				display: block;
+				text-align: center;
+			}
+
+
+			// TODO: design is in progress
+			&:hover, &:hover + .active a:before {
+				background-color: @menu2-hover-color;
+			}
+		}
 	}
 }

@@ -36,46 +36,47 @@
 
 {% block content %}
 	<div class="container content">
-	<section class="list-wrapper" role="main">
-		{% if problems %}
-			{% for problem in problems %}
-				<article class="problem-table">
-					<div class="row header">
-						<div class="cell">
-							<a href="{% url 'problem' problem.pk %}" class="name">{{ problem.p_name }}</a>
+		<section class="list-wrapper" role="main">
+			{% if problems %}
+				{% for problem in problems %}
+					<article class="problem-table">
+						<div class="row header">
+							<div class="cell">
+								<a href="{% url 'problem' problem.pk %}" class="name">{{ problem.p_name }}</a>
+							</div>
+							<div class="cell">
+								<a href="#" class="name"> 채점결과</a>
+							</div>
+							<div class="cell">
+								<button type="button" class="name"
+										onclick="btn_delete('{% url 'problem' problem.pk %}');">삭제
+								</button>
+							</div>
+							<div>
+								<a href="{% url 'problem/update' problem.pk %}" class="name">수정</a>
+							</div>
 						</div>
-						<div class="cell">
-							<a href="#" class="name"> 채점결과</a>
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell"></div>
+							<div class="cell">#</div>
+							<div class="cell"></div>
 						</div>
-						<div class="cell">
-							<button type="button" class="name"
-									onclick="btn_delete('{% url 'problem' problem.pk %}');">삭제
-							</button>
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell"></div>
+							<div class="cell">#</div>
+							<div class="cell"></div>
 						</div>
-						<div>
-							<a href="{% url 'problem/update' problem.pk %}" class="name">수정</a>
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell"></div>
+							<div class="cell">#</div>
+							<div class="cell"></div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="cell"></div>
-						<div class="cell"></div>
-						<div class="cell">#</div>
-						<div class="cell"></div>
-					</div>
-					<div class="row">
-						<div class="cell"></div>
-						<div class="cell"></div>
-						<div class="cell">#</div>
-						<div class="cell"></div>
-					</div>
-					<div class="row">
-						<div class="cell"></div>
-						<div class="cell"></div>
-						<div class="cell">#</div>
-						<div class="cell"></div>
-					</div>
-				</article>
-			{% endfor %}
-		{% endif %}
-	</section>
+					</article>
+				{% endfor %}
+			{% endif %}
+		</section>
+	</div>
 {% endblock %}

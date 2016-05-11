@@ -2,7 +2,8 @@ body, ul, li, a, div {
 	margin: 0;
 }
 
-@menu-color: #009688;
+@menu-shadow-color: #333;
+@menu-background-color: #009688;
 @menu-hover-color: #26A69A;
 @menu-active-color: #00897B;
 @logout-hover-color: #F44336;
@@ -12,8 +13,11 @@ body {
 	width: 100%;
 
 	.nav-wrapper {
-		background-color: @menu-color;
+		background-color: @menu-background-color;
 		height: 60px;
+		box-shadow: 0 2px 4px @menu-shadow-color;
+		z-index: 3;
+		position: relative;
 
 		.nav {
 			margin-right: 3%;
@@ -36,6 +40,7 @@ body {
 						text-decoration: none;
 						color: #ffffff;
 						background-color: @menu-default-color;
+						-webkit-transition: background-color 300ms;
 						transition: background-color 300ms;
 					}
 
