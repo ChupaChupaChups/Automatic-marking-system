@@ -79,12 +79,12 @@ def answer_submit(req, problem_number):
 		form = SubmitForm(req.user, problem_number, req.POST, req.FILES)
 		if form.is_valid():
 			instance = form.save()
-			inputfiles = os.path.dirname(instance.problem_num.p_infile.path)
 
 			save_metadata(instance)
-			# TODO: judge submitted codes
-			judgeServer.build_image()
+
+			# TODO: rename variable
 			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+			inputfiles = os.path.dirname(instance.problem_num.p_infile.path)
 			judgeServer.judge(instance, media_path, inputfiles)
 
 			return redirect('/problem/list')
@@ -100,9 +100,9 @@ def save_metadata(instance):
 
 	with open(json_path, "w") as file:
 		json.dump(
-			{
-				'language': instance.language,
-				'entry_point': instance.entry_point,
-				'problem_number': instance.problem_num.pk
-			},
-			file, ensure_ascii=False)
+				{
+					'language': instance.language,
+					'entry_point': instance.entry_point,
+					'problem_number': instance.problem_num.pk
+				},
+				file, ensure_ascii=False)

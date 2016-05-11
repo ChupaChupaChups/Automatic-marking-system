@@ -15,8 +15,8 @@ class ProblemForm(forms.ModelForm):
 			'p_content': SummernoteInplaceWidget(),
 		}
 		fields = ['p_day_limit', 'p_submissions_count', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
-				  'p_infile', 'p_outfile', 'p_judge', 'p_name', 'p_content', 'p_input', 'p_output', 'p_inputex',
-				  'p_outputex']
+			'p_infile', 'p_outfile', 'p_judge', 'p_name', 'p_content', 'p_input', 'p_output', 'p_inputex',
+			'p_outputex']
 
 
 class SubmitForm(forms.ModelForm):
@@ -34,8 +34,6 @@ class SubmitForm(forms.ModelForm):
 	def save(self, commit=True):
 		instance = super().save(commit=False)
 
-		instance.entry_point = self.data['entry_point']
-
 		instance.submit_time = timezone.now()
 		instance.user = User.objects.get(pk=self.user.pk)
 		instance.problem_num = Problem.objects.get(pk=self.problem_number)
@@ -46,8 +44,11 @@ class SubmitForm(forms.ModelForm):
 			instance.language = 2
 		elif self.cleaned_data['p_java_ok']:
 			instance.language = 3
+			instance.entry_point = self.data['entry_point']
 		elif self.cleaned_data['p_py_ok']:
 			instance.language = 4
+			instance.entry_point = self.data['entry_point']
+
 		if commit:
 			instance.save()
 			for each in self.cleaned_data['attachments']:

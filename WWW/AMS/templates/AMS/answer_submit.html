@@ -5,34 +5,57 @@
 {% block title %}답안 제출{% endblock %}
 
 {% block submit_class %}active{% endblock %}
+
 {% block content_header %}
-<script type="text/javascript" src="{% static 'assets/js/jquery-2.2.3.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
+	<script type="text/javascript">
+		/**
+		 * invoked when whole document is ready
+		 */
+		document.addEventListener("DOMContentLoaded", function () {
+			var selector = document.getElementById("entry-point-selector");
+			var javaCheckbox = document.getElementById("id_p_java_ok");
+			var pythonCheckbox = document.getElementById("id_p_py_ok");
+			//var cCheckbox = document.getElementById("id_p_c_ok");
+			//var cppCheckbox = document.getElementById("id_p_cpp_ok");
+
+			/**
+			 * for initial value
+			 *
+			 * http://www.w3schools.com/jsref/prop_style_display.asp
+			 * visibility options reference
+			 */
+			if (javaCheckbox.checked || pythonCheckbox.checked) {
+				selector.style.display = "block";
+			} else {
+				selector.style.display = "none";
+			}
+
+			function showEntryPointSelector(event) {
+				if (event.target.checked) {
+					selector.style.display = "block";
+				} else {
+					selector.style.display = "none"
+				}
+			}
+
+			javaCheckbox.addEventListener("click", showEntryPointSelector);
+			pythonCheckbox.addEventListener("click", showEntryPointSelector);
+		});
+	</script>
 {% endblock %}
+
 {% block content2 %}
 	<div class="content container">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
 			{{ create_form.as_p | safe }}
-			<p class="ep">
+			<p id="entry-point-selector">
 				<label for="id_entry_point">entry point :</label>
 				<select name="entry_point" id="id_entry_point" size="8"></select>
 			</p>
-			<script type="text/javascript">
-			$(document).ready(function(){
-				$(".ep").hide();
-			});
-			$("p").click(function(){
-				var isJava = document.getElementById("id_p_java_ok").checked;
-				var isC = document.getElementById("id_p_c_ok").checked;
-				var isCpp = document.getElementById("id_p_cpp_ok").checked;
-				var isPython = document.getElementById("id_p_py_ok").checked;
-				if(isJava || isC || isCpp || isPython) $(".ep").show();
-				else $(".ep").hide();
-			});
-			</script>		
 			<input type="submit" value="add"/>
 		</form>
-		<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
-</div>
+	</div>
 {% endblock %}
 
