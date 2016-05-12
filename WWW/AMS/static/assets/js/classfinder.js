@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex = /class\s+([^\W]+)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var fileUploadBtn = document.getElementById("id_attachments");
-	var languageselect = document.getElementById("id_language");
+	var javaselect = document.getElementById("id_language_2");
+	var pyselect = document.getElementById("id_language_3");
 	/**
 	 * Java의 경우 사용, 클래스의 이름을 엔트리 포인트 설정을 위해 추출.
 	 */
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		while (entryList.options.length) entryList.remove(0);
 //	console.log(fileUploadBtn.files);
 
-		if (languageselect.selectedOptions.item(0).value == 3) {
+		if (javaselect.checked) {
 			for (var i = 0; i < fileUploadBtn.files.length; i++) {
 				var reader = new FileReader();
 
@@ -85,11 +86,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	fileUploadBtn.addEventListener('change', hiddenPathGenerator);
-	languageselect.addEventListener('change', function(){	
-		if (languageselect.selectedOptions.item(0).value == 3) fileUploadBtn.addEventListener('change', extractClass);
-		else if (languageselect.selectedOptions.item(0).value == 4) fileUploadBtn.addEventListener('change', extractFiles);
-	});
-
+	if(javaselect.checked) fileUploadBtn.addEventListener('change', extractClass);
+	else if(pyselect.checked) fileUploadBtn.addEventListener('change', extractFiles);
 	/*
 	초기값을 위해 설정
 	TODO: 언어별로 다른 함수 호출 하도록 변경

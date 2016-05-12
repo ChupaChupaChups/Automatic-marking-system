@@ -25,11 +25,11 @@ class ProblemForm(forms.ModelForm):
 
 
 class SubmitForm(forms.ModelForm):
-	attachments = MultiFileField(
+	파일 = MultiFileField(
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
-				'webkitdirectory': True, 'directory': True, 'multiple': True
+				'webkitdirectory': True, 'directory': True, 'multiple': True,
 			})
 	)
 
@@ -37,9 +37,13 @@ class SubmitForm(forms.ModelForm):
 		model = SubmitRecord
 		fields = ['language']
 		widgets = {
-			'language' : forms.RadioSelect(renderer=HorizRadioRenderer)
+			'language' : forms.RadioSelect(renderer=HorizRadioRenderer),
+		}
+		labels = {
+			'language' : '언어',
 		}
 	def __init__(self, user, problem_number, *args, **kwargs):
+		kwargs.setdefault('label_suffix','')
 		self.problem_number = problem_number
 		self.user = user
 		super().__init__(*args, **kwargs)
