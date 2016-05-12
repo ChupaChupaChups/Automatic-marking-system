@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django_summernote.widgets import SummernoteInplaceWidget
-from multiupload.fields import MultiFileField
+from multiupload.fields import MultiFileField, MultiFileInput
 from .models import Problem, SubmitRecord, SubmitFile
 
 
@@ -20,7 +20,7 @@ class ProblemForm(forms.ModelForm):
 
 
 class SubmitForm(forms.ModelForm):
-	attachments = MultiFileField(min_num=1, max_file_size=1024 * 1024 * 5, widget=forms.FileInput(attrs= {
+	attachments = MultiFileField(min_num=1, max_file_size=1024 * 1024 * 5, widget=Multi:wqFileInput(attrs= {
 	'webkitdirectory' : True, 'directory' : True, 'multiple' : True}))
 
 	class Meta:
