@@ -14,33 +14,28 @@
 		 */
 		document.addEventListener("DOMContentLoaded", function () {
 			var selector = document.getElementById("entry-point-selector");
-			var javaCheckbox = document.getElementById("id_p_java_ok");
-			var pythonCheckbox = document.getElementById("id_p_py_ok");
-			//var cCheckbox = document.getElementById("id_p_c_ok");
-			//var cppCheckbox = document.getElementById("id_p_cpp_ok");
-
+			var languageSelector = document.getElementById("id_language");
 			/**
 			 * for initial value
 			 *
 			 * http://www.w3schools.com/jsref/prop_style_display.asp
 			 * visibility options reference
 			 */
-			if (javaCheckbox.checked || pythonCheckbox.checked) {
+			if (languageSelector.selectedOptions.item(0).value == 3 || languageSelector.selectedOptions.item(0).value == 4) {
 				selector.style.display = "block";
 			} else {
 				selector.style.display = "none";
 			}
 
 			function showEntryPointSelector(event) {
-				if (event.target.checked) {
+				if (event.target.selectedOptions.item(0).value == 3 || event.target.selectedOptions.item(0).value == 4) {
 					selector.style.display = "block";
 				} else {
 					selector.style.display = "none"
 				}
 			}
 
-			javaCheckbox.addEventListener("click", showEntryPointSelector);
-			pythonCheckbox.addEventListener("click", showEntryPointSelector);
+			languageSelector.addEventListener("click", showEntryPointSelector);
 		});
 	</script>
 {% endblock %}

@@ -20,11 +20,12 @@ class ProblemForm(forms.ModelForm):
 
 
 class SubmitForm(forms.ModelForm):
-	attachments = MultiFileField(min_num=1, max_file_size=1024 * 1024 * 5)
+	attachments = MultiFileField(min_num=1, max_file_size=1024 * 1024 * 5, widget=forms.FileInput(attr= {
+	'webkitdirectory' : True, 'directory' : True, 'multiple' : True})
 
 	class Meta:
 		model = SubmitRecord
-		fields = ['p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok']
+		fields = ['language']
 
 	def __init__(self, user, problem_number, *args, **kwargs):
 		self.problem_number = problem_number
@@ -38,14 +39,14 @@ class SubmitForm(forms.ModelForm):
 		instance.user = User.objects.get(pk=self.user.pk)
 		instance.problem_num = Problem.objects.get(pk=self.problem_number)
 
-		if self.cleaned_data['p_c_ok']:
+		if self.cleaned_data['language']==1:
 			instance.language = 1
-		elif self.cleaned_data['p_cpp_ok']:
+		elif self.cleaned_data['language']==2:
 			instance.language = 2
-		elif self.cleaned_data['p_java_ok']:
+		elif self.cleaned_data['language']==3:
 			instance.language = 3
 			instance.entry_point = self.data['entry_point']
-		elif self.cleaned_data['p_py_ok']:
+		elif self.cleaned_data['language']==4:
 			instance.language = 4
 			instance.entry_point = self.data['entry_point']
 

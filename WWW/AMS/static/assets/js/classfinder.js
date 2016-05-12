@@ -2,9 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex = /class\s+([^\W]+)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var fileUploadBtn = document.getElementById("id_attachments");
-	var javaCheckbox = document.getElementById("id_p_java_ok");
-	var pythonCheckbox = document.getElementById("id_p_py_ok");
-
+	var languageselect = document.getElementById("id_language");
 	/**
 	 * Java의 경우 사용, 클래스의 이름을 엔트리 포인트 설정을 위해 추출.
 	 */
@@ -13,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		while (entryList.options.length) entryList.remove(0);
 //	console.log(fileUploadBtn.files);
 
-		if (javaCheckbox.checked) {
+		if (languageselect.selectedOptions.item(0).value == 3) {
 			for (var i = 0; i < fileUploadBtn.files.length; i++) {
 				var reader = new FileReader();
 
@@ -84,15 +82,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	fileUploadBtn.addEventListener('change', hiddenPathGenerator);
 	
-	if (javaCheckbox.checked) fileUploadBtn.addEventListener('change', extractClass);
-	else if (pythonCheckbox.checked) fileUploadBtn.addEventListener('change', extractFiles);
-
-
-	// 디버딩을 위해 잠시 설정
-	// TODO: 디버깅 끝나면 반드시 django에서 처리하도록 설정
-	fileUploadBtn.setAttribute("multiple", "");
-	fileUploadBtn.setAttribute("webkitdirectory", "");
-	fileUploadBtn.setAttribute("directory", "");
+	if (languageselect.selectedOptions.item(0).value == 3) fileUploadBtn.addEventListener('change', extractClass);
+	else if (languageselect.selectedOptions.item(0).value == 4) fileUploadBtn.addEventListener('change', extractFiles);
 
 	/*
 	초기값을 위해 설정
