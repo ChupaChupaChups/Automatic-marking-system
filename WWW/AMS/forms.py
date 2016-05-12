@@ -2,14 +2,17 @@ from datetimewidget.widgets import DateTimeWidget
 from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 from django_summernote.widgets import SummernoteInplaceWidget
 from multiupload.fields import MultiFileField, MultiFileInput
 from .models import Problem, SubmitRecord, SubmitFile
-from django.utils.safestring import mark_safe
 
-class HorizRadioRenderer(forms.RadioSelect.renderer):
+
+class HorizonRadioRenderer(forms.RadioSelect.renderer):
 	def render(self):
-		return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
+		return mark_safe(u'\n'.join([u'{0}\n'.format(w) for w in self]))
+
+
 class ProblemForm(forms.ModelForm):
 	class Meta:
 		model = Problem
@@ -25,7 +28,7 @@ class ProblemForm(forms.ModelForm):
 
 
 class SubmitForm(forms.ModelForm):
-	파일 = MultiFileField(
+	attachments = MultiFileField(
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
@@ -37,13 +40,14 @@ class SubmitForm(forms.ModelForm):
 		model = SubmitRecord
 		fields = ['language']
 		widgets = {
-			'language' : forms.RadioSelect(renderer=HorizRadioRenderer),
+			'language': forms.RadioSelect(renderer=HorizonRadioRenderer),
 		}
 		labels = {
-			'language' : '언어',
+			'language': '언어',
 		}
+
 	def __init__(self, user, problem_number, *args, **kwargs):
-		kwargs.setdefault('label_suffix','')
+		kwargs.setdefault('label_suffix', '')
 		self.problem_number = problem_number
 		self.user = user
 		super().__init__(*args, **kwargs)

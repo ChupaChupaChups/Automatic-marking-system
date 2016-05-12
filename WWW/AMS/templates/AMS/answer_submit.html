@@ -18,6 +18,7 @@
 			var cppSelector = document.getElementById("id_language_1");
 			var javaSelector = document.getElementById("id_language_2");
 			var pySelector = document.getElementById("id_language_3");
+
 			/**
 			 * for initial value
 			 *
@@ -37,11 +38,13 @@
 					selector.style.display = "none";
 				}
 			}
+
 			function blockEntryPointSelector(event) {
-				if (event.target.checked){
+				if (event.target.checked) {
 					selector.style.display = "none";
-				}	
+				}
 			}
+
 			cSelector.addEventListener("click", blockEntryPointSelector);
 			cppSelector.addEventListener("click", blockEntryPointSelector);
 			javaSelector.addEventListener("click", showEntryPointSelector);

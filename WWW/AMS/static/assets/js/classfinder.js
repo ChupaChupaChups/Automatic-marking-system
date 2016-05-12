@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex = /class\s+([^\W]+)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var fileUploadBtn = document.getElementById("id_attachments");
-	var languageSelect = document.getElementById("id_language");
 
 	/**
 	 * Java의 경우 사용, 클래스의 이름을 엔트리 포인트 설정을 위해 추출.
@@ -62,17 +61,25 @@ document.addEventListener("DOMContentLoaded", function () {
 		}
 	}
 
-	languageSelect.addEventListener('change', function () {
-		if (languageSelect.selectedOptions.item(0).value == 3) {
+	var cCheckbox = document.getElementById('id_language_0');
+	var cppCheckbox = document.getElementById('id_language_1');
+	var javaCheckbox = document.getElementById('id_language_2');
+	var pythonCheckbox = document.getElementById('id_language_3');
+
+	javaCheckbox.addEventListener('change', function (event) {
+		if (event.target.checked) {
 			extractClass();
 			fileUploadBtn.addEventListener('change', extractClass);
+		} else {
+			fileUploadBtn.removeEventListener('change', extractClass);
 		}
-		else if (languageSelect.selectedOptions.item(0).value == 4) {
+	});
+
+	pythonCheckbox.addEventListener('change', function (event) {
+		if (event.target.checked) {
 			extractFiles();
 			fileUploadBtn.addEventListener('change', extractFiles);
-		}
-		else {
-			fileUploadBtn.removeEventListener('change', extractClass);
+		} else {
 			fileUploadBtn.removeEventListener('change', extractFiles);
 		}
 	});
