@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	fileUploadBtn.addEventListener('change', hiddenPathGenerator);
-	languageselect.addEnvetListener('change', function(){	
+	languageselect.addEventListener('change', function(){	
 		if (languageselect.selectedOptions.item(0).value == 3) fileUploadBtn.addEventListener('change', extractClass);
 		else if (languageselect.selectedOptions.item(0).value == 4) fileUploadBtn.addEventListener('change', extractFiles);
 	});
