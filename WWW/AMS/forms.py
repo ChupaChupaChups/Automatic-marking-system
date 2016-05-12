@@ -54,7 +54,7 @@ class SubmitForm(forms.ModelForm):
 		if commit:
 			instance.save()
 			for each in self.cleaned_data['attachments']:
-				file_path = self.data[each.name]
+				file_path = self.data[each.name + '|' + str(each.size)]
 				SubmitFile.objects.create(record=instance, file=each, file_path=file_path)
 
 		return instance
