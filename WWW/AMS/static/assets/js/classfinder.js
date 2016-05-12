@@ -74,14 +74,18 @@ document.addEventListener("DOMContentLoaded", function () {
 //			console.log(fileUploadBtn.files.item(i));
 			var input = document.createElement("input");
 			input.setAttribute("type", "hidden");
-			input.name = fileUploadBtn.files.item(i).name;
+			input.name = fileUploadBtn.files.item(i).name + "|" + fileUploadBtn.files.item(i).size;
 			input.value = fileUploadBtn.files.item(i).webkitRelativePath;
+			var split = input.value.split("\/");
+			var tmp = split[1];
+			for(var j=2;j<split.length;j++) tmp = tmp +"\/" + split[j];
+			input.value = tmp;
 			fileUploadBtn.appendChild(input);
 		}
 	}
 
 	fileUploadBtn.addEventListener('change', hiddenPathGenerator);
-	languageselect.addEnvetListener('change', function(){	
+	languageselect.addEventListener('change', function(){	
 		if (languageselect.selectedOptions.item(0).value == 3) fileUploadBtn.addEventListener('change', extractClass);
 		else if (languageselect.selectedOptions.item(0).value == 4) fileUploadBtn.addEventListener('change', extractFiles);
 	});
