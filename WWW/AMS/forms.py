@@ -20,7 +20,7 @@ class ProblemForm(forms.ModelForm):
 
 
 class SubmitForm(forms.ModelForm):
-	attachments = MultiFileField(min_num=1, max_file_size=1024 * 1024 * 5, widget=forms.FileInput(attr= {
+	attachments = MultiFileField(min_num=1, max_file_size=1024 * 1024 * 5, widget=forms.FileInput(attrs= {
 	'webkitdirectory' : True, 'directory' : True, 'multiple' : True}))
 
 	class Meta:
