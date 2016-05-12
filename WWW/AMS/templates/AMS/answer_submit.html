@@ -14,28 +14,38 @@
 		 */
 		document.addEventListener("DOMContentLoaded", function () {
 			var selector = document.getElementById("entry-point-selector");
-			var languageSelector = document.getElementById("id_language");
+			var cSelector = document.getElementById("id_language_0");
+			var cppSelector = document.getElementById("id_language_1");
+			var javaSelector = document.getElementById("id_language_2");
+			var pySelector = document.getElementById("id_language_3");
 			/**
 			 * for initial value
 			 *
 			 * http://www.w3schools.com/jsref/prop_style_display.asp
 			 * visibility options reference
 			 */
-			if (languageSelector.selectedOptions.item(0).value == 3 || languageSelector.selectedOptions.item(0).value == 4) {
+			if (javaSelector.checked || pySelector.checked) {
 				selector.style.display = "block";
 			} else {
 				selector.style.display = "none";
 			}
 
 			function showEntryPointSelector(event) {
-				if (event.target.selectedOptions.item(0).value == 3 || event.target.selectedOptions.item(0).value == 4) {
+				if (event.target.checked) {
 					selector.style.display = "block";
 				} else {
-					selector.style.display = "none"
+					selector.style.display = "none";
 				}
 			}
-
-			languageSelector.addEventListener("click", showEntryPointSelector);
+			function blockEntryPointSelector(event) {
+				if (event.target.checked){
+					selector.style.display = "none";
+				}	
+			}
+			cSelector.addEventListener("click", blockEntryPointSelector);
+			cppSelector.addEventListener("click", blockEntryPointSelector);
+			javaSelector.addEventListener("click", showEntryPointSelector);
+			pySelector.addEventListener("click", showEntryPointSelector);
 		});
 	</script>
 {% endblock %}

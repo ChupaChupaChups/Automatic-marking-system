@@ -65,7 +65,7 @@ class SubmitRecord(models.Model):
 	problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	submit_time = models.DateTimeField()
-	language = models.IntegerField(choices=LANGUAGE_CHOICES)  # 1 = c 2 = cpp 3 = java 4 = py
+	language = models.IntegerField(choices=LANGUAGE_CHOICES, default = 1)  # 1 = c 2 = cpp 3 = java 4 = py
 	entry_point = models.TextField(null=False, default='')
 
 	def __str__(self):
