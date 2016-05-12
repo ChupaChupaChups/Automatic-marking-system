@@ -107,6 +107,7 @@ def save_metadata(instance):
 				},
 				file, ensure_ascii=False)
 
+
 @login_required
 def submit_result(req, problem_number):
 	SubmitRecord.objects.filter()

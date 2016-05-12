@@ -4,8 +4,6 @@ import shutil
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
-
-# Create your models here.
 from django.dispatch import receiver
 
 
@@ -76,12 +74,10 @@ class SubmitRecord(models.Model):
 
 class SubmitFile(models.Model):
 	def save_path(self, filename):
-		print(self.file_path)
-		return 'answer/{0}/{1}'.format(self.record.pk, self.file_path)
+		return 'answer/{0}/{1}'.format(self.record.pk, filename)
 
 	record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
 	file = models.FileField(upload_to=save_path)
-	file_path = models.TextField(null=True)
 
 
 @receiver(models.signals.post_delete, sender=SubmitRecord)
