@@ -81,9 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	fileUploadBtn.addEventListener('change', hiddenPathGenerator);
-	
-	if (languageselect.selectedOptions.item(0).value == 3) fileUploadBtn.addEventListener('change', extractClass);
-	else if (languageselect.selectedOptions.item(0).value == 4) fileUploadBtn.addEventListener('change', extractFiles);
+	languageselect.addEnvetListener('change', function(){	
+		if (languageselect.selectedOptions.item(0).value == 3) fileUploadBtn.addEventListener('change', extractClass);
+		else if (languageselect.selectedOptions.item(0).value == 4) fileUploadBtn.addEventListener('change', extractFiles);
+	});
 
 	/*
 	초기값을 위해 설정
