@@ -29,6 +29,7 @@ class ProblemForm(forms.ModelForm):
 
 class SubmitForm(forms.ModelForm):
 	attachments = MultiFileField(
+			label='파일',
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
