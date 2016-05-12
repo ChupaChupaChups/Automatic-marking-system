@@ -5,8 +5,11 @@ from django.utils import timezone
 from django_summernote.widgets import SummernoteInplaceWidget
 from multiupload.fields import MultiFileField, MultiFileInput
 from .models import Problem, SubmitRecord, SubmitFile
+from django.utils.safestring import mark_safe
 
-
+class HorizRadioRenderer(forms.RadioSelect.renderer):
+	def render(self):
+		return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
 class ProblemForm(forms.ModelForm):
 	class Meta:
 		model = Problem
@@ -33,7 +36,9 @@ class SubmitForm(forms.ModelForm):
 	class Meta:
 		model = SubmitRecord
 		fields = ['language']
-
+		widgets = {
+			'language' : forms.RadioSelect(renderer=HorizRadioRenderer)
+		}
 	def __init__(self, user, problem_number, *args, **kwargs):
 		self.problem_number = problem_number
 		self.user = user
