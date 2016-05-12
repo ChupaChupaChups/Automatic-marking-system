@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 	var regex = /class\s+([^\W]+)/g;
 	var entryList = document.getElementById("id_entry_point");
-	var fileUploadBtn = document.getElementById("id_attachments");
+	var fileUploadBtn = document.getElementById("id_파일");
 	var javaselect = document.getElementById("id_language_2");
 	var pyselect = document.getElementById("id_language_3");
 	/**
