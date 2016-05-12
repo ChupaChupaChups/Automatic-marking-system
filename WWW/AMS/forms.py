@@ -44,7 +44,7 @@ class SubmitForm(forms.ModelForm):
 
 		instance.submit_time = timezone.now()
 		instance.user = User.objects.get(pk=self.user.pk)
-		instance.problem_num = Problem.objects.get(pk=self.problem_number)
+		instance.problem = Problem.objects.get(pk=self.problem_number)
 
 		instance.language = self.cleaned_data['language']
 

@@ -62,16 +62,16 @@ LANGUAGE_CHOICES = ((1, 'c'), (2, 'cpp'), (3, 'java'), (4, 'py'))
 
 class SubmitRecord(models.Model):
 	class Meta:
-		unique_together = ('problem_num', 'user', 'submit_time')
+		unique_together = ('problem', 'user', 'submit_time')
 
-	problem_num = models.ForeignKey(Problem, on_delete=models.CASCADE)
+	problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	submit_time = models.DateTimeField()
 	language = models.IntegerField(choices=LANGUAGE_CHOICES)  # 1 = c 2 = cpp 3 = java 4 = py
 	entry_point = models.TextField(null=False, default='')
 
 	def __str__(self):
-		return str(self.problem_num)
+		return str(self.problem)
 
 
 class SubmitFile(models.Model):

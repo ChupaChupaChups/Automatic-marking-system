@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProblemForm, SubmitForm
-from .models import Problem
+from .models import Problem, SubmitRecord
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
@@ -84,7 +84,7 @@ def answer_submit(req, problem_number):
 
 			# TODO: rename variable
 			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-			inputfiles = os.path.dirname(instance.problem_num.p_infile.path)
+			inputfiles = os.path.dirname(instance.problem.p_infile.path)
 			judgeServer.judge(instance, media_path, inputfiles)
 
 			return redirect('/problem/list')
@@ -103,6 +103,10 @@ def save_metadata(instance):
 				{
 					'language': instance.language,
 					'entry_point': instance.entry_point,
-					'problem_number': instance.problem_num.pk
+					'problem_number': instance.problem.pk
 				},
 				file, ensure_ascii=False)
+
+@login_required
+def submit_result(req, problem_number):
+	SubmitRecord.objects.filter()
