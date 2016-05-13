@@ -25,8 +25,13 @@ class ProblemForm(forms.ModelForm):
 			'p_infile', 'p_outfile', 'p_judge', 'p_name', 'p_content', 'p_input', 'p_output', 'p_inputex',
 			'p_outputex'
 		]
-
-
+	def __init__(self, *args, **kwargs):
+		super(ProblemForm, self).__init__(*args, **kwargs)
+		self.fields['p_c_ok'].widget.attrs.update({'class' : 'switch-input'})
+		self.fields['p_cpp_ok'].widget.attrs.update({'class' : 'switch-input'})
+		self.fields['p_java_ok'].widget.attrs.update({'class' : 'switch-input'})
+		self.fields['p_py_ok'].widget.attrs.update({'class' : 'switch-input'})
+		self.fields['p_name'].widget.attrs.update({'class' : 'problem_name', 'value' : 'problemName', 'onFocus' : 'clearMessage(this)', 'onBlur' : 'clearMessage(this)'})
 class SubmitForm(forms.ModelForm):
 	attachments = MultiFileField(
 			label='파일',
