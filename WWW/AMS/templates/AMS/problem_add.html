@@ -11,10 +11,13 @@
 	<!--Bootstrap3-->
 	<link rel="stylesheet" href="{% static "assets/bootstrap3/css/bootstrap.min.css" %}">
 	<link rel="stylesheet" href="{% static "assets/bootstrap3/css/bootstrap-theme.min.css" %}">
-	<link rel="stylesheet" href="{% static "assets/css/problem_add.css" %}">
 	<script src="{% static "assets/bootstrap3/js/bootstrap.min.js" %}"></script>
+	<!--CustomCSS-->
+	{{ create_form.media.css }}
+	<link rel="stylesheet" href="{% static "assets/css/problem_add.css" %}">
+	<!--CustomJS-->
+	{{ create_form.media.js }}
 	<script src="{% static "assets/js/problem_add.js" %}"></script>
-	{{ create_form.media }}
 {% endblock %}
 
 {% block problem_add %}active{% endblock %}
@@ -26,25 +29,21 @@
 			<div class="p_name">{{create_form.p_name}}</div>
 			<div class="date_picker">마감기한{{create_form.p_day_limit}}</div>
 			<div class="problem_language">
-				<label class="switch switch-slide">
+				<label class="switch-slide">
 					{{create_form.p_c_ok}}
 					<span class="switch-label" data-on="C on" data-off="C off"></span>
-					<span class="switch-handle"></span>
 				</label>
-				<label class="switch switch-slide">
+				<label class="switch-slide">
 					{{create_form.p_cpp_ok}}
 					<span class="switch-label" data-on="CPP on" data-off="CPP off"></span>
-					<span class="switch-handle"></span>
 				</label>
-				<label class="switch switch-slide">
+				<label class="switch-slide">
 					{{create_form.p_java_ok}}
 					<span class="switch-label" data-on="JAVA on" data-off="JAVA off"></span>
-					<span class="switch-handle"></span>
 				</label>
-				<label class="switch switch-slide">
-					{{create_form.p_cpp_ok}}
+				<label class="switch-slide">
+					{{create_form.p_py_ok}}
 					<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
-					<span class="switch-handle"></span>
 				</label>
 			</div>
 			<div class="p_content">문제내용{{create_form.p_content}}</div>
