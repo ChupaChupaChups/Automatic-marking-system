@@ -16,11 +16,12 @@ class HorizonRadioRenderer(forms.RadioSelect.renderer):
 class ProblemForm(forms.ModelForm):
 	answercode = MultiFileField(
 			min_num=1,
-			max_file_size = 1024 * 1024 * 5,
+			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
-				'webkitdirectory' : True, 'directory' : True, 'multiple' : True,
+				'webkitdirectory': True, 'directory': True, 'multiple': True,
 			})
 	)
+
 	class Meta:
 		model = Problem
 		widgets = {
@@ -33,13 +34,20 @@ class ProblemForm(forms.ModelForm):
 			'p_day_limit', 'p_submissions_count', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
 			'p_infile', 'p_outfile', 'p_judge', 'p_name', 'p_content', 'p_input', 'p_output',
 		]
+
 	def __init__(self, *args, **kwargs):
 		super(ProblemForm, self).__init__(*args, **kwargs)
-		self.fields['p_c_ok'].widget.attrs.update({'class' : 'switch-input'})
-		self.fields['p_cpp_ok'].widget.attrs.update({'class' : 'switch-input'})
-		self.fields['p_java_ok'].widget.attrs.update({'class' : 'switch-input'})
-		self.fields['p_py_ok'].widget.attrs.update({'class' : 'switch-input'})
-		self.fields['p_name'].widget.attrs.update({'class' : 'problem_name', 'value' : 'problemName', 'onFocus' : 'clearMessage(this)', 'onBlur' : 'clearMessage(this)'})
+		self.fields['p_c_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_cpp_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_java_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_py_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_name'].widget.attrs.update({
+			'value': 'problemName',
+			'onfocus': "if (this.value == this.defaultValue) {this.value = '';}",
+			'onblur': "if (this.value == '') {this.value = this.defaultValue;}"
+		})
+
+
 class SubmitForm(forms.ModelForm):
 	attachments = MultiFileField(
 			label='파일',

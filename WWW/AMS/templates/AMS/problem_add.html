@@ -26,41 +26,63 @@
 	<div class="content container">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
-			<div class="p_name">{{create_form.p_name}}</div>
-			<div class="date_picker">마감기한{{create_form.p_day_limit}}</div>
-			<div class="problem_language">
+			<div class="p_name">{{ create_form.p_name }}</div>
+			<div class="date_picker">
+				<label>마감기한{{ create_form.p_day_limit }}</label>
+			</div>
+			<label for="problem_language">허용되는 언어</label>
+			<div id="problem_language">
 				<label class="switch-slide">
-					{{create_form.p_c_ok}}
+					{{ create_form.p_c_ok }}
 					<span class="switch-label" data-on="C on" data-off="C off"></span>
 				</label>
 				<label class="switch-slide">
-					{{create_form.p_cpp_ok}}
+					{{ create_form.p_cpp_ok }}
 					<span class="switch-label" data-on="CPP on" data-off="CPP off"></span>
 				</label>
 				<label class="switch-slide">
-					{{create_form.p_java_ok}}
+					{{ create_form.p_java_ok }}
 					<span class="switch-label" data-on="JAVA on" data-off="JAVA off"></span>
 				</label>
 				<label class="switch-slide">
-					{{create_form.p_py_ok}}
+					{{ create_form.p_py_ok }}
 					<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
 				</label>
 			</div>
+			<h2>문제 내용</h2>
+			<ul class="nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
+				<li><a data-toggle="tab" href="#pdf-upload">PDF 업로드</a></li>
+				<li><a data-toggle="tab" href="#latex-upload">LaTex 업로드</a></li>
+				<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="editor" class="tab-pane fade in active">
+					<label class="switch-content-slide">
+						<input type="checkbox" class="switch-input" id="content">
+						<span class="switch-content" data-on="Content" data-off="Content"></span>
+					</label>
+					<div class="hidden-content" id="p_content">{{ create_form.p_content }}</div>
+				</div>
+				<div id="pdf-upload" class="tab-pane fade">
+					<input type="file" accept="application/pdf, application/x-tex, application/x-latex">
+				</div>
+				<div id="latex-upload" class="tab-pane fade">
+					<input type="file" accept="application/x-tex, application/x-latex">
+				</div>
+			</div>
+
+			<!-- TODO: 입출력 답 선택 코드 생성 -->
 			<label class="switch-content-slide">
-				<input type="checkbox" class="switch-input" id="content" onclick="hidecontent(this)">
-				<span class="switch-content" data-on="Content" data-off="Content"></span>
-			</label>
-			<div class="p_content" id="p_content" style="display: none">{{create_form.p_content}}</div>
-			<label class="switch-content-slide">
-				<input type="checkbox" class="switch-input" id="inputexample" onclick="hideinputex(this)">
+				<input type="checkbox" class="switch-input" id="inputexample">
 				<span class="switch-content" data-on="Input Example" data-off="Input Example"></span>
 			</label>
-			<div class="p_input_example" id="p_input_example" style="display: none">{{create_form.p_input}}</div>
+			<div class="hidden-content" id="p_input_example">{{ create_form.p_input }}</div>
 			<label class="switch-content-slide">
-				<input type="checkbox" class="switch-input" id="outputexample" onclick="hideoutputex(this)">
+				<input type="checkbox" class="switch-input" id="outputexample">
 				<span class="switch-content" data-on="Output Example" data-off="Output Example"></span>
 			</label>
-			<div class="p_output_example" id="p_output_example" style="display: none">{{create_form.p_output}}</div>
+			<div class="hidden-content" id="p_output_example">{{ create_form.p_output }}</div>
 			<div>
 				<input class="button button-green" type="submit" value="SAVE"/>
 				<input class="button button-green" type="submit" value="TEMPORARY SAVE"/>
