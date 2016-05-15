@@ -110,4 +110,7 @@ def save_metadata(instance):
 
 @login_required
 def submit_result(req, problem_number):
-	SubmitRecord.objects.filter()
+	problem = Problem.objects.get(pk=problem_number)
+	#SubmitRecord.objects.filter()
+	get_record = SubmitRecord.objects.filter(submitresult__record=problem_number)
+	return render(req,'AMS/submit_result.html',{'p_number':problem_number,'problem':problem,'result':get_record})
