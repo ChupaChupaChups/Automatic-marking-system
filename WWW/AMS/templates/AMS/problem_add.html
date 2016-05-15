@@ -46,8 +46,25 @@
 					<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
 				</label>
 			</div>
-			<div class="p_content">문제내용{{create_form.p_content}}</div>
-			<input type="submit" value="add"/>
+			<label class="switch-content-slide">
+				<input type="checkbox" class="switch-input" id="content" onclick="hidecontent(this)">
+				<span class="switch-content" data-on="Content" data-off="Content"></span>
+			</label>
+			<div class="p_content" id="p_content" style="display: none">{{create_form.p_content}}</div>
+			<label class="switch-content-slide">
+				<input type="checkbox" class="switch-input" id="inputexample" onclick="hideinputex(this)">
+				<span class="switch-content" data-on="Input Example" data-off="Input Example"></span>
+			</label>
+			<div class="p_input_example" id="p_input_example" style="display: none">{{create_form.p_input}}</div>
+			<label class="switch-content-slide">
+				<input type="checkbox" class="switch-input" id="outputexample" onclick="hideoutputex(this)">
+				<span class="switch-content" data-on="Output Example" data-off="Output Example"></span>
+			</label>
+			<div class="p_output_example" id="p_output_example" style="display: none">{{create_form.p_output}}</div>
+			<div>
+				<input class="button button-green" type="submit" value="SAVE"/>
+				<input class="button button-green" type="submit" value="TEMPORARY SAVE"/>
+			</div>
 		</form>
 	</div>
 {% endblock %}

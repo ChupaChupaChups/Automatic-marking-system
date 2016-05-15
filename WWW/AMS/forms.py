@@ -14,16 +14,24 @@ class HorizonRadioRenderer(forms.RadioSelect.renderer):
 
 
 class ProblemForm(forms.ModelForm):
+	answercode = MultiFileField(
+			min_num=1,
+			max_file_size = 1024 * 1024 * 5,
+			widget=MultiFileInput(attrs={
+				'webkitdirectory' : True, 'directory' : True, 'multiple' : True,
+			})
+	)
 	class Meta:
 		model = Problem
 		widgets = {
 			'p_day_limit': DateTimeWidget(usel10n=True, bootstrap_version=3),
 			'p_content': SummernoteInplaceWidget(),
+			'p_input': SummernoteInplaceWidget(),
+			'p_output': SummernoteInplaceWidget(),
 		}
 		fields = [
 			'p_day_limit', 'p_submissions_count', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
-			'p_infile', 'p_outfile', 'p_judge', 'p_name', 'p_content', 'p_input', 'p_output', 'p_inputex',
-			'p_outputex'
+			'p_infile', 'p_outfile', 'p_judge', 'p_name', 'p_content', 'p_input', 'p_output',
 		]
 	def __init__(self, *args, **kwargs):
 		super(ProblemForm, self).__init__(*args, **kwargs)
