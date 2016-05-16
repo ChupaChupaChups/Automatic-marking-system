@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProblemForm, SubmitForm
-from .models import Problem, SubmitRecord
+from .models import Problem, SubmitRecord, SubmitResult
 
 current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent_dir = os.path.dirname(current_dir)
@@ -111,5 +111,8 @@ def save_metadata(instance):
 @login_required
 def submit_result(req, problem_number):
 	problem = Problem.objects.get(pk=problem_number)
-	get_record = SubmitRecord.objects.filter(submitresult__record=problem_number)
-	return render(req, 'AMS/submit_result.html', {'p_number': problem_number, 'problem': problem, 'result': get_record})
+	get_record = SubmitRecord.objects.filter(user = req.user)
+	get_result = SubmitResult.objects.filter(record = get_record)
+	#get_record = SubmitRecord.objects.filter(record = problem)
+	#get_result = SubmitRecord.objects.filter(submitresult__record=problem_number)
+	return render(req, 'AMS/submit_result.html', {'problem': problem, 'p_number':problem_number, 'record': get_record,'result':get_result})

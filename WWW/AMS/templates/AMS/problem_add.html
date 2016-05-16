@@ -49,6 +49,31 @@
 					<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
 				</label>
 			</div>
+			<label>최적화</label>
+			<div>
+				<label class="switch-slide"> {{ create_form.p_judge }}
+					<span class="switch-label" data-on="Optimize" data-off="Just True"></span>
+				</label>
+			</div>
+			<h2>입/출력/코드 옵션</h2>
+			<ul class = "nav nav-tabs">
+				<li class="active"><a data-toggle="tab" href="#input_code">입력+코드</a></li>
+				<li><a data-toggle="tab" href="#only_code">코드</a></li>
+				<li><a data-toggle="tab" href="#input_output">입력+출력</a></li>
+			</ul>
+			<div class="tab-content">
+				<div id="input_code" class="tab-pane fade in active">
+					<div id="p_answercode"><p> 코드 :</p>{{ create_form.answercode }}</div>				
+					<div id="p_inputfile"><p> 입력 : </p>{{ create_form.inputfile }}</div>
+				</div>
+				<div id="only_code" class="tab-pane fade">
+					<div id="p_answercode"><p>코드 : </p>{{ create_form.answercode }}</div> 
+				</div>
+				<div id="input_output" class="tab-pane fade">
+					<div id="p_answercode"><p>입력 :</p>{{ create_form.inputfile }}</div> 
+					<div id="p_inputfile"><p>출력 :</p>{{ create_form.outputfile }}</div> 
+				</div>
+			</div>
 			<h2>문제 내용</h2>
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
@@ -62,7 +87,7 @@
 						<input type="checkbox" class="switch-input" id="content">
 						<span class="switch-content" data-on="Content" data-off="Content"></span>
 					</label>
-					<div class="hidden-content" id="p_content">{{ create_form.p_content }}</div>
+					<div id="p_content">{{ create_form.p_content }}</div>
 				</div>
 				<div id="pdf-upload" class="tab-pane fade">
 					<input type="file" accept="application/pdf, application/x-tex, application/x-latex">

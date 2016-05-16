@@ -21,7 +21,21 @@ class ProblemForm(forms.ModelForm):
 				'webkitdirectory': True, 'directory': True, 'multiple': True,
 			})
 	)
-
+	inputfile = MultiFileField(
+			min_num=1,
+			max_file_size=1024 * 1024 * 5,
+			widget=MultiFileInput(attrs={
+				'webkitdirectory': True, 'directory': True, 'multiple': True,
+			})
+	)
+	outputfile = MultiFileField(
+			min_num=1,
+			max_file_size=1024 * 1024 * 5,
+			widget=MultiFileInput(attrs={
+				'webkitdirectory': True, 'directory': True, 'multiple': True,
+			})
+	)
+	
 	class Meta:
 		model = Problem
 		widgets = {
@@ -41,6 +55,7 @@ class ProblemForm(forms.ModelForm):
 		self.fields['p_cpp_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_java_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_py_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_judge'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_name'].widget.attrs.update({
 			'value': 'problemName',
 			'onfocus': "if (this.value == this.defaultValue) {this.value = '';}",

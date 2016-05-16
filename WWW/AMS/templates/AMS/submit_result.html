@@ -12,7 +12,6 @@
 
 {% block content2 %}
 		<div class="content container">
-		<h1 id="problem-name">{{ problem.p_name }}</h1>
 		<table id="problem-info">
 			<thead>
 			<tr>
@@ -27,13 +26,13 @@
 			</thead>
 			<tbody>
 			<tr>
-				<td>{{request.user.username}}</td>
+				<td>{{record.user}}</td>
 				<td>{{result.result}}</td>
 				<td>
-					{% if problem.p_c_ok %}C {% endif %}
-					{% if problem.p_cpp_ok %}C++ {% endif %}
-					{% if problem.p_java_ok %}Java {% endif %}
-					{% if problem.p_py_ok %}Python {% endif %}
+					{% if record.language == 1 %}C {% endif %}
+					{% if record.language == 2 %}C++ {% endif %}
+					{% if record.language == 3 %}Java {% endif %}
+					{% if record.language == 4 %}Python {% endif %}
 				</td>
 				<td>{{result.correct_percent}}</td>
 				<td>{{ result.process_time }}</td>
