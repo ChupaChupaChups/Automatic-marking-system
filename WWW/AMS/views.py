@@ -93,6 +93,12 @@ def answer_submit(req, problem_number):
 
 	return render(req, 'AMS/answer_submit.html', {'create_form': form, 'p_number': problem_number})
 
+@login_required
+def submit_py_path(req):
+	upload_file = str(req.FILES)
+	print("upload_file: "+upload_file)
+	return HttpResponse()
+
 
 def save_metadata(instance):
 	media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))

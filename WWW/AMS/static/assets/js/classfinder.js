@@ -83,6 +83,30 @@ document.addEventListener("DOMContentLoaded", function () {
 			fileUploadBtn.removeEventListener('change', extractFiles);
 		}
 	});
+	function makeHttpObject() {
+      try {return new XMLHttpRequest();}
+      catch (error) {}
+      try {return new ActiveXObject("Msxml2.XMLHTTP");}
+      catch (error) {}
+      try {return new ActiveXObject("Microsoft.XMLHTTP");}
+      catch (error) {}
+
+      throw new Error("Could not create HTTP request object.");
+    }
+	var form = document.querySelector("form");
+	fileUploadBtn.addEventListener('change',function(event){
+		var formdata = new FormData(form);
+		formdata.append("id_attachments", File);
+		var xhr = new makeHttpObject();
+		var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
+
+		console.log(csrf_token[1]);
+
+		xhr.open("POST", "/savefiles");
+		xhr.setRequestHeader("X-CSRFToken", csrf_token[1]);
+		xhr.send(formdata);
+		console.log(formdata);
+	})
 
 	/*
 	 초기값을 위해 설정
