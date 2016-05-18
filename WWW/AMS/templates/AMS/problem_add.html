@@ -55,6 +55,17 @@
 					<span class="switch-label" data-on="Optimize" data-off="Just True"></span>
 				</label>
 			</div>
+			<label>힌트여부</label>
+			<div id="hintProgress">
+				<progress id="hintBar" value="100" max="100" style="width:70%" >{{create_form.p_hint_integer}}</progress>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn" id="minus">-</button>
+				<button type="button" class="btn" id="plus">+</button>
+			</div>
+			<p id="percent">힌트를 보여주지 않습니다</p>
+
+
 			<h2>입/출력/코드 옵션</h2>
 			<ul class = "nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#input_code">입력+코드</a></li>

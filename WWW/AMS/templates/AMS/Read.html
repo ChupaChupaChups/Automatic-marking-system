@@ -46,6 +46,15 @@
 			<h2 class="header">Problem</h2>
 			{{ problem.p_content|safe }}
 		</div>
+
+		<div id="example1"></div>
+		<script src="/js/pdfobject.js"></script>
+		<script>PDFObject.embed("/pdf/sample-3pp.pdf", "#example1");</script>
+		<style>
+		.pdfobject-container { height: 500px;}
+		.pdfobject { border: 1px solid #666; }
+		</style>
+
 		<div class="problem-header">
 			<h2 class="header in">입력 설명</h2>
 			<p class="value in">{{ problem.p_input }}</p>
