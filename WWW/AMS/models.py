@@ -53,7 +53,7 @@ class Problem(models.Model):
 		return self.p_name
 
 
-LANGUAGE_CHOICES = ((1, 'c'), (2, 'cpp'), (3, 'java'), (4, 'py'))
+LANGUAGE_CHOICES = ((1, 'c'), (2, 'cpp'), (3, 'java'), (4, 'py'), (5, 'makefile'), )
 
 
 class SubmitRecord(models.Model):

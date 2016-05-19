@@ -51,18 +51,28 @@
 			pySelector.addEventListener("click", showEntryPointSelector);
 		});
 	</script>
+	<link rel="stylesheet" href="{% static "assets/css/answer_submit.css" %}">
 {% endblock %}
-
+	
 {% block content2 %}
 	<div class="content container">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
-			{{ create_form.as_p | safe }}
+			<div class="segmented-control" style="width : 100%"; color : #5FBAAC">
+			{% for choice in create_form.language %}
+			{{ choice.tag }}
+			{% endfor %}
+			<label for="id_language_0" data-value="C">C</label>
+			<label for="id_language_1" data-value="CPP">CPP</label>
+			<label for="id_language_2" data-value="JAVA">JAVA</label>
+			<label for="id_language_3" data-value="PYTHON">PYTHON</label>
+			<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
+			</div>
 			<p id="entry-point-selector">
 				<label for="id_entry_point">entry point :</label>
 				<select name="entry_point" id="id_entry_point" size="8"></select>
 			</p>
-			<input type="submit" value="add"/>
+			<div><input type="submit" value="add"/></div>
 		</form>
 	</div>
 {% endblock %}
