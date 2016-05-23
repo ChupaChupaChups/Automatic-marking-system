@@ -2,7 +2,41 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex = /class\s+([^\W]+)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var fileUploadBtn = document.getElementById("id_attachments");
+	/**
+ 	 * File Uplaod Drag and Drop
+	 */
+	var listUl = document.getElementById("listFile");
+	var fileDragUpload = document.getElementById("drop");
+	$('#drop a').click(function(){
+		$(this).parent().find('input').click();
+	});
+	window.ondragover = function(e){e.preventDefault(); return false};
+	window.ondrop = function(e){e.preventDefault(); return false};
+	fileDragUpload.ondrop = function(e){
+		e.preventDefault();
+		var data = e.dataTransfer.files;
+		if(e.dataTransfer && e.dataTransfer.files.length != 0){
+				if(fileUploadBtn.files.length == 0){
+					fileUploadBtn.files = data;
+					console.log(fileUploadBtn.files.length);
+				}
+				else{
+					var temp = fileUploadBtn.files;
+					$.merge(temp, data);
+					console.log(temp);
+					fileUploadBtn.files = temp;
+					console.log(fileUploadBtn.files);
+				}
+		}
+		
+		var tpl = $('<li class="working"><p></p><span></span></li>');
+		tpl.find('p').text(fileUploadBtn.files[0].name).append('<i>'+'</i>');
+		tpl.appendTo(listUl);
 
+	}
+	fileDragUpload.ondragover = function(e){
+		e.preventDefault();
+	}
 	/**
 	 * Java의 경우 사용, 클래스의 이름을 엔트리 포인트 설정을 위해 추출.
 	 */
