@@ -110,8 +110,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (event.target.checked) {
 			extractClass();
 			fileUploadBtn.addEventListener('change', extractClass);
+			fileDragUpload.addEventlistener('change', extractClass);
 		} else {
 			fileUploadBtn.removeEventListener('change', extractClass);
+			fileDragUpload.removeEventListener('change', extractClass);
 		}
 	});
 
@@ -119,8 +121,10 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (event.target.checked) {
 			extractFiles();
 			fileUploadBtn.addEventListener('change', extractFiles);
+			fileDragUpload.addEventListener('change', extractFiles);
 		} else {
 			fileUploadBtn.removeEventListener('change', extractFiles);
+			fileDragUpload.removeEventListener('change', extractFiles);
 		}
 	});
 	function makeHttpObject() {
