@@ -16,27 +16,20 @@ document.addEventListener("DOMContentLoaded", function () {
 		e.preventDefault();
 		var data = e.dataTransfer.files;
 		if(e.dataTransfer && e.dataTransfer.files.length != 0){
-				if(fileUploadBtn.files.length == 0){
-					fileUploadBtn.files = data;
-					console.log(fileUploadBtn.files.length);
-				}
-				else{
-					var filelen, datalen, j = 0;
-					for(templen = 0; fileUploadBtn.files[templen]; templen++);
-					for(datalen = 0; data[datalen]; datalen++);
-					for(var i = templen; i < templen+datalen; i++){
-						fileUploadBtn.files[i] = data[j++];
-					}
-					console.log(fileUploadBtn.files);
-				}
-				for(var i = 0; i<data.length; i++){
-					var tpl = $('<li class="working"><p></p><span></span></li>');
-					tpl.find('p').text(data[i].name).append('<i>'+'</i>');
-					tpl.appendTo(listUl);
-				}
+			var filelen, datalen, j = 0;
+			for(templen = 0; fileUploadBtn.files[templen]; templen++);
+			for(datalen = 0; data[datalen]; datalen++);
+			for(var i = templen; i < templen+datalen; i++){
+				fileUploadBtn.files[i] = data[j++];
+			}
+			console.log(fileUploadBtn.files);
+			for(var i = 0; i<data.length; i++){
+				var tpl = $('<li class="working"><p></p><span></span></li>');
+				tpl.find('p').text(data[i].name).append('<i>'+'</i>');
+				tpl.appendTo(listUl);
+			}
 		}
-		
-
+		extractClass();		
 	}
 	fileDragUpload.ondragover = function(e){
 		e.preventDefault();
@@ -110,10 +103,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (event.target.checked) {
 			extractClass();
 			fileUploadBtn.addEventListener('change', extractClass);
-			fileDragUpload.addEventlistener('change', extractClass);
 		} else {
 			fileUploadBtn.removeEventListener('change', extractClass);
-			fileDragUpload.removeEventListener('change', extractClass);
 		}
 	});
 
@@ -121,10 +112,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (event.target.checked) {
 			extractFiles();
 			fileUploadBtn.addEventListener('change', extractFiles);
-			fileDragUpload.addEventListener('change', extractFiles);
 		} else {
 			fileUploadBtn.removeEventListener('change', extractFiles);
-			fileDragUpload.removeEventListener('change', extractFiles);
 		}
 	});
 	function makeHttpObject() {
