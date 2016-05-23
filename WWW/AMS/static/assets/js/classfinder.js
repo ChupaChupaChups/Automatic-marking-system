@@ -48,8 +48,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		// 이전목록 지움
 		while (entryList.options.length) entryList.remove(0);
 //	console.log(fileUploadBtn.files);
-
-		for (var i = 0; i < fileUploadBtn.files.length; i++) {
+		var filelen;
+		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
+		for (var i = 0; i < filelen; i++) {
 			var reader = new FileReader();
 
 			/**
@@ -90,8 +91,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	 */
 	function extractFiles() {
 		while (entryList.options.length) entryList.remove(0);
-
-		for (var i = 0; i < fileUploadBtn.files.length; i++) {
+		var filelen;
+		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
+		for (var i = 0; i < ffilelen; i++) {
 			var option = document.createElement("option");
 			option.text = fileUploadBtn.files.item(i).name;
 			option.value = fileUploadBtn.files.item(i).name;
