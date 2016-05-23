@@ -6,7 +6,7 @@ import os
 from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ProblemForm, SubmitForm
 from .models import Problem, SubmitRecord, SubmitResult
@@ -17,6 +17,7 @@ sys.path.insert(0, os.path.dirname(parent_dir))
 
 from judge_server.configuration.config import Config
 from judge_server import judgeServer
+import re
 
 
 # Create your views here.
@@ -93,11 +94,21 @@ def answer_submit(req, problem_number):
 
 	return render(req, 'AMS/answer_submit.html', {'create_form': form, 'p_number': problem_number})
 
+
 @login_required
 def submit_py_path(req):
 	upload_file = str(req.FILES)
-	print("upload_file: "+upload_file)
-	return HttpResponse()
+	p = re.compile(r'((\w+\/\w+)+\.\w+)')
+	test_str = upload_file
+	file_name = re.findall(p, test_str)
+
+	for i in range(len(file_name)):
+		file_name[i] = file_name[i][0]
+		print(file_name[i])
+	print(file_name)
+	response = JsonResponse({'file_name': file_name})
+	print(response.content)
+	return response
 
 
 def save_metadata(instance):
@@ -106,19 +117,20 @@ def save_metadata(instance):
 
 	with open(json_path, "w") as file:
 		json.dump(
-				{
-					'language': instance.language,
-					'entry_point': instance.entry_point,
-					'problem_number': instance.problem.pk
-				},
-				file, ensure_ascii=False)
+			{
+				'language': instance.language,
+				'entry_point': instance.entry_point,
+				'problem_number': instance.problem.pk
+			},
+			file, ensure_ascii=False)
 
 
 @login_required
 def submit_result(req, problem_number):
 	problem = Problem.objects.get(pk=problem_number)
-	get_record = SubmitRecord.objects.filter(user = req.user)
-	get_result = SubmitResult.objects.filter(record = get_record)
-	#get_record = SubmitRecord.objects.filter(record = problem)
-	#get_result = SubmitRecord.objects.filter(submitresult__record=problem_number)
-	return render(req, 'AMS/submit_result.html', {'problem': problem, 'p_number':problem_number, 'record': get_record,'result':get_result})
+	get_record = SubmitRecord.objects.filter(user=req.user)
+	get_result = SubmitResult.objects.filter(record=get_record)
+	# get_record = SubmitRecord.objects.filter(record = problem)
+	# get_result = SubmitRecord.objects.filter(submitresult__record=problem_number)
+	return render(req, 'AMS/submit_result.html',
+				  {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result})
