@@ -21,17 +21,21 @@ document.addEventListener("DOMContentLoaded", function () {
 					console.log(fileUploadBtn.files.length);
 				}
 				else{
-					var temp = fileUploadBtn.files;
-					$.merge(temp, data);
-					console.log(temp);
-					fileUploadBtn.files = temp;
+					var filelen, datalen, j = 0;
+					for(templen = 0; fileUploadBtn.files[templen]; templen++);
+					for(datalen = 0; data[datalen]; datalen++);
+					for(var i = templen; i = templen+datalen; i++){
+						fileUploadBtn.files[i] = data[j++];
+					}
 					console.log(fileUploadBtn.files);
+				}
+				for(var i = 0; i<data.length; i++){
+					var tpl = $('<li class="working"><p></p><span></span></li>');
+					tpl.find('p').text(data[i].name).append('<i>'+'</i>');
+					tpl.appendTo(listUl);
 				}
 		}
 		
-		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(fileUploadBtn.files[0].name).append('<i>'+'</i>');
-		tpl.appendTo(listUl);
 
 	}
 	fileDragUpload.ondragover = function(e){
