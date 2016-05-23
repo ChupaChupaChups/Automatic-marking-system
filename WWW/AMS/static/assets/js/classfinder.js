@@ -29,7 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
 				tpl.appendTo(listUl);
 			}
 		}
-		extractClass();		
+		var javacheck = document.getElementById("id_language_2").checked;
+		var pythoncheck = document.getElementById("id_language_3").checked;
+		if(javacheck) extractClass();
+		if(pythoncheck) extractFiles();
 	}
 	fileDragUpload.ondragover = function(e){
 		e.preventDefault();
@@ -43,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
 //	console.log(fileUploadBtn.files);
 		var filelen;
 		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
+		console.lo
 		for (var i = 0; i < filelen; i++) {
 			var reader = new FileReader();
 
@@ -75,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 			//console.log(fileUploadBtn.files[i]);
 			// 비동기로 파일읽기 시작
-			reader.readAsText(fileUploadBtn.files.item(i));
+			reader.readAsText(fileUploadBtn.files[i]);
 		}
 	}
 
@@ -86,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		while (entryList.options.length) entryList.remove(0);
 		var filelen;
 		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
-		for (var i = 0; i < ffilelen; i++) {
+		for (var i = 0; i < filelen; i++) {
 			var option = document.createElement("option");
 			option.text = fileUploadBtn.files.item(i).name;
 			option.value = fileUploadBtn.files.item(i).name;
