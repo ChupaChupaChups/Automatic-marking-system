@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 					var filelen, datalen, j = 0;
 					for(templen = 0; fileUploadBtn.files[templen]; templen++);
 					for(datalen = 0; data[datalen]; datalen++);
-					for(var i = templen; i = templen+datalen; i++){
+					for(var i = templen; i < templen+datalen; i++){
 						fileUploadBtn.files[i] = data[j++];
 					}
 					console.log(fileUploadBtn.files);
