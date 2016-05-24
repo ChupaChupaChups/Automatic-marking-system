@@ -3,7 +3,41 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex_package = /package\s(\w+(\.?\w+)*)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var fileUploadBtn = document.getElementById("id_attachments");
-
+	/**
+ 	 * File Uplaod Drag and Drop
+	 */
+	var listUl = document.getElementById("listFile");
+	var fileDragUpload = document.getElementById("drop");
+	$('#drop a').click(function(){
+		$(this).parent().find('input').click();
+	});
+	window.ondragover = function(e){e.preventDefault(); return false};
+	window.ondrop = function(e){e.preventDefault(); return false};
+	fileDragUpload.ondrop = function(e){
+		e.preventDefault();
+		var data = e.dataTransfer.files;
+		if(e.dataTransfer && e.dataTransfer.files.length != 0){
+			var filelen, datalen, j = 0;
+			for(templen = 0; fileUploadBtn.files[templen]; templen++);
+			for(datalen = 0; data[datalen]; datalen++);
+			for(var i = templen; i < templen+datalen; i++){
+				fileUploadBtn.files[i] = data[j++];
+			}
+			console.log(fileUploadBtn.files);
+			for(var i = 0; i<data.length; i++){
+				var tpl = $('<li class="working"><p></p><span></span></li>');
+				tpl.find('p').text(data[i].name).append('<i>'+'</i>');
+				tpl.appendTo(listUl);
+			}
+		}
+		var javacheck = document.getElementById("id_language_2").checked;
+		var pythoncheck = document.getElementById("id_language_3").checked;
+		if(javacheck) extractClass();
+		if(pythoncheck) extractFiles();
+	}
+	fileDragUpload.ondragover = function(e){
+		e.preventDefault();
+	}
 	/**
 	 * Java의 경우 사용, 클래스의 이름을 엔트리 포인트 설정을 위해 추출.
 	 */
