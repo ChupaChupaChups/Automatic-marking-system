@@ -98,21 +98,21 @@ class Session:
 		"""
 		image_tag = Config["Docker"]["tag"]
 
-		media_path = '/home/isac322/project/Automatic-marking-system/WWW/media/answer/39'
-		input_files = '/home/isac322/project/Automatic-marking-system/WWW/media/problem/1111/testcase'
-		current = '/home/isac322/project/Automatic-marking-system/judge_server'
+		current = os.path.dirname(__file__)
+		current = os.path.dirname(current)
+		current = os.path.dirname(current)
+		current = os.path.dirname(current)
+		current = os.path.join(current, 'judge_server')
 
 		self.container = client.create_container(
-				image=image_tag,
-				stdin_open=True,
-				# command='/bin/bash',
-				command='/compiler_and_judge/test4.py',
-				volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
-				host_config=client.create_host_config(binds={
-					media_path: {'bind': '/source_code', 'mode': 'rw'},
-					current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
-					input_files: {'bind': '/inputfiles', 'mode': 'ro'}
-				})
+			image=image_tag,
+			stdin_open=True,
+			# command='/bin/bash',
+			command='/compiler_and_judge/test4.py',
+			volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
+			host_config=client.create_host_config(binds={
+				current: {'bind': '/compiler_and_judge', 'mode': 'rw'}
+			})
 		)
 
 	def _make_socket(self, client):
