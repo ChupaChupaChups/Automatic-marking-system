@@ -99,9 +99,7 @@ def answer_submit(req, problem_number):
 @login_required
 def submit_py_path(req):
 	upload_file = str(req.FILES)
-	print("upload_file: " + upload_file)
-	return HttpResponse()
-	p = re.compile(r'((\w+\/\w+)+\.\w+)')
+	p = re.compile(r'((\w+\w+)+\.\w+)')
 	test_str = upload_file
 	file_name = re.findall(p, test_str)
 
