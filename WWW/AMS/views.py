@@ -18,6 +18,7 @@ sys.path.insert(0, os.path.dirname(parent_dir))
 
 from judge_server.configuration.config import Config
 from judge_server import judgeServer
+import re
 
 
 # Create your views here.
@@ -100,6 +101,17 @@ def submit_py_path(req):
 	upload_file = str(req.FILES)
 	print("upload_file: " + upload_file)
 	return HttpResponse()
+	p = re.compile(r'((\w+\/\w+)+\.\w+)')
+	test_str = upload_file
+	file_name = re.findall(p, test_str)
+
+	for i in range(len(file_name)):
+		file_name[i] = file_name[i][0]
+		print(file_name[i])
+	print(file_name)
+	response = JsonResponse({'file_name': file_name})
+	print(response.content)
+	return response
 
 
 def save_metadata(instance):

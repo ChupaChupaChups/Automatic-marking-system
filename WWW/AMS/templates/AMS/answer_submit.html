@@ -8,6 +8,7 @@
 
 {% block content_header %}
 	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/jquery-2.2.3.min.js' %}"></script>
 	<script type="text/javascript">
 		/**
 		 * invoked when whole document is ready
@@ -52,6 +53,7 @@
 		});
 	</script>
 	<link rel="stylesheet" href="{% static "assets/css/answer_submit.css" %}">
+	<link rel="stylesheet" href="{% static "web/css/style.css" %}">
 {% endblock %}
 
 {% block content2 %}
@@ -68,9 +70,17 @@
 				<label for="id_language_3" data-value="PYTHON">PYTHON</label>
 				<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
 			</div>
-			{{ create_form.attachments.errors }}
-			{{ create_form.attachments.label_tag }}
-			{{ create_form.attachments }}
+			<div class="upload">
+				<div class="login-form">
+					<div id="drop">
+						<a> Drag and Drop or Selected FILE </a>
+						{{ create_form.attachments }}
+					</div>
+					<ul id="listFile">
+					<!-- Upload file show here -->
+					</ul>
+				</div>
+			</div>
 			<p id="entry-point-selector">
 				<label for="id_entry_point">entry point :</label>
 				<select name="entry_point" id="id_entry_point" size="8"></select>

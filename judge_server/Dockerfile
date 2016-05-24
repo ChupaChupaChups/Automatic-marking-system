@@ -10,6 +10,9 @@ RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true 
 RUN apt update
 RUN apt install gcc g++ python python3 python-pip python3-pip oracle-java8-installer -y
 
+# jq is json tool for processing JSON inputs ...
+RUN apt install jq
+
 RUN rm -rf /var/lib/apt/lists/*
 RUN rm -rf /var/cache/oracle-jdk8-installer
 RUN apt-get clean
