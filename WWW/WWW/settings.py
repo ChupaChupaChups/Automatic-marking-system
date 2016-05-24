@@ -74,6 +74,7 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+				'django.core.context_processors.request',
 			],
 		},
 	},
@@ -127,4 +128,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
+
 LOGIN_REDIRECT_URL = '/index'
+
+# for full file path
+FILE_UPLOAD_HANDLERS = [
+	'AMS.custom.uploadhandler.FullPathUploadHandler',
+	'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]

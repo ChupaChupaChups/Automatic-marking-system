@@ -8,16 +8,17 @@
 
 {% block content_header %}
 	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/jquery-2.2.3.min.js' %}"></script>
 	<script type="text/javascript">
 		/**
 		 * invoked when whole document is ready
 		 */
 		document.addEventListener("DOMContentLoaded", function () {
 			var selector = document.getElementById("entry-point-selector");
-			var javaCheckbox = document.getElementById("id_p_java_ok");
-			var pythonCheckbox = document.getElementById("id_p_py_ok");
-			//var cCheckbox = document.getElementById("id_p_c_ok");
-			//var cppCheckbox = document.getElementById("id_p_cpp_ok");
+			var cSelector = document.getElementById("id_language_0");
+			var cppSelector = document.getElementById("id_language_1");
+			var javaSelector = document.getElementById("id_language_2");
+			var pySelector = document.getElementById("id_language_3");
 
 			/**
 			 * for initial value
@@ -25,7 +26,7 @@
 			 * http://www.w3schools.com/jsref/prop_style_display.asp
 			 * visibility options reference
 			 */
-			if (javaCheckbox.checked || pythonCheckbox.checked) {
+			if (javaSelector.checked || pySelector.checked) {
 				selector.style.display = "block";
 			} else {
 				selector.style.display = "none";
@@ -35,26 +36,56 @@
 				if (event.target.checked) {
 					selector.style.display = "block";
 				} else {
-					selector.style.display = "none"
+					selector.style.display = "none";
 				}
 			}
 
-			javaCheckbox.addEventListener("click", showEntryPointSelector);
-			pythonCheckbox.addEventListener("click", showEntryPointSelector);
+			function blockEntryPointSelector(event) {
+				if (event.target.checked) {
+					selector.style.display = "none";
+				}
+			}
+
+			cSelector.addEventListener("click", blockEntryPointSelector);
+			cppSelector.addEventListener("click", blockEntryPointSelector);
+			javaSelector.addEventListener("click", showEntryPointSelector);
+			pySelector.addEventListener("click", showEntryPointSelector);
 		});
 	</script>
+	<link rel="stylesheet" href="{% static "assets/css/answer_submit.css" %}">
+	<link rel="stylesheet" href="{% static "web/css/style.css" %}">
 {% endblock %}
 
 {% block content2 %}
 	<div class="content container">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
-			{{ create_form.as_p | safe }}
+			<div class="segmented-control" style="width : 100%; color : #5FBAAC">
+				{% for choice in create_form.language %}
+					{{ choice.tag }}
+				{% endfor %}
+				<label for="id_language_0" data-value="C">C</label>
+				<label for="id_language_1" data-value="CPP">CPP</label>
+				<label for="id_language_2" data-value="JAVA">JAVA</label>
+				<label for="id_language_3" data-value="PYTHON">PYTHON</label>
+				<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
+			</div>
+			<div class="upload">
+				<div class="login-form">
+					<div id="drop">
+						<a> Drag and Drop or Selected FILE </a>
+						{{ create_form.attachments }}
+					</div>
+					<ul id="listFile">
+					<!-- Upload file show here -->
+					</ul>
+				</div>
+			</div>
 			<p id="entry-point-selector">
 				<label for="id_entry_point">entry point :</label>
 				<select name="entry_point" id="id_entry_point" size="8"></select>
 			</p>
-			<input type="submit" value="add"/>
+			<div><input type="submit" value="add"/></div>
 		</form>
 	</div>
 {% endblock %}
