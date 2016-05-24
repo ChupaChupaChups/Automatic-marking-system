@@ -46,52 +46,18 @@ def judge(instance, media_path, inputfiles):
 	current = os.path.dirname(__file__)
 
 	# TODO: compress code. and use `Config`
-	container = None
-	if instance.language == 1:
-		container = cli.create_container(
-				image=image_tag,
-				command='/compiler_and_judge/c_compile.sh',
-				volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
-				host_config=cli.create_host_config(binds={
-					media_path: {'bind': '/source_code', 'mode': 'rw'},
-					current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
-					inputfiles: {'bind': '/inputfiles', 'mode': 'ro'}
-				})
-		)
-	elif instance.language == 2:
-		container = cli.create_container(
-				image=image_tag,
-				command='/compiler_and_judge/cpp_compile.sh',
-				volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
-				host_config=cli.create_host_config(binds={
-					media_path: {'bind': '/source_code', 'mode': 'rw'},
-					current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
-					inputfiles: {'bind': '/inputfiles', 'mode': 'ro'}
-				})
-		)
-	elif instance.language == 3:
-		container = cli.create_container(
-				image=image_tag,
-				command='/compiler_and_judge/java_compile.sh',
-				volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
-				host_config=cli.create_host_config(binds={
-					media_path: {'bind': '/source_code', 'mode': 'rw'},
-					current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
-					inputfiles: {'bind': '/inputfiles', 'mode': 'ro'}
-				})
-		)
-	elif instance.language == 4:
-		container = cli.create_container(
-				image=image_tag,
-				command='/compiler_and_judge/run_python.sh',
-				volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
-				host_config=cli.create_host_config(binds={
-					media_path: {'bind': '/source_code', 'mode': 'rw'},
-					current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
-					inputfiles: {'bind': '/inputfiles', 'mode': 'ro'}
-				})
-		)
 
+	container = None
+	container = cli.create_container(
+		image=image_tag,
+		command='/compiler_and_judge/lang_option.sh',
+		volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
+		host_config=cli.create_host_config(binds={
+			media_path: {'bind': '/source_code', 'mode': 'rw'},
+			current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
+			inputfiles: {'bind': '/inputfiles', 'mode': 'ro'}
+		})
+	)
 	cli.start(container)
 	cli.wait(container)
 	cli.remove_container(container)
