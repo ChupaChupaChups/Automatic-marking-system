@@ -47,7 +47,6 @@ def judge(instance, media_path, inputfiles):
 
 	# TODO: compress code. and use `Config`
 
-	container = None
 	container = cli.create_container(
 		image=image_tag,
 		command='/compiler_and_judge/lang_option.sh',
