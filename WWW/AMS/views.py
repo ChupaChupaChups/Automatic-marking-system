@@ -6,8 +6,9 @@ import os
 from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseNotFound, HttpResponse
+from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from .custom import onlineshellmanager
 from .forms import ProblemForm, SubmitForm
 from .models import Problem, SubmitRecord, SubmitResult
 
@@ -93,10 +94,11 @@ def answer_submit(req, problem_number):
 
 	return render(req, 'AMS/answer_submit.html', {'create_form': form, 'p_number': problem_number})
 
+
 @login_required
 def submit_py_path(req):
 	upload_file = str(req.FILES)
-	print("upload_file: "+upload_file)
+	print("upload_file: " + upload_file)
 	return HttpResponse()
 
 
@@ -117,8 +119,29 @@ def save_metadata(instance):
 @login_required
 def submit_result(req, problem_number):
 	problem = Problem.objects.get(pk=problem_number)
-	get_record = SubmitRecord.objects.filter(user = req.user)
-	get_result = SubmitResult.objects.filter(record = get_record)
-	#get_record = SubmitRecord.objects.filter(record = problem)
-	#get_result = SubmitRecord.objects.filter(submitresult__record=problem_number)
-	return render(req, 'AMS/submit_result.html', {'problem': problem, 'p_number':problem_number, 'record': get_record,'result':get_result})
+	get_record = SubmitRecord.objects.filter(user=req.user)
+	get_result = SubmitResult.objects.filter(record=get_record)
+	# get_record = SubmitRecord.objects.filter(record = problem)
+	# get_result = SubmitRecord.objects.filter(submitresult__record=problem_number)
+	return render(
+			req,
+			'AMS/submit_result.html',
+			{'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
+	)
+
+
+@login_required
+def test(req):
+	return render(req, 'online_shell.html')
+
+
+def gen_output(req):
+	response_data = onlineshellmanager.get_output(req)
+	return JsonResponse(response_data)
+
+
+# TODO: replace to WebSocket
+def create_image(_):
+	response = HttpResponse()
+	response['X-ShellSession'] = onlineshellmanager.build_session()
+	return response

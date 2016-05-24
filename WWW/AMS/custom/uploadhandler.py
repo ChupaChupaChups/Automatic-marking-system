@@ -5,6 +5,7 @@ from io import BytesIO
 from .uploadedfile import FullPathInMemoryUploadedFile
 
 __all__ = ['FullPathUploadHandler']
+__author__ = 'isac322'
 
 
 class FullPathUploadHandler(FileUploadHandler):

@@ -2,6 +2,9 @@
 import os
 from django.core.files.uploadedfile import UploadedFile
 
+__all__ = ['FullPathInMemoryUploadedFile']
+__author__ = 'isac322'
+
 
 class FullPathInMemoryUploadedFile(UploadedFile):
 	"""

@@ -53,7 +53,7 @@ class Problem(models.Model):
 		return self.p_name
 
 
-LANGUAGE_CHOICES = ((1, 'c'), (2, 'cpp'), (3, 'java'), (4, 'py'), (5, 'makefile'), )
+LANGUAGE_CHOICES = ((1, 'c'), (2, 'cpp'), (3, 'java'), (4, 'py'), (5, 'makefile'),)
 
 
 class SubmitRecord(models.Model):
@@ -71,11 +71,11 @@ class SubmitRecord(models.Model):
 
 
 class SubmitFile(models.Model):
-	def save_path(self, filename):
+	def _save_path(self, filename):
 		return 'answer/{0}/{1}'.format(self.record.pk, filename)
 
 	record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
-	file = models.FileField(upload_to=save_path)
+	file = models.FileField(upload_to=_save_path)
 
 
 @receiver(models.signals.post_delete, sender=SubmitRecord)

@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls import url
 from django.contrib.auth.views import login
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import RedirectView
 from . import views
@@ -9,7 +10,10 @@ from . import views
 def logout_required(view):
 	def f(request, *args, **kwargs):
 		if request.user.is_anonymous():
-			return view(request, *args, **kwargs)
+			try:
+				return HttpResponseRedirect(request.GET['next'])
+			except:
+				return view(request, *args, **kwargs)
 		return redirect(settings.LOGIN_REDIRECT_URL)
 
 	return f
@@ -26,5 +30,8 @@ urlpatterns = [
 	url(r'^problem/update/(?P<problem_number>[0-9]+)$', views.problem_update, name='problem/update'),
 	url(r'^submit/(?P<problem_number>[0-9]+)$', views.answer_submit, name='submit'),
 	url(r'^savefiles', views.submit_py_path, name='save_filepath'),
-	url(r'^result/(?P<problem_number>[0-9]+)$', views.submit_result, name='result')
+	url(r'^result/(?P<problem_number>[0-9]+)$', views.submit_result, name='result'),
+	url(r'^test$', views.test, name='test'),
+	url(r'^output/gen', views.gen_output, name='output/gen'),
+	url(r'^image/create', views.create_image, name='image/create')
 ]

@@ -1,0 +1,24 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+
+	<script type="text/javascript" src="{% static 'assets/js/termlib.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/interactive_shell_module.js' %}"></script>
+
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/online_shell.less" %} ">
+	<script src="{% static "assets/js/less.min.js" %}" type="text/javascript"></script>
+</head>
+
+<body>
+<button id="btn-run" type="button" class="name">실행</button>
+<div id="screen-wrapper">
+</div>
+<ul id="screen"></ul>
+<ul id="history-list"></ul>
+</body>
+
+</html>

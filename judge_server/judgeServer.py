@@ -20,18 +20,18 @@ def build_image():
 	docker_tag = Config["Docker"]["tag"]
 
 	# if docker image that named `docker_tag` is not exist than, generate it
-	if len(docker_client.images(name=docker_tag)) is 0:
-		dockerfile_fp = open(os.path.join(os.path.dirname(__file__), Config["Docker"]["Dockerfile"]))
-		dockerfile_text = io.BytesIO(dockerfile_fp.read().encode("UTF-8"))
-		dockerfile_fp.close()
+#	if len(docker_client.images(name=docker_tag)) is 0:
+	dockerfile_fp = open(os.path.join(os.path.dirname(__file__), Config["Docker"]["Dockerfile"]))
+	dockerfile_text = io.BytesIO(dockerfile_fp.read().encode("UTF-8"))
+	dockerfile_fp.close()
 
-		for line in docker_client.build(fileobj=dockerfile_text, tag=docker_tag, rm=True):
-			j = json.loads(line.decode())
-			for _, v in j.items():
-				print(v, end='')
+	for line in docker_client.build(fileobj=dockerfile_text, tag=docker_tag, rm=True):
+		j = json.loads(line.decode())
+		for _, v in j.items():
+			print(v, end='')
 
-	else:
-		print("'{0}' image is already exist".format(docker_tag))
+#	else:
+#		print("'{0}' image is already exist".format(docker_tag))
 
 
 def judge(instance, media_path, inputfiles):
