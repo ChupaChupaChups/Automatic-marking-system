@@ -118,12 +118,6 @@ document.addEventListener("DOMContentLoaded", function () {
 					}
 				}
 		}
-		var i;
-		for(i = 0; tempFileList[i]; i++);
-		for(var j = 0; j< i; j++){
-			console.log(mapPath[tempFileList[j].name]);
-			console.log(tempFileList[j].webkitRelativePath);
-		}
 		var javacheck = document.getElementById("id_language_2").checked;
 		var pythoncheck = document.getElementById("id_language_3").checked;
 		if(javacheck) extractClass();
@@ -139,11 +133,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		// 이전목록 지움
 		while (entryList.options.length) entryList.remove(0);
 		var filelen;
-		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
+		for (filelen = 0; tempFileList[filelen]; filelen++);
 		for (var i = 0; i < filelen; i++) {
 
 			var re = /\.java/;
-			if (re.exec(fileUploadBtn.files[i].name) != null) {
+			if (re.exec(tempFileList[i].name) != null) {
 				var reader = new FileReader();
 
 				/**
@@ -182,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				};
 
 				// 비동기로 파일읽기 시작
-				reader.readAsText(fileUploadBtn.files[i]);
+				reader.readAsText(tempFileList[i]);
 			}
 		}
 	}
@@ -218,9 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		while (entryList.options.length) entryList.remove(0);
 		var formdata = new FormData(form);
 		var filelen;
-		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
+		for (filelen = 0; tempFileList[filelen]; filelen++);
 		for (var i = 0; i < filelen; i++){
-			formdata.append("id_attachments", fileUploadBtn.files[i]);
+			formdata.append("id_attachments", tempFileList[i]);
 		}
 		var xhr = makeHttpObject();
 		var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
