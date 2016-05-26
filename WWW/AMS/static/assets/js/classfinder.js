@@ -3,7 +3,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex_package = /package\s(\w+(\.?\w+)*)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var fileUploadBtn = document.getElementById("id_attachments");
-	var tempFileList;
+	var tempFileList = fileUploadBtn.files;
+	var mapPath = {};
 	/**
  	 * File Uplaod Drag and Drop
 	 */
@@ -37,6 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		for(templen; tempFileList[templen]; templen++);
 		for(var i = 0; i < templen; i++){
 			formdata_temp.append("attachments", tempFileList[i]);
+			formdata_temp.append(tempFileList[i].name, mapPath[tempFileList[i].name]);
 		}
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState == 4){
@@ -76,24 +78,51 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	window.ondragover = function(e){e.preventDefault(); return false};
 	window.ondrop = function(e){e.preventDefault(); return false};
+	function traverseFileTree(item, path){
+		var templen;
+		path = path || "";
+		if(item.isFile){
+			if(tempFileList != null){
+				item.file(function(file){
+					for(templen = 0; tempFileList[templen]; templen++);
+					tempFileList[templen] = file;
+					if(mapPath[file.name] == undefined){
+						mapPath[file.name] = [];
+					}
+					mapPath[file.name].push(path);
+				});
+			}
+			console.log(tempFileList);
+			var tpl = $('<li class="working"><p></p><span></span></li>');
+			tpl.find('p').text(item.fullPath).append('<i>'+'</i>');
+			tpl.appendTo(listUl);
+		//	tempFileList[templen].webkitRelativePath = item.fullPath;
+		}
+		else if(item.isDirectory){
+			var dirReader = item.createReader();
+			dirReader.readEntries(function(entries){
+				for ( var i = 0; i<entries.length; i++){
+					traverseFileTree(entries[i], path + item.name + "/");
+				}
+			});
+		}
+	}
 	fileDragUpload.ondrop = function(e){
 		e.preventDefault();
-		var data = e.dataTransfer.files;
 		if(e.dataTransfer && e.dataTransfer.files.length != 0){
-			var filelen, datalen, j = 0;
-			if(tempFileList != null){
-				for(templen = 0; tempFileList[templen]; templen++);
-				for(datalen = 0; data[datalen]; datalen++);
-				for(var i = templen; i < templen+datalen; i++){
-					tempFileList[i] = data[j++];
+				var items = e.dataTransfer.items;
+				for (var i = 0; i < items.length; i++){
+					var item = items[i].webkitGetAsEntry();
+					if (item){
+						traverseFileTree(item);
+					}
 				}
-			}
-			else tempFileList = data;
-			for(var i = 0; i<data.length; i++){
-				var tpl = $('<li class="working"><p></p><span></span></li>');
-				tpl.find('p').text(data[i].name).append('<i>'+'</i>');
-				tpl.appendTo(listUl);
-			}
+		}
+		var i;
+		for(i = 0; tempFileList[i]; i++);
+		for(var j = 0; j< i; j++){
+			console.log(mapPath[tempFileList[j].name]);
+			console.log(tempFileList[j].webkitRelativePath);
 		}
 		var javacheck = document.getElementById("id_language_2").checked;
 		var pythoncheck = document.getElementById("id_language_3").checked;

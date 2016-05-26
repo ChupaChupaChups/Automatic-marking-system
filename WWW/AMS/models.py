@@ -72,8 +72,9 @@ class SubmitRecord(models.Model):
 
 class SubmitFile(models.Model):
 	def _save_path(self, filename):
-		return 'answer/{0}/{1}'.format(self.record.pk, filename)
-
+		return 'answer/{0}/{1}/{2}'.format(self.record.pk, self.path, filename)
+	
+	path = models.TextField();
 	record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
 	file = models.FileField(upload_to=_save_path)
 

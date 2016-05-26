@@ -69,7 +69,7 @@ class SubmitForm(forms.ModelForm):
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
-				'multiple': True,
+				'multiple': True, 'webkitdirectory':True,
 			})
 	)
 	class Meta:
@@ -98,9 +98,9 @@ class SubmitForm(forms.ModelForm):
 			instance.entry_point = self.data['entry_point']
 
 		if commit:
-			instance.save()
-			
+			instance.save()	
 			for each in self.cleaned_data['attachments']:
-				SubmitFile.objects.create(record=instance, file=each)
+				filepath = self.data[each.name]
+				SubmitFile.objects.create(record=instance, file=each, path = filepath)
 
 		return instance
