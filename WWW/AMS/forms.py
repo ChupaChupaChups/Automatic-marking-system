@@ -18,21 +18,21 @@ class ProblemForm(forms.ModelForm):
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
-				'webkitdirectory': True, 'directory': True, 'multiple': True,
+				'multiple': True,
 			})
 	)
 	inputfile = MultiFileField(
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
-				'webkitdirectory': True, 'directory': True, 'multiple': True,
+				'multiple': True,
 			})
 	)
 	outputfile = MultiFileField(
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
-				'webkitdirectory': True, 'directory': True, 'multiple': True,
+				'multiple': True,
 			})
 	)
 	
@@ -41,12 +41,10 @@ class ProblemForm(forms.ModelForm):
 		widgets = {
 			'p_day_limit': DateTimeWidget(usel10n=True, bootstrap_version=3),
 			'p_content': SummernoteInplaceWidget(),
-			'p_input': SummernoteInplaceWidget(),
-			'p_output': SummernoteInplaceWidget(),
 		}
 		fields = [
 			'p_day_limit', 'p_submissions_count', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
-			'p_judge', 'p_name', 'p_content', 'p_input', 'p_output',
+			'p_judge', 'p_name', 'p_content',
 		]
 
 	def __init__(self, *args, **kwargs):
@@ -61,7 +59,6 @@ class ProblemForm(forms.ModelForm):
 			'onfocus': "if (this.value == this.defaultValue) {this.value = '';}",
 			'onblur': "if (this.value == '') {this.value = this.defaultValue;}"
 		})
-
 
 class SubmitForm(forms.ModelForm):
 	attachments = MultiFileField(

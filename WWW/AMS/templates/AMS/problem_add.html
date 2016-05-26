@@ -15,6 +15,7 @@
 	<!--CustomCSS-->
 	{{ create_form.media.css }}
 	<link rel="stylesheet" href="{% static "assets/css/problem_add.css" %}">
+	<link rel="stylesheet" href="{% static "web/css/style.css" %}">
 	<!--CustomJS-->
 	{{ create_form.media.js }}
 	<script src="{% static "assets/js/problem_add.js" %}"></script>
@@ -74,23 +75,64 @@
 			</ul>
 			<div class="tab-content">
 				<div id="input_code" class="tab-pane fade in active">
-					<div id="p_answercode"><p> 코드 :</p>{{ create_form.answercode }}</div>				
-					<div id="p_inputfile"><p> 입력 : </p>{{ create_form.inputfile }}</div>
+					<label class="switch-content-slide">
+						<input type="checkbox" class="switch-input" id="answer_code">
+						<span class="switch-content" data-on="ANSWER CODE" data-off="ANSWER CODE"></span>
+					</label>
+					<div id="answer_code_upload" class="upload">
+						<div class="login-form">
+							<div id="drop">
+								<a> ANSWER CODE FILES</a>
+									{{create_form.inputcode}}
+							</div>
+						</div>
+					</div>
+					<label class="switch-content-slide">
+						<input type="checkbox" class="switch-input" id="input_file">
+						<span class="switch-content" data-on="INPUT EXAMPLE FILES" data-off="INPUT EXAMPLE FILES"></span>
+					</label>
+					<div id="input_file_upload" class="upload">
+						<div class="login-form">
+							<div id="drop">
+								<a> INPUT EXAMPLE FILES</a>
+									{{create_form.inputfile}}
+							</div>
+						</div>
+					</div>
 				</div>
 				<div id="only_code" class="tab-pane fade">
-					<div id="p_answercode"><p>코드 : </p>{{ create_form.answercode }}</div> 
 				</div>
 				<div id="input_output" class="tab-pane fade">
-					<div id="p_answercode"><p>입력 :</p>{{ create_form.inputfile }}</div> 
-					<div id="p_inputfile"><p>출력 :</p>{{ create_form.outputfile }}</div> 
+					<label class="switch-content-slide">
+						<input type="checkbox" class="switch-input" id="input_file2">
+						<span class="switch-content" data-on="INPUT EXAMPLE FILES" data-off="INPUT EXAMPLE FILES"></span>
+					</label>
+					<div id="input_file_upload2" class="upload">
+						<div class="login-form">
+							<div id="drop">
+								<a> INPUT EXAMPLE FILES</a>
+									{{create_form.inputfile}}
+							</div>
+						</div>
+					</div>
+					<label class="switch-content-slide">
+						<input type="checkbox" class="switch-input" id="output_file">
+						<span class="switch-content" data-on="OUTPUT EXAMPLE FILES" data-off="OUTPUT EXAMPLE FILES"></span>
+					</label>
+					<div id="output_file_upload" class="upload">
+						<div class="login-form">
+							<div id="drop">
+								<a> OUTPUT EXAMPLE FILES</a>
+									{{create_form.outputfile}}
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<h2>문제 내용</h2>
 			<ul class="nav nav-tabs">
 				<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
 				<li><a data-toggle="tab" href="#pdf-upload">PDF 업로드</a></li>
-				<li><a data-toggle="tab" href="#latex-upload">LaTex 업로드</a></li>
-				<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="editor" class="tab-pane fade in active">
@@ -109,19 +151,9 @@
 			</div>
 
 			<!-- TODO: 입출력 답 선택 코드 생성 -->
-			<label class="switch-content-slide">
-				<input type="checkbox" class="switch-input" id="inputexample">
-				<span class="switch-content" data-on="Input Example" data-off="Input Example"></span>
-			</label>
-			<div class="hidden-content" id="p_input_example">{{ create_form.p_input }}</div>
-			<label class="switch-content-slide">
-				<input type="checkbox" class="switch-input" id="outputexample">
-				<span class="switch-content" data-on="Output Example" data-off="Output Example"></span>
-			</label>
-			<div class="hidden-content" id="p_output_example">{{ create_form.p_output }}</div>
 			<div>
-				<input class="button button-green" type="submit" value="SAVE"/>
-				<input class="button button-green" type="submit" value="TEMPORARY SAVE"/>
+				<input class="button button-green" id="save_problem" type="submit" value="SAVE"/>
+				<input class="button button-green" id="temp_saveproblem" type="submit" value="TEMPORARY SAVE"/>
 			</div>
 		</form>
 	</div>
