@@ -1,5 +1,6 @@
 // TODO: Convert Jquery to pure JavaScript
 // FIXME: 언어 선택을 여러번 바꿀 경우 서버에 DDOS급 테러가 이뤄집!!!
+// FIXME: 폴더 Drag & Drop는 잘 되지만 클릭으로 올리면 저장에 에러
 
 document.addEventListener("DOMContentLoaded", function () {
 	var regex_class = /class\s+([^\W]+)/g;
