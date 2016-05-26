@@ -72,7 +72,6 @@ class SubmitForm(forms.ModelForm):
 				'multiple': True,
 			})
 	)
-
 	class Meta:
 		model = SubmitRecord
 		fields = ['language']
@@ -85,25 +84,22 @@ class SubmitForm(forms.ModelForm):
 
 	def __init__(self, user, problem_number, *args, **kwargs):
 		kwargs.setdefault('label_suffix', '')
-		self.problem_number = problem_number
+		self.problem = Problem.objects.get(pk=problem_number)
 		self.user = user
 		super().__init__(*args, **kwargs)
 
 	def save(self, commit=True):
 		instance = super().save(commit=False)
-
 		instance.submit_time = timezone.now()
 		instance.user = User.objects.get(pk=self.user.pk)
-		instance.problem = Problem.objects.get(pk=self.problem_number)
-
+		instance.problem = self.problem
 		instance.language = self.cleaned_data['language']
-
 		if instance.language == 3 or instance.language == 4:
 			instance.entry_point = self.data['entry_point']
 
 		if commit:
 			instance.save()
-
+			
 			for each in self.cleaned_data['attachments']:
 				SubmitFile.objects.create(record=instance, file=each)
 

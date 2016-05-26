@@ -6,6 +6,42 @@ document.addEventListener("DOMContentLoaded", function () {
 	/**
  	 * File Uplaod Drag and Drop
 	 */
+
+	$('#submit_res').click(function(e){
+		e.preventDefault();
+		var formdata_temp = new FormData();
+		var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
+		var xhr = makeHttpObject();
+		var checkedc = document.getElementById("id_language_0").checked;
+		var checkedcpp = document.getElementById("id_language_1").checked;
+		var checkedjava = document.getElementById("id_language_2").checked;
+		var checkedpy = document.getElementById("id_language_3").checked;
+		var checkedmake = document.getElementById("id_language_4").checked;
+		var language;
+		var entry_list = document.getElementById("id_entry_point");
+		formdata_temp.append("csrfmiddlewaretoken", csrf_token[1]);
+		if(checkedc) language = 1;
+		else if(checkedcpp) language = 2;
+		else if(checkedjava){
+			formdata_temp.append("entry_point", entry_list[entry_list.selectedIndex].value);
+			language = 3;
+		}
+		else if(checkedpy){
+			formdata_temp.append("entry_point", entry_list[entry_list.selectedIndex].value);
+			language = 4;
+		}
+		else language = 5;
+		formdata_temp.append("language", language);
+		var templen = 0;
+		for(templen; fileUploadBtn.files[templen]; templen++);
+		for(var i = 0; i < templen; i++){
+			formdata_temp.append("attachments", fileUploadBtn.files[i]);
+		}
+		xhr.open("POST", location.href);
+		xhr.send(formdata_temp);
+		console.log(xhr);
+	});
+	
 	var listUl = document.getElementById("listFile");
 	var fileDragUpload = document.getElementById("drop");
 	$('#drop a').click(function(){
@@ -44,11 +80,12 @@ document.addEventListener("DOMContentLoaded", function () {
 	function extractClass() {
 		// 이전목록 지움
 		while (entryList.options.length) entryList.remove(0);
-
-		for (var i = 0; i < fileUploadBtn.files.length; i++) {
+		var filelen;
+		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
+		for (var i = 0; i < filelen; i++) {
 
 			var re = /\.java/;
-			if (re.exec(fileUploadBtn.files.item(i).name) != null) {
+			if (re.exec(fileUploadBtn.files[i].name) != null) {
 				var reader = new FileReader();
 
 				/**
@@ -87,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				};
 
 				// 비동기로 파일읽기 시작
-				reader.readAsText(fileUploadBtn.files.item(i));
+				reader.readAsText(fileUploadBtn.files[i]);
 			}
 		}
 	}
@@ -122,7 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	function extractFiles() {
 		while (entryList.options.length) entryList.remove(0);
 		var formdata = new FormData(form);
-		formdata.append("id_attachments", File);
+		var filelen;
+		for (filelen = 0; fileUploadBtn.files[filelen]; filelen++);
+		for (var i = 0; i < filelen; i++){
+			formdata.append("id_attachments", fileUploadBtn.files[i]);
+		}
 		var xhr = makeHttpObject();
 		var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 		xhr.onreadystatechange = function () {

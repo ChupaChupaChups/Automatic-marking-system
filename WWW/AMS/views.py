@@ -81,13 +81,12 @@ def answer_submit(req, problem_number):
 		form = SubmitForm(req.user, problem_number, req.POST, req.FILES)
 		if form.is_valid():
 			instance = form.save()
-
 			save_metadata(instance)
 
 			# TODO: rename variable
-			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-			inputfiles = os.path.dirname(instance.problem.p_infile.path)
-			judgeServer.judge(instance, media_path, inputfiles)
+#			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+#			inputfiles = os.path.dirname(instance.problem.p_infile.path)
+#			judgeServer.judge(instance, media_path, inputfiles)
 
 			return redirect('/problem/list')
 	else:
