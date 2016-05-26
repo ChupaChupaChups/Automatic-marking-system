@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex_package = /package\s(\w+(\.?\w+)*)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var fileUploadBtn = document.getElementById("id_attachments");
+	var tempFileList;
 	/**
  	 * File Uplaod Drag and Drop
 	 */
@@ -33,9 +34,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		else language = 5;
 		formdata_temp.append("language", language);
 		var templen = 0;
-		for(templen; fileUploadBtn.files[templen]; templen++);
+		for(templen; tempFileList[templen]; templen++);
 		for(var i = 0; i < templen; i++){
-			formdata_temp.append("attachments", fileUploadBtn.files[i]);
+			formdata_temp.append("attachments", tempFileList[i]);
 		}
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState == 4){
@@ -54,6 +55,25 @@ document.addEventListener("DOMContentLoaded", function () {
 	$('#drop a').click(function(){
 		$(this).parent().find('input').click();
 	});
+	fileUploadBtn.addEventListener('change', function(){
+		var data = fileUploadBtn.files;
+		var filelen, j = 0;
+		if(tempFileList != null){
+			for (filelen = 0; tempFileList[filelen]; filelen++);
+			for (var i = filelen; i<filelen+data.length; i++){
+				tempFileList[i] = data[j++];
+			}
+		}
+		else{
+			tempFileList = data;
+		}
+		console.log(tempFileList);
+		for (var i = 0; i< data.length; i++){
+			var tpl = $('<li class="working"><p></p><span></span></li>');
+			tpl.find('p').text(data[i].name).append('<i>'+'</i>');
+			tpl.appendTo(listUl);
+		}
+	});
 	window.ondragover = function(e){e.preventDefault(); return false};
 	window.ondrop = function(e){e.preventDefault(); return false};
 	fileDragUpload.ondrop = function(e){
@@ -61,12 +81,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		var data = e.dataTransfer.files;
 		if(e.dataTransfer && e.dataTransfer.files.length != 0){
 			var filelen, datalen, j = 0;
-			for(templen = 0; fileUploadBtn.files[templen]; templen++);
-			for(datalen = 0; data[datalen]; datalen++);
-			for(var i = templen; i < templen+datalen; i++){
-				fileUploadBtn.files[i] = data[j++];
+			if(tempFileList != null){
+				for(templen = 0; tempFileList[templen]; templen++);
+				for(datalen = 0; data[datalen]; datalen++);
+				for(var i = templen; i < templen+datalen; i++){
+					tempFileList[i] = data[j++];
+				}
 			}
-			console.log(fileUploadBtn.files);
+			else tempFileList = data;
 			for(var i = 0; i<data.length; i++){
 				var tpl = $('<li class="working"><p></p><span></span></li>');
 				tpl.find('p').text(data[i].name).append('<i>'+'</i>');
