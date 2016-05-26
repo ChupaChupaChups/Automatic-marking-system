@@ -37,6 +37,13 @@ document.addEventListener("DOMContentLoaded", function () {
 		for(var i = 0; i < templen; i++){
 			formdata_temp.append("attachments", fileUploadBtn.files[i]);
 		}
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState == 4){
+				if(xhr.status == 200){
+					location.href = xhr.responseURL;
+				}
+			}
+		}
 		xhr.open("POST", location.href);
 		xhr.send(formdata_temp);
 		console.log(xhr);
