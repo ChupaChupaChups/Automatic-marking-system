@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
 	/**
 	 * File Upload Drag and Drop
-	 */
+	
 	function makeHttpObject(){
 		try{
 			return new XMLHttpRequest();
@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		
 		
 	});
-
+	*/
 	/**
 	 * Visable Unvisable method
 	 */

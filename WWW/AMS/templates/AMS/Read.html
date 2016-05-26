@@ -6,6 +6,7 @@
 
 {% block content_header %}
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
+	<script type="text/javascript" src="{% static "PDFObject/pdfobject.js" %}"></script>
 {% endblock %}
 
 {% block problem_class %} active {% endblock %}
@@ -44,7 +45,15 @@
 		</table>
 		<div class="problem-header" id="problem-content">
 			<h2 class="header">Problem</h2>
-			{{ problem.p_content|safe }}
+			{% if problem.p_content %} {{ problem.p_content|safe }} {% endif %}
+			{% if problem.p_pdffile %}
+				<div id="test"></div>
+				<style>
+				.pdfobject-container{height: 500px;}
+				.pdfobject { border: 1px solid #666; }
+				</style>
+				<script> PDFObject.embed("/media/{{problem.p_pdffile}}", "#test");</script>
+			{% endif %}
 		</div>
 
 

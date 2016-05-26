@@ -10,12 +10,15 @@ from django.dispatch import receiver
 class Problem(models.Model):
 	upload_to_in = 'problem/{0}/testcase/{1}'
 	upload_to_out = 'problem/{0}/testcase/{1}'
-
+	upload_to_pdf = 'problem/{0}/{1}'
 	def _get_upload_to_in(self, filename):
 		return self.upload_to_in.format(self.p_name, filename)
 
 	def _get_upload_to_out(self, filename):
 		return self.upload_to_out.format(self.p_name, filename)
+
+	def _get_upload_to_pdf(self, filename):
+		return self.upload_to_pdf.format(self.p_name, filename)
 
 	def delete(self, *args, **kwargs):
 		ret = super(Problem, self).delete(*args, **kwargs)
@@ -45,10 +48,10 @@ class Problem(models.Model):
 	p_outfile = models.FileField(upload_to=_get_upload_to_out)
 	p_judge = models.BooleanField()
 	p_name = models.CharField(max_length=100, unique=True)  # 문제 이름
-	p_content = models.TextField(null=False)  # 문제 내용
+	p_content = models.TextField(null=True)  # 문제 내용
 	p_input = models.TextField(null=False)  # 입력 조건
 	p_output = models.TextField(null=False)  # 출력 조건
-
+	p_pdffile = models.FileField(upload_to = _get_upload_to_pdf, null=True)
 	def __str__(self):
 		return self.p_name
 

@@ -44,7 +44,7 @@ class ProblemForm(forms.ModelForm):
 		}
 		fields = [
 			'p_day_limit', 'p_submissions_count', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
-			'p_judge', 'p_name', 'p_content',
+			'p_judge', 'p_name', 'p_content', 'p_pdffile',
 		]
 
 	def __init__(self, *args, **kwargs):
