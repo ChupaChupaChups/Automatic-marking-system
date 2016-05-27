@@ -16,7 +16,7 @@
     border-radius: 3px
 }
 
-#drop a {
+#dropfile a {
     background: #009688 no-repeat 25px;
     padding: 30px 0px;
     color: #fff;
@@ -32,15 +32,29 @@
     border-bottom: 1px solid #009688;
     border-radius: 3px;
 }
-#drop a:hover {
-	
-}
 
-
-#drop input{
+#dropfile input{
     display:none;
 }
-
+#dropfolder a {
+    background: #009688 no-repeat 25px;
+    padding: 30px 0px;
+    color: #fff;
+    width: 100%;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: calibri;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #009688;
+    border-radius: 3px;
+}
+#dropfolder input{
+    display:none;
+}
 #upload ul{
 }
 

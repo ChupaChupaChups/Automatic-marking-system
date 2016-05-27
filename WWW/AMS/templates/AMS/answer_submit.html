@@ -72,9 +72,13 @@
 			</div>
 			<div class="upload">
 				<div class="login-form">
-					<div id="drop">
-						<a> Drag and Drop or Selected FILE </a>
-						{{ create_form.attachments }}
+					<div id="dropfile">
+						<a> Select FILE or DROP</a>
+						{{create_form.attachments_file}}
+					</div>
+					<div id="dropfolder">
+						<a> Select FOLDER or DROP</a>
+						{{create_form.attachments_folder}}
 					</div>
 					<ul id="listFile">
 					<!-- Upload file show here -->

@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	var entryList = document.getElementById("id_entry_point");
 	var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 		
-	var fileUploadBtn = document.getElementById("id_attachments_file");
-	var folderUploadBtn = document.getElementById("id_attachments_folder");
+	var fileUploadBtn = document.getElementById("id_attachments");
+	var folderUploadBtn = document.getElementById("attachments_folder");
 	var tempFileList = fileUploadBtn.files;
 	var tempFolderList = folderUploadBtn.files;
 	var mapPath = {};
@@ -56,15 +56,12 @@ document.addEventListener("DOMContentLoaded", function () {
 		var filelen = 0, folderlen = 0;
 		for (filelen; tempFileList[filelen]; filelen++);
 		for (var i = 0; i < filelen; i++){
-			formdata_temp.append("attachments_file", tempFileList[i]);
+			formdata_temp.append("filelist", tempFileList[i]);
 		}
 		for (folderlen; tempFolderList[folderlen]; folderlen++);
 		for (var i = 0; i < folderlen; i++) {
-			formdata_temp.append("attachments_folder", tempFolderList[i]);
-			if(tempFolderList[i].webkitRelativePath == ""){
-				formdata_temp.append(tempFolderList[i].name, mapPath[tempFolderList[i].name]);
-			}
-			else formdata_temp.append(tempFolderList[i].webkitRelativePath, "");
+			formdata_temp.append("folderlist", tempFolderList[i]);
+			formdata_temp.append(tempFolderList[i].name, mapPath[tempFolderList[i].name]);
 		}
 		xhr.onreadystatechange = function () {
 			if (xhr.readyState == 4) {
@@ -90,10 +87,8 @@ document.addEventListener("DOMContentLoaded", function () {
 		var filelen, j = 0;
 		if (tempFolderList != null) {
 			for (filelen = 0; tempFolderList[filelen]; filelen++);
-			for (var i = filelen; i < filelen + data.length; i++, j++){
-				tempFolderList[i] = data[j];
-				if(mapPath[data[j].webkitRelativePath] == undefined) mapPath[data[j].webkitRelativePath] = [];
-				mapPath[data[j].webkitRelativePath].push(data[j].webkitRelativePath);
+			for (var i = filelen; i < filelen + data.length; i++){
+				tempFolderList[i] = data[j++];
 			}
 		}
 		else {

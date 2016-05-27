@@ -61,12 +61,16 @@ class ProblemForm(forms.ModelForm):
 		})
 
 class SubmitForm(forms.ModelForm):
-	attachments = MultiFileField(
-			label='파일',
-			min_num=1,
-			max_file_size=1024 * 1024 * 5,
+	attachments_file = MultiFileField(
+			max_file_size=1024 * 1024 * 10,
 			widget=MultiFileInput(attrs={
-				'multiple': True, 'webkitdirectory':True,
+				'multiple': True,
+			})
+	)
+	attachments_folder = MultiFileField(
+			max_file_size=1024 * 1024 * 10,
+			widget=MultiFileInput(attrs={
+				'multiple': True, 'webkitdirectory': True,
 			})
 	)
 	class Meta:
@@ -95,9 +99,17 @@ class SubmitForm(forms.ModelForm):
 			instance.entry_point = self.data['entry_point']
 
 		if commit:
-			instance.save()	
-			for each in self.cleaned_data['attachments']:
-				filepath = self.data[each.name]
-				SubmitFile.objects.create(record=instance, file=each, path = filepath)
+			instance.save()
+			if self.cleaned_data['attachments_file']:
+				for each in self.cleaned_data['attachments_file']:
+					SubmitFile.objects.create(record=instance, file=each, path = "/")
+			if self.cleaned_data['attachments_folder']:
+				for each in self.cleaned_data['attachments_folder']:
+					filepath = self.data[each.name]
+					print(filepath)
+					if filepath == "":
+						SubmitFile.objects.create(record=instance, file=each, path = "/")
+					else :
+						SubmitFile.objects.create(record=instance, file=each, path ="/"+filepath+"/")
 
 		return instance

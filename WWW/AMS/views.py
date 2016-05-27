@@ -79,6 +79,7 @@ def problem_add(req):
 def answer_submit(req, problem_number):
 	if req.method == 'POST':
 		form = SubmitForm(req.user, problem_number, req.POST, req.FILES)
+		print(form.errors)
 		if form.is_valid():
 			instance = form.save()
 			save_metadata(instance)
