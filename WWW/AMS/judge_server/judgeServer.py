@@ -6,7 +6,7 @@ import json
 import docker
 import io
 import os
-from judge_server.configuration.config import Config
+from .config import Config
 
 __author__ = "isac322, nameuk"
 

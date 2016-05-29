@@ -3,7 +3,6 @@
 import selectors
 import subprocess
 import sys
-from time import sleep
 
 import psutil
 from io import BytesIO

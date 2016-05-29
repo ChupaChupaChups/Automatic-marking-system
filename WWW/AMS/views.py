@@ -1,6 +1,4 @@
-import inspect
 import json
-import sys
 
 import os
 import re
@@ -11,13 +9,8 @@ from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from . import onlineshellmanager
 from .forms import ProblemForm, SubmitForm
+from .judge_server.config import Config
 from .models import Problem, SubmitRecord, SubmitResult
-
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_dir = os.path.dirname(current_dir)
-sys.path.insert(0, os.path.dirname(parent_dir))
-
-from judge_server.configuration.config import Config
 
 
 # Create your views here.

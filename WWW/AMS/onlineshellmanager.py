@@ -1,23 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import inspect
 import selectors
-import sys
 import threading
 
 import docker
 import os
 import random
-
-# TODO: fix import
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_dir = os.path.dirname(current_dir)
-parent_dir = os.path.dirname(parent_dir)
-parent_dir = os.path.dirname(parent_dir)
-sys.path.insert(0, parent_dir)
-
-from judge_server import judgeServer
-from judge_server.configuration.config import Config
+from .judge_server import judgeServer
+from .judge_server.config import Config
 
 __author__ = 'isac322'
 
@@ -104,8 +94,6 @@ class ShellSession:
 
 		# TODO: dynamic file select
 		current = os.path.dirname(__file__)
-		current = os.path.dirname(current)
-		current = os.path.dirname(current)
 		current = os.path.join(current, 'judge_server')
 
 		self._container, self._config = judgeServer.make_container(
