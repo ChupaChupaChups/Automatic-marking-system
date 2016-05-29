@@ -11,6 +11,7 @@ class Problem(models.Model):
 	upload_to_in = 'problem/{0}/testcase/{1}'
 	upload_to_out = 'problem/{0}/testcase/{1}'
 	upload_to_pdf = 'problem/{0}/{1}'
+
 	def _get_upload_to_in(self, filename):
 		return self.upload_to_in.format(self.p_name, filename)
 
@@ -51,7 +52,8 @@ class Problem(models.Model):
 	p_content = models.TextField(null=True)  # 문제 내용
 	p_input = models.TextField(null=False)  # 입력 조건
 	p_output = models.TextField(null=False)  # 출력 조건
-	p_pdffile = models.FileField(upload_to = _get_upload_to_pdf, null=True)
+	p_pdffile = models.FileField(upload_to=_get_upload_to_pdf, null=True)
+
 	def __str__(self):
 		return self.p_name
 
@@ -76,7 +78,7 @@ class SubmitRecord(models.Model):
 class SubmitFile(models.Model):
 	def _save_path(self, filename):
 		return 'answer/{0}{1}{2}'.format(self.record.pk, self.path, filename)
-	
+
 	path = models.TextField();
 	record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
 	file = models.FileField(upload_to=_save_path)

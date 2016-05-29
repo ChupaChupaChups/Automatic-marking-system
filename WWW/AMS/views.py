@@ -3,12 +3,13 @@ import json
 import sys
 
 import os
+import re
 from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from .custom import onlineshellmanager
+from . import onlineshellmanager
 from .forms import ProblemForm, SubmitForm
 from .models import Problem, SubmitRecord, SubmitResult
 
@@ -17,8 +18,6 @@ parent_dir = os.path.dirname(current_dir)
 sys.path.insert(0, os.path.dirname(parent_dir))
 
 from judge_server.configuration.config import Config
-from judge_server import judgeServer
-import re
 
 
 # Create your views here.
@@ -85,9 +84,9 @@ def answer_submit(req, problem_number):
 			save_metadata(instance)
 
 			# TODO: rename variable
-#			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-#			inputfiles = os.path.dirname(instance.problem.p_infile.path)
-#			judgeServer.judge(instance, media_path, inputfiles)
+			#			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+			#			inputfiles = os.path.dirname(instance.problem.p_infile.path)
+			#			judgeServer.judge(instance, media_path, inputfiles)
 
 			return redirect('/problem/list')
 	else:
@@ -99,6 +98,7 @@ def answer_submit(req, problem_number):
 @login_required
 def submit_py_path(req):
 	upload_file = str(req.FILES)
+	# FIXME: fix regex error
 	p = re.compile(r'((\w+\w+)+\.\w+)')
 	test_str = upload_file
 	file_name = re.findall(p, test_str)
@@ -145,13 +145,8 @@ def test(req):
 	return render(req, 'online_shell.html')
 
 
-def gen_output(req):
-	response_data = onlineshellmanager.get_output(req)
-	return JsonResponse(response_data)
-
-
 # TODO: replace to WebSocket
-def create_image(_):
+def shell_begin(_):
 	response = HttpResponse()
 	response['X-ShellSession'] = onlineshellmanager.build_session()
 	return response

@@ -31,7 +31,6 @@ urlpatterns = [
 	url(r'^submit/(?P<problem_number>[0-9]+)$', views.answer_submit, name='submit'),
 	url(r'^savefiles', views.submit_py_path, name='save_filepath'),
 	url(r'^result/(?P<problem_number>[0-9]+)$', views.submit_result, name='result'),
-	url(r'^test$', views.test, name='test'),
-	url(r'^output/gen', views.gen_output, name='output/gen'),
-	url(r'^image/create', views.create_image, name='image/create')
+	url(r'^shell/begin', views.shell_begin, name='shell/begin'),
+	url(r'^test', views.test, name='test'),
 ]

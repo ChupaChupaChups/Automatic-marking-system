@@ -2,12 +2,19 @@
 
 import selectors
 import subprocess
+import sys
+from time import sleep
 
 import psutil
 from io import BytesIO
 
+# TODO: Error handling
+# TODO: make sure that handles all exceptions and errors
+
+
 buffer = BytesIO()
 
+# TODO: dynamic target program
 proc = subprocess.Popen(
 		['python3', '/compiler_and_judge/test3.py'],
 		stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -20,7 +27,9 @@ selector = selectors.DefaultSelector()
 # Register the selector to poll for "read" readiness on stdin
 selector.register(proc.stdout, selectors.EVENT_READ)
 while process.status() != psutil.STATUS_ZOMBIE:
-	s = input() + '\n'
+	# ``input()`` vs ``sys.stdin.readline()``
+	# http://stackoverflow.com/questions/22623528/sys-stdin-readline-and-input-which-one-is-faster-when-reading-lines-of-inpu
+	s = sys.stdin.readline()
 	proc.stdin.write(s.encode())
 	proc.stdin.flush()
 
@@ -38,6 +47,10 @@ while process.status() != psutil.STATUS_ZOMBIE:
 			else:
 				is_buffer_empty = False
 
-	print(buffer.getvalue().decode(), end='\u0000')
+	# ``end`` parameter force to print even if ``buffer.getvalue()`` is null string ('')
+	print(buffer.getvalue().decode(), end='\u0003', flush=True)
 	buffer.truncate(0)
 	buffer.seek(0)
+
+# end of program
+print('\u0004', end='', flush=True)

@@ -42,7 +42,9 @@ INSTALLED_APPS = [
 	# for DateTimePicker
 	'datetimewidget',
 	# Project
-	'AMS'
+	'AMS',
+	# for WebSocket service
+	'channels'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -60,6 +62,14 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'WWW.urls'
+
+# for channel module's setting
+CHANNEL_LAYERS = {
+	"default": {
+		"BACKEND": "asgiref.inmemory.ChannelLayer",
+		"ROUTING": "AMS.websocket_routing.channel_routing",
+	},
+}
 
 TEMPLATES = [
 	{
@@ -130,9 +140,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'statics')
 
 LOGIN_URL = '/login/'
-
 LOGOUT_URL = '/logout/'
-
 LOGIN_REDIRECT_URL = '/index'
 
 # for full file path

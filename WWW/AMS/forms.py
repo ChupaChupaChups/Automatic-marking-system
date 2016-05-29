@@ -35,7 +35,7 @@ class ProblemForm(forms.ModelForm):
 				'multiple': True,
 			})
 	)
-	
+
 	class Meta:
 		model = Problem
 		widgets = {
@@ -60,6 +60,7 @@ class ProblemForm(forms.ModelForm):
 			'onblur': "if (this.value == '') {this.value = this.defaultValue;}"
 		})
 
+
 class SubmitForm(forms.ModelForm):
 	attachments_file = MultiFileField(
 			max_file_size=1024 * 1024 * 10,
@@ -73,6 +74,7 @@ class SubmitForm(forms.ModelForm):
 				'multiple': True, 'webkitdirectory': True,
 			})
 	)
+
 	class Meta:
 		model = SubmitRecord
 		fields = ['language']
@@ -102,14 +104,14 @@ class SubmitForm(forms.ModelForm):
 			instance.save()
 			if self.cleaned_data['attachments_file']:
 				for each in self.cleaned_data['attachments_file']:
-					SubmitFile.objects.create(record=instance, file=each, path = "/")
+					SubmitFile.objects.create(record=instance, file=each, path="/")
 			if self.cleaned_data['attachments_folder']:
 				for each in self.cleaned_data['attachments_folder']:
 					filepath = self.data[each.name]
 					print(filepath)
 					if filepath == "":
-						SubmitFile.objects.create(record=instance, file=each, path = "/")
-					else :
-						SubmitFile.objects.create(record=instance, file=each, path ="/"+filepath+"/")
+						SubmitFile.objects.create(record=instance, file=each, path="/")
+					else:
+						SubmitFile.objects.create(record=instance, file=each, path="/" + filepath + "/")
 
 		return instance
