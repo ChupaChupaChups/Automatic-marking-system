@@ -38,22 +38,33 @@ class Problem(models.Model):
 			pass
 		super(Problem, self).save(*args, **kwargs)
 
-	p_day_limit = models.DateTimeField()
-	p_submissions_count = models.IntegerField(default=0)
+
+	#Selected Language Option
 	p_c_ok = models.BooleanField()
 	p_cpp_ok = models.BooleanField()
 	p_java_ok = models.BooleanField()
 	p_py_ok = models.BooleanField()
+	p_make_ok = models.BooleanField()
+
+	#Problem options
 	p_hint_integer = models.IntegerField(default=100)
+	p_judge = models.BooleanField()
+	p_submissions_count = models.IntegerField(default=0)
+	p_day_limit = models.DateTimeField()
+	
+	#TODO remove and ADD forms.py MultipleFiles
 	p_infile = models.FileField(upload_to=_get_upload_to_in)
 	p_outfile = models.FileField(upload_to=_get_upload_to_out)
-	p_judge = models.BooleanField()
-	p_name = models.CharField(max_length=100, unique=True)  # 문제 이름
-	p_content = models.TextField(null=True)  # 문제 내용
+
+	#TODO no need? 
 	p_input = models.TextField(null=False)  # 입력 조건
 	p_output = models.TextField(null=False)  # 출력 조건
+	
+	#Problem content
+	p_content = models.TextField(null=True)  # 문제 내용
 	p_pdffile = models.FileField(upload_to=_get_upload_to_pdf, null=True)
-
+	p_name = models.CharField(max_length=100, unique=True)  # 문제 이름
+	
 	def __str__(self):
 		return self.p_name
 

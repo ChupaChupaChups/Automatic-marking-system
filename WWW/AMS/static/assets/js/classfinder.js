@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var folderUploadBtn = document.getElementById("id_attachments_folder");
 	var tempFileList = fileUploadBtn.files;
 	var tempFolderList = folderUploadBtn.files;
+	var printFileList;
 	var mapPath = {};
 	var fileDragUpload = document.getElementById("dropfile");
 	var folderDragUpload = document.getElementById("dropfolder");
@@ -182,6 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
 				tpl.appendTo(listUl);
 			}
 		}
+
+		if (javaCheckbox.checked) extractClass();
+		if (pythonCheckbox.checked) extractFiles();
 	};
 	fileDragUpload.ondragover = function(e){
 		e.preventDefault();
@@ -214,12 +218,17 @@ document.addEventListener("DOMContentLoaded", function () {
 	function extractClass() {
 		// 이전목록 지움
 		while (entryList.options.length) entryList.remove(0);
-		var filelen;
+		printFileList = tempFolderList;
+		var filelen, folderlen, j = 0;
+		for (folderlen = 0; printFileList[folderlen]; folderlen++);
 		for (filelen = 0; tempFileList[filelen]; filelen++);
-		for (var i = 0; i < filelen; i++) {
+		for (var i = folderlen; i < filelen + folderlen; i++){
+			printFileList[i] = tempFileList[j++];
+		}
+		for (var i = 0; i < filelen + folderlen; i++) {
 
 			var re = /\.java/;
-			if (re.exec(tempFileList[i].name) != null) {
+			if (re.exec(printFileList[i].name) != null) {
 				var reader = new FileReader();
 
 				/**
@@ -258,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				};
 
 				// 비동기로 파일읽기 시작
-				reader.readAsText(tempFileList[i]);
+				reader.readAsText(printFileList[i]);
 			}
 		}
 	}
@@ -295,10 +304,15 @@ document.addEventListener("DOMContentLoaded", function () {
 	function extractFiles() {
 		while (entryList.options.length) entryList.remove(0);
 		var formdata = new FormData(form);
-		var filelen;
+		printFileList = tempFolderList;
+		var filelen, folderlen, j = 0;
+		for (folderlen = 0; printFileList[folderlen]; folderlen++);
 		for (filelen = 0; tempFileList[filelen]; filelen++);
-		for (var i = 0; i < filelen; i++) {
-			formdata.append("id_attachments", tempFileList[i]);
+		for (var i = folderlen; i < filelen + folderlen; i++){
+			printFileList[i] = tempFileList[j++];
+		}
+		for (var i = 0; i < filelen + folderlen; i++) {
+			formdata.append("id_attachments", printFileList[i]);
 		}
 		var xhr = makeHttpObject();
 		xhr.onreadystatechange = function () {
