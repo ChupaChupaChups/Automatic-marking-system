@@ -38,33 +38,32 @@ class Problem(models.Model):
 			pass
 		super(Problem, self).save(*args, **kwargs)
 
-
-	#Selected Language Option
+	# Selected Language Option
 	p_c_ok = models.BooleanField()
 	p_cpp_ok = models.BooleanField()
 	p_java_ok = models.BooleanField()
 	p_py_ok = models.BooleanField()
 	p_make_ok = models.BooleanField()
 
-	#Problem options
+	# Problem options
 	p_hint_integer = models.IntegerField(default=100)
 	p_judge = models.BooleanField()
 	p_submissions_count = models.IntegerField(default=0)
 	p_day_limit = models.DateTimeField()
-	
-	#TODO remove and ADD forms.py MultipleFiles
+
+	# TODO remove and ADD forms.py MultipleFiles
 	p_infile = models.FileField(upload_to=_get_upload_to_in)
 	p_outfile = models.FileField(upload_to=_get_upload_to_out)
 
-	#TODO no need? 
+	# TODO no need?
 	p_input = models.TextField(null=False)  # 입력 조건
 	p_output = models.TextField(null=False)  # 출력 조건
-	
-	#Problem content
+
+	# Problem content
 	p_content = models.TextField(null=True)  # 문제 내용
 	p_pdffile = models.FileField(upload_to=_get_upload_to_pdf, null=True)
 	p_name = models.CharField(max_length=100, unique=True)  # 문제 이름
-	
+
 	def __str__(self):
 		return self.p_name
 
@@ -90,7 +89,7 @@ class SubmitFile(models.Model):
 	def _save_path(self, filename):
 		return 'answer/{0}{1}{2}'.format(self.record.pk, self.path, filename)
 
-	path = models.TextField();
+	path = models.TextField()
 	record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
 	file = models.FileField(upload_to=_save_path)
 

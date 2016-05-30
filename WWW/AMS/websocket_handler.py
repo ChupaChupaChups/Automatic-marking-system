@@ -2,13 +2,12 @@ import json
 
 from .onlineshellmanager import ProcessError, get_shell
 
-CONST_CMD_INIT = 0
-CONST_CMD_REQ_OUTPUT = 1
-CONST_CMD_PROCESS_DONE = 2
-CONST_CMD_PROCESS_ERROR = 3
+CMD_INIT = 0
+CMD_REQ_OUTPUT = 1
+CMD_PROCESS_DONE = 2
+CMD_PROCESS_ERROR = 3
 
 
-# TODO: extract from this file. make own file for readability
 def req_handler(message):
 	payload = json.loads(message['text'])
 
@@ -19,17 +18,14 @@ def req_handler(message):
 
 	command = payload['command']
 	session = int(payload['session'])
-	print('command \"{}\" on session \"{}\""'.format(command, session))
+	print('command \"{}\" on session \"{}\"'.format(command, session))
 
-	if command == CONST_CMD_INIT:
-		shell = get_shell(session)
-		shell.channel = message.reply_channel
-
+	if command == CMD_INIT:
 		_send_dict({
-			'command': CONST_CMD_INIT
+			'command': CMD_INIT
 		})
 
-	elif command == CONST_CMD_REQ_OUTPUT:
+	elif command == CMD_REQ_OUTPUT:
 		shell = get_shell(session)
 
 		try:
@@ -37,13 +33,13 @@ def req_handler(message):
 			print('printed :' + output_string)
 
 			_send_dict({
-				'command': CONST_CMD_REQ_OUTPUT,
+				'command': CMD_REQ_OUTPUT,
 				'message': output_string
 			})
 
 			if status:
 				_send_dict({
-					'command': CONST_CMD_PROCESS_DONE
+					'command': CMD_PROCESS_DONE
 				})
 
 		# TODO: implement

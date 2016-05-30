@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import json
+import threading
 
 import docker
 import io
@@ -54,7 +55,7 @@ def build_image():
 #		print("'{0}' image is already exist".format(docker_tag))
 
 
-def judge(media_path, inputfiles):
+def start_judge(media_path, inputfiles):
 	cli = _get_client()
 	image_tag = Config["Docker"]["tag"]
 
@@ -106,5 +107,32 @@ def make_container(image_tag, command=None, volume_bind=None, **kwargs):
 		return container
 
 
+def get_websocket(container):
+	client = _get_client()
+
+	return client.attach_socket(container=container, params={
+		'stdin': 1,
+		'stdout': 1,
+		'stderr': 1,
+		'stream': 1
+	}, ws=True)
+
+
+def async_start_container(container):
+	client = _get_client()
+
+	def _target():
+		client.start(container)
+		client.wait(container)
+		client.remove_container(container)
+
+	thread = threading.Thread(target=_target, daemon=True)
+	thread.start()
+
+
 if __name__ == "__main__":
 	build_image()
+
+
+class ContainerStatusError(Exception):
+	pass

@@ -9,6 +9,7 @@ from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from . import onlineshellmanager
 from .forms import ProblemForm, SubmitForm
+from .judge_server import judgeServer
 from .judge_server.config import Config
 from .models import Problem, SubmitRecord, SubmitResult
 
@@ -77,9 +78,9 @@ def answer_submit(req, problem_number):
 			save_metadata(instance)
 
 			# TODO: rename variable
-			#			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-			#			inputfiles = os.path.dirname(instance.problem.p_infile.path)
-			#			judgeServer.judge(instance, media_path, inputfiles)
+			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+			inputfiles = os.path.dirname(instance.problem.p_infile.path)
+			judgeServer.start_judge(media_path, inputfiles)
 
 			return redirect('/problem/list')
 	else:
@@ -124,8 +125,7 @@ def submit_result(req, problem_number):
 	problem = Problem.objects.get(pk=problem_number)
 	get_record = SubmitRecord.objects.filter(user=req.user)
 	get_result = SubmitResult.objects.filter(record=get_record)
-	# get_record = SubmitRecord.objects.filter(record = problem)
-	# get_result = SubmitRecord.objects.filter(submitresult__record=problem_number)
+
 	return render(
 			req,
 			'AMS/submit_result.html',

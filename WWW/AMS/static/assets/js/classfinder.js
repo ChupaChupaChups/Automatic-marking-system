@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var regex_package = /package\s(\w+(\.?\w+)*)/g;
 	var entryList = document.getElementById("id_entry_point");
 	var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
-		
+
 	var fileUploadBtn = document.getElementById("id_attachments_file");
 	var folderUploadBtn = document.getElementById("id_attachments_folder");
 	var tempFileList = fileUploadBtn.files;
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	var mapPath = {};
 	var fileDragUpload = document.getElementById("dropfile");
 	var folderDragUpload = document.getElementById("dropfolder");
-	
+
 	var cCheckbox = document.getElementById('id_language_0');
 	var cppCheckbox = document.getElementById('id_language_1');
 	var javaCheckbox = document.getElementById('id_language_2');
@@ -56,13 +56,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		var filelen = 0, folderlen = 0;
 		for (filelen; tempFileList[filelen]; filelen++);
-		for (var i = 0; i < filelen; i++){
+		for (var i = 0; i < filelen; i++) {
 			formdata_temp.append("attachments_file", tempFileList[i]);
 		}
 		for (folderlen; tempFolderList[folderlen]; folderlen++);
 		for (var i = 0; i < folderlen; i++) {
 			formdata_temp.append("attachments_folder", tempFolderList[i]);
-			if(tempFolderList[i].webkitRelativePath == ""){
+			if (tempFolderList[i].webkitRelativePath == "") {
 				formdata_temp.append(tempFolderList[i].name, mapPath[tempFolderList[i].name]);
 			}
 			else formdata_temp.append(tempFolderList[i].webkitRelativePath, "");
@@ -83,24 +83,24 @@ document.addEventListener("DOMContentLoaded", function () {
 	$('#dropfile').find('a').click(function () {
 		$(this).parent().find('input').click();
 	});
-	$('#dropfolder').find('a').click(function(){
+	$('#dropfolder').find('a').click(function () {
 		$(this).parent().find('input').click();
 	});
-	folderUploadBtn.addEventListener('change', function(){
+	folderUploadBtn.addEventListener('change', function () {
 		var data = folderUploadBtn.files;
 		var filelen, j = 0;
 		if (tempFolderList != null) {
 			for (filelen = 0; tempFolderList[filelen]; filelen++);
-			for (var i = filelen; i < filelen + data.length; i++, j++){
+			for (var i = filelen; i < filelen + data.length; i++, j++) {
 				tempFolderList[i] = data[j];
-				if(mapPath[data[j].webkitRelativePath] == undefined) mapPath[data[j].webkitRelativePath] = [];
+				if (mapPath[data[j].webkitRelativePath] == undefined) mapPath[data[j].webkitRelativePath] = [];
 				mapPath[data[j].webkitRelativePath].push(data[j].webkitRelativePath);
 			}
 		}
 		else {
 			tempFolderList = data;
 		}
-		for (var i = 0; i < data.length; i++){
+		for (var i = 0; i < data.length; i++) {
 			var tpl = $('<li class="working"><p></p><span></span></li>');
 			tpl.find('p').text(data[i].webkitRelativePath).append('<i>' + '</i>');
 			tpl.appendTo(listUl);
@@ -138,17 +138,17 @@ document.addEventListener("DOMContentLoaded", function () {
 		var templen;
 		path = path || "";
 		if (item.isFile) {
-				item.file(
-					function (file) {
-						for (templen = 0; tempFolderList[templen]; templen++);
-						console.log(templen);
-						tempFolderList[templen] = file;
-						if (mapPath[file.name] == undefined) {
-							mapPath[file.name] = [];
-						}
-						mapPath[file.name].push(path);
+			item.file(
+				function (file) {
+					for (templen = 0; tempFolderList[templen]; templen++);
+					console.log(templen);
+					tempFolderList[templen] = file;
+					if (mapPath[file.name] == undefined) {
+						mapPath[file.name] = [];
 					}
-				);
+					mapPath[file.name].push(path);
+				}
+			);
 			console.log(tempFolderList);
 			var tpl = $('<li class="working"><p></p><span></span></li>');
 			tpl.find('p').text(item.fullPath).append('<i>' + '</i>');
@@ -164,22 +164,23 @@ document.addEventListener("DOMContentLoaded", function () {
 			});
 		}
 	}
-	fileDragUpload.ondrop = function(e){
+
+	fileDragUpload.ondrop = function (e) {
 		e.preventDefault();
-		if (e.dataTransfer && e.dataTransfer.files.length != 0){
+		if (e.dataTransfer && e.dataTransfer.files.length != 0) {
 			var data = e.dataTransfer.files;
-			if(tempFileList != null){
+			if (tempFileList != null) {
 				var templen, j = 0;
-				for(templen = 0; tempFileList[templen]; templen++);
-				for(var i = templen; i < templen+data.length; i++){
+				for (templen = 0; tempFileList[templen]; templen++);
+				for (var i = templen; i < templen + data.length; i++) {
 					tempFileList[i] = data[j++];
 				}
 			}
 			else tempFileList = data;
-			
-			for(var i = 0; i< data.length; i++){
+
+			for (var i = 0; i < data.length; i++) {
 				var tpl = $('<li class="working"><p></p></li>');
-				tpl.find('p').text(data[i].name).append('<i>'+'</i>');
+				tpl.find('p').text(data[i].name).append('<i>' + '</i>');
 				tpl.appendTo(listUl);
 			}
 		}
@@ -187,9 +188,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (javaCheckbox.checked) extractClass();
 		if (pythonCheckbox.checked) extractFiles();
 	};
-	fileDragUpload.ondragover = function(e){
+	fileDragUpload.ondragover = function (e) {
 		e.preventDefault();
-	}
+	};
 	folderDragUpload.ondrop = function (e) {
 		e.preventDefault();
 		if (e.dataTransfer && e.dataTransfer.files.length != 0) {
@@ -201,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				}
 			}
 		}
-		
+
 		if (javaCheckbox.checked) extractClass();
 		if (pythonCheckbox.checked) extractFiles();
 	};
@@ -222,7 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var filelen, folderlen, j = 0;
 		for (folderlen = 0; printFileList[folderlen]; folderlen++);
 		for (filelen = 0; tempFileList[filelen]; filelen++);
-		for (var i = folderlen; i < filelen + folderlen; i++){
+		for (var i = folderlen; i < filelen + folderlen; i++) {
 			printFileList[i] = tempFileList[j++];
 		}
 		for (var i = 0; i < filelen + folderlen; i++) {
@@ -308,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		var filelen, folderlen, j = 0;
 		for (folderlen = 0; printFileList[folderlen]; folderlen++);
 		for (filelen = 0; tempFileList[filelen]; filelen++);
-		for (var i = folderlen; i < filelen + folderlen; i++){
+		for (var i = folderlen; i < filelen + folderlen; i++) {
 			printFileList[i] = tempFileList[j++];
 		}
 		for (var i = 0; i < filelen + folderlen; i++) {
