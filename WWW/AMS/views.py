@@ -78,9 +78,9 @@ def answer_submit(req, problem_number):
 			save_metadata(instance)
 
 			# TODO: rename variable
-			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-			inputfiles = os.path.dirname(instance.problem.p_infile.path)
-			judgeServer.start_judge(media_path, inputfiles)
+			#media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+			#inputfiles = os.path.dirname(instance.problem.p_infile.path)
+			#judgeServer.start_judge(media_path, inputfiles)
 
 			return redirect('/problem/list')
 	else:

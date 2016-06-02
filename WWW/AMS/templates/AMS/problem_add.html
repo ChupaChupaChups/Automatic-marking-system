@@ -15,10 +15,54 @@
 	<!--CustomCSS-->
 	{{ create_form.media.css }}
 	<link rel="stylesheet" href="{% static "assets/css/problem_add.css" %}">
+	<link rel="stylesheet" href="{% static "assets/css/answer_submit.css" %}">
 	<link rel="stylesheet" href="{% static "web/css/style.css" %}">
 	<!--CustomJS-->
 	{{ create_form.media.js }}
 	<script src="{% static "assets/js/problem_add.js" %}"></script>
+	<script type="text/javascript">
+		/**
+		 * invoked when whole document is ready
+		 */
+		document.addEventListener("DOMContentLoaded", function () {
+			var selector = document.getElementById("entry-point-selector");
+			var cSelector = document.getElementById("id_language_0");
+			var cppSelector = document.getElementById("id_language_1");
+			var javaSelector = document.getElementById("id_language_2");
+			var pySelector = document.getElementById("id_language_3");
+
+			/**
+			 * for initial value
+			 *
+			 * http://www.w3schools.com/jsref/prop_style_display.asp
+			 * visibility options reference
+			 */
+			if (javaSelector.checked || pySelector.checked) {
+				selector.style.display = "block";
+			} else {
+				selector.style.display = "none";
+			}
+
+			function showEntryPointSelector(event) {
+				if (event.target.checked) {
+					selector.style.display = "block";
+				} else {
+					selector.style.display = "none";
+				}
+			}
+
+			function blockEntryPointSelector(event) {
+				if (event.target.checked) {
+					selector.style.display = "none";
+				}
+			}
+
+			cSelector.addEventListener("click", blockEntryPointSelector);
+			cppSelector.addEventListener("click", blockEntryPointSelector);
+			javaSelector.addEventListener("click", showEntryPointSelector);
+			pySelector.addEventListener("click", showEntryPointSelector);
+		});
+	</script>
 {% endblock %}
 
 {% block problem_add %}active{% endblock %}
@@ -70,6 +114,10 @@
 			</div>
 			<p id="percent">힌트를 보여주지 않습니다</p>
 
+			<label>제출횟수</label>
+			<div>
+				{{create_form.p_submissions_count}}
+			</div>
 
 			<h2>입/출력/코드 옵션</h2>
 			<ul class = "nav nav-tabs">
@@ -83,13 +131,36 @@
 						<input type="checkbox" class="switch-input" id="answer_code">
 						<span class="switch-content" data-on="ANSWER CODE" data-off="ANSWER CODE"></span>
 					</label>
-					<div id="answer_code_upload" class="upload">
-						<div class="login-form">
-							<div id="drop">
-								<a> ANSWER CODE FILES</a>
-									{{create_form.inputcode}}
+					<div id="answer_code_upload">
+						<div class="segmented-control" style="width : 100%; color : #5FBAAC">
+							<input checked="checked" id="id_language_0" name="language" type="radio" value="1">
+							<input id="id_language_1" name="language" type="radio" value="2">
+							<input id="id_language_2" name="language" type="radio" value="3">
+							<input id="id_language_3" name="language" type="radio" value="4">
+							<input id="id_language_4" name="language" type="radio" value="5">
+							<label for="id_language_0" data-value="C">C</label>
+	 						<label for="id_language_1" data-value="CPP">CPP</label>
+ 							<label for="id_language_2" data-value="JAVA">JAVA</label>
+ 							<label for="id_language_3" data-value="PYTHON">PYTHON</label>
+							<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
+						</div>
+						<div class="upload">				
+							<div class="login-form">
+								<div id="dropfile">
+									<a> SELECT Files or DROP</a>{{create_form.answercodeFile}}
+								</div>
+								<div id="dropfolder">
+									<a>SELECT Foleds or DROP</a>{{create_form.answercodeFolder}}
+								</div>
+								<ul id="listFile">
+								<!-- Upload file show here -->
+								</ul>
 							</div>
 						</div>
+						<p id="entry-point-selector">
+							<label for="id_entry_point">entry point :</label>
+							<select name="entry_point" id="id_entry_point" size="8"></select>
+						</p>
 					</div>
 					<label class="switch-content-slide">
 						<input type="checkbox" class="switch-input" id="input_file">
@@ -97,7 +168,7 @@
 					</label>
 					<div id="input_file_upload" class="upload">
 						<div class="login-form">
-							<div id="drop">
+							<div id = "dropfile">
 								<a> INPUT EXAMPLE FILES</a>
 									{{create_form.inputfile}}
 							</div>
@@ -105,6 +176,37 @@
 					</div>
 				</div>
 				<div id="only_code" class="tab-pane fade">
+					<div id="answer_code_upload">
+						<div class="segmented-control" style="width : 100%; color : #5FBAAC">
+							<input checked="checked" id="id_language_0" name="language" type="radio" value="1">
+							<input id="id_language_1" name="language" type="radio" value="2">
+							<input id="id_language_2" name="language" type="radio" value="3">
+							<input id="id_language_3" name="language" type="radio" value="4">
+							<input id="id_language_4" name="language" type="radio" value="5">
+							<label for="id_language_0" data-value="C">C</label>
+	 						<label for="id_language_1" data-value="CPP">CPP</label>
+ 							<label for="id_language_2" data-value="JAVA">JAVA</label>
+ 							<label for="id_language_3" data-value="PYTHON">PYTHON</label>
+							<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
+						</div>
+						<div class="upload">				
+							<div class="login-form">
+								<div id="dropfile">
+									<a> SELECT Files or DROP</a>{{create_form.answercodeFile}}
+								</div>
+								<div id="dropfolder">
+									<a>SELECT Foleds or DROP</a>{{create_form.answercodeFolder}}
+								</div>
+								<ul id="listFile">
+								<!-- Upload file show here -->
+								</ul>
+							</div>
+						</div>
+						<p id="entry-point-selector">
+							<label for="id_entry_point">entry point :</label>
+							<select name="entry_point" id="id_entry_point" size="8"></select>
+						</p>
+					</div>
 				</div>
 				<div id="input_output" class="tab-pane fade">
 					<label class="switch-content-slide">
@@ -113,7 +215,7 @@
 					</label>
 					<div id="input_file_upload2" class="upload">
 						<div class="login-form">
-							<div id="drop">
+							<div id="dropfile">
 								<a> INPUT EXAMPLE FILES</a>
 									{{create_form.inputfile}}
 							</div>
@@ -125,7 +227,7 @@
 					</label>
 					<div id="output_file_upload" class="upload">
 						<div class="login-form">
-							<div id="drop">
+							<div id="dropfile">
 								<a> OUTPUT EXAMPLE FILES</a>
 									{{create_form.outputfile}}
 							</div>

@@ -14,11 +14,17 @@ class HorizonRadioRenderer(forms.RadioSelect.renderer):
 
 
 class ProblemForm(forms.ModelForm):
-	answercode = MultiFileField(
+	answercodeFile = MultiFileField(
 			min_num=1,
 			max_file_size=1024 * 1024 * 5,
 			widget=MultiFileInput(attrs={
 				'multiple': True,
+			})
+	)
+	answercodeFolder = MultiFileField(
+			max_file_size=1024 * 1024 * 10,
+			widget=MultiFileInput(attrs={
+				'multiple': True, 'webkitdirectory': True,
 			})
 	)
 	inputfile = MultiFileField(
