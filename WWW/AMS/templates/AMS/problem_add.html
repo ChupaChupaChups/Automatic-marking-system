@@ -30,6 +30,7 @@
 			var cppSelector = document.getElementById("id_language_1");
 			var javaSelector = document.getElementById("id_language_2");
 			var pySelector = document.getElementById("id_language_3");
+			var mkSelector = document.getElementById("id_language_4");
 
 			/**
 			 * for initial value
@@ -61,6 +62,46 @@
 			cppSelector.addEventListener("click", blockEntryPointSelector);
 			javaSelector.addEventListener("click", showEntryPointSelector);
 			pySelector.addEventListener("click", showEntryPointSelector);
+			mkSelector.addEventListener("click",blockEntryPointSelector);
+		});
+	</script>
+	<script type="text/javascript">
+		/**
+		 * invoked when whole document is ready
+		 */
+		document.addEventListener("DOMContentLoaded", function () {
+			var selector = document.getElementById("entry-point-selector_oc");
+			var cSelector = document.getElementById("id_language_00");
+			var cppSelector = document.getElementById("id_language_11");
+			var javaSelector = document.getElementById("id_language_22");
+			var pySelector = document.getElementById("id_language_33");
+			var mkSelector = document.getElementById("id_language_44");
+
+			if (javaSelector.checked || pySelector.checked) {
+				selector.style.display = "block";
+			} else {
+				selector.style.display = "none";
+			}
+
+			function showEntryPointSelector(event) {
+				if (event.target.checked) {
+					selector.style.display = "block";
+				} else {
+					selector.style.display = "none";
+				}
+			}
+
+			function blockEntryPointSelector(event) {
+				if (event.target.checked) {
+					selector.style.display = "none";
+				}
+			}
+
+			cSelector.addEventListener("click", blockEntryPointSelector);
+			cppSelector.addEventListener("click", blockEntryPointSelector);
+			javaSelector.addEventListener("click", showEntryPointSelector);
+			pySelector.addEventListener("click", showEntryPointSelector);
+			mkSelector.addEventListener("click",blockEntryPointSelector);
 		});
 	</script>
 {% endblock %}
@@ -121,9 +162,9 @@
 
 			<h2>입/출력/코드 옵션</h2>
 			<ul class = "nav nav-tabs">
-				<li class="active"><a data-toggle="tab" href="#input_code">입력+코드</a></li>
-				<li><a data-toggle="tab" href="#only_code">코드</a></li>
-				<li><a data-toggle="tab" href="#input_output">입력+출력</a></li>
+				<li class="active" id = "input_code"><a data-toggle="tab" href="#input_code">입력+코드</a></li>
+				<li id = "only_code"><a data-toggle="tab" href="#only_code">코드</a></li>
+				<li id = "input_output"><a data-toggle="tab" href="#input_output">입력+출력</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="input_code" class="tab-pane fade in active">
@@ -146,13 +187,13 @@
 						</div>
 						<div class="upload">				
 							<div class="login-form">
-								<div id="dropfile">
+								<div id="dropfile_ic">
 									<a> SELECT Files or DROP</a>{{create_form.answercodeFile}}
 								</div>
-								<div id="dropfolder">
+								<div id="dropfolder_ic">
 									<a>SELECT Foleds or DROP</a>{{create_form.answercodeFolder}}
 								</div>
-								<ul id="listFile">
+								<ul id="listFile_ic">
 								<!-- Upload file show here -->
 								</ul>
 							</div>
@@ -168,41 +209,48 @@
 					</label>
 					<div id="input_file_upload" class="upload">
 						<div class="login-form">
-							<div id = "dropfile">
+							<div id = "inputfile_ic">
 								<a> INPUT EXAMPLE FILES</a>
 									{{create_form.inputfile}}
 							</div>
+							<div id = "inputfolder_ic">
+								<a>INPUT EXAMPLE FOLDERS</a>
+									{{create_form.inputfolder}}
+							</div>
+							<ul id="inputlistFile_ic">
+								<!-- Upload file show here -->
+							</ul>
 						</div>
 					</div>
 				</div>
 				<div id="only_code" class="tab-pane fade">
 					<div id="answer_code_upload">
 						<div class="segmented-control" style="width : 100%; color : #5FBAAC">
-							<input checked="checked" id="id_language_0" name="language" type="radio" value="1">
-							<input id="id_language_1" name="language" type="radio" value="2">
-							<input id="id_language_2" name="language" type="radio" value="3">
-							<input id="id_language_3" name="language" type="radio" value="4">
-							<input id="id_language_4" name="language" type="radio" value="5">
-							<label for="id_language_0" data-value="C">C</label>
-	 						<label for="id_language_1" data-value="CPP">CPP</label>
- 							<label for="id_language_2" data-value="JAVA">JAVA</label>
- 							<label for="id_language_3" data-value="PYTHON">PYTHON</label>
-							<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
+							<input checked="checked" id="id_language_00" name="language" type="radio" value="1">
+							<input id="id_language_11" name="language" type="radio" value="2">
+							<input id="id_language_22" name="language" type="radio" value="3">
+							<input id="id_language_33" name="language" type="radio" value="4">
+							<input id="id_language_44" name="language" type="radio" value="5">
+							<label for="id_language_00" data-value="C">C</label>
+	 						<label for="id_language_11" data-value="CPP">CPP</label>
+ 							<label for="id_language_22" data-value="JAVA">JAVA</label>
+ 							<label for="id_language_33" data-value="PYTHON">PYTHON</label>
+							<label for="id_language_44" data-value="MakeFile">MAKEFILE</label>
 						</div>
 						<div class="upload">				
 							<div class="login-form">
-								<div id="dropfile">
+								<div id="dropfile_oc">
 									<a> SELECT Files or DROP</a>{{create_form.answercodeFile}}
 								</div>
-								<div id="dropfolder">
+								<div id="dropfolder_oc">
 									<a>SELECT Foleds or DROP</a>{{create_form.answercodeFolder}}
 								</div>
-								<ul id="listFile">
+								<ul id="listFile_oc">
 								<!-- Upload file show here -->
 								</ul>
 							</div>
 						</div>
-						<p id="entry-point-selector">
+						<p id="entry-point-selector_oc">
 							<label for="id_entry_point">entry point :</label>
 							<select name="entry_point" id="id_entry_point" size="8"></select>
 						</p>
@@ -210,15 +258,22 @@
 				</div>
 				<div id="input_output" class="tab-pane fade">
 					<label class="switch-content-slide">
-						<input type="checkbox" class="switch-input" id="input_file2">
+						<input type="checkbox" class="switch-input" id="input_file">
 						<span class="switch-content" data-on="INPUT EXAMPLE FILES" data-off="INPUT EXAMPLE FILES"></span>
 					</label>
-					<div id="input_file_upload2" class="upload">
+					<div id="input_file_upload" class="upload">
 						<div class="login-form">
-							<div id="dropfile">
+							<div id = "inputfile_io">
 								<a> INPUT EXAMPLE FILES</a>
 									{{create_form.inputfile}}
 							</div>
+							<div id = "inputfolder_io">
+								<a>INPUT EXAMPLE FOLDERS</a>
+									{{create_form.inputfolder}}
+							</div>
+							<ul id="inputlistFile_io">
+								<!-- Upload file show here -->
+							</ul>
 						</div>
 					</div>
 					<label class="switch-content-slide">
@@ -227,10 +282,17 @@
 					</label>
 					<div id="output_file_upload" class="upload">
 						<div class="login-form">
-							<div id="dropfile">
-								<a> OUTPUT EXAMPLE FILES</a>
+							<div id = "outputfile_io">
+								<a>OUTPUT EXAMPLE FILES</a>
 									{{create_form.outputfile}}
 							</div>
+							<div id = "outputfolder_io">
+								<a>OUTPUT EXAMPLE FOLDERS</a>
+									{{create_form.outputfolder}}
+							</div>
+							<ul id="outputlistFile_io">
+								<!-- Upload file show here -->
+							</ul>
 						</div>
 					</div>
 				</div>

@@ -16,7 +16,8 @@
     border-radius: 3px
 }
 
-#dropfile a {
+#dropfile_ic a, #dropfile_oc a, #dropfolder_ic a, #dropfolder_oc a,
+#inputfile_ic a, #inputfile_io a, #inputfolder_ic a, #inputfolder_io a, #outputfile_io a, #outputfolder_io a {
     background: #009688 no-repeat 25px;
     padding: 30px 0px;
     color: #fff;
@@ -33,28 +34,11 @@
     border-radius: 3px;
 }
 
-#dropfile input{
+#dropfile_ic input, #dropfile_oc input, #dropfolder_ic input, #dropfolder_oc input,
+#inputfile_ic input, #inputfile_io input, #inputfolder_ic input, #inputfolder_io input, #outputfile_io input, #outputfolder_io input {
     display:none;
 }
-#dropfolder a {
-    background: #009688 no-repeat 25px;
-    padding: 30px 0px;
-    color: #fff;
-    width: 100%;
-    cursor: pointer;
-    display: inline-block;
-    text-align: center;
-    text-decoration: none;
-    font-size: 25px;
-    font-weight: bold;
-    font-family: calibri;
-    letter-spacing: 1px;
-    border-bottom: 1px solid #009688;
-    border-radius: 3px;
-}
-#dropfolder input{
-    display:none;
-}
+
 #upload ul{
 }
 
