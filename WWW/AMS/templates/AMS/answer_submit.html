@@ -7,7 +7,6 @@
 {% block submit_class %}active{% endblock %}
 
 {% block content_header %}
-	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/jquery-2.2.3.min.js' %}"></script>
 	<script type="text/javascript">
 		/**
@@ -94,3 +93,8 @@
 	</div>
 {% endblock %}
 
+{% block jsfile %}
+<script type="text/javascript" src="{% static 'assets/js/upload.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/answer_submit.js' %}"></script>
+{% endblock %}

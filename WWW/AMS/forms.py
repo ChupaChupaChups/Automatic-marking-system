@@ -14,46 +14,6 @@ class HorizonRadioRenderer(forms.RadioSelect.renderer):
 
 
 class ProblemForm(forms.ModelForm):
-	answercodeFile = MultiFileField(
-			min_num=1,
-			max_file_size=1024 * 1024 * 5,
-			widget=MultiFileInput(attrs={
-				'multiple': True,
-			})
-	)
-	answercodeFolder = MultiFileField(
-			max_file_size=1024 * 1024 * 10,
-			widget=MultiFileInput(attrs={
-				'multiple': True, 'webkitdirectory': True,
-			})
-	)
-	inputfile = MultiFileField(
-			min_num=1,
-			max_file_size=1024 * 1024 * 5,
-			widget=MultiFileInput(attrs={
-				'multiple': True,
-			})
-	)
-	inputfolder = MultiFileField(
-			max_file_size=1024*1024*10,
-			widget=MultiFileInput(attrs={
-				'multiple':True, 'webkitdirectory':True,
-			})
-	)
-	outputfile = MultiFileField(
-			min_num=1,
-			max_file_size=1024 * 1024 * 5,
-			widget=MultiFileInput(attrs={
-				'multiple': True,
-			})
-	)
-	outputfolder = MultiFileField(
-			max_file_size=1024*1024*10,
-			widget=MultiFileInput(attrs={
-				'multiple':True, 'webkitdirectory':True,
-			})
-	)
-
 	class Meta:
 		model = Problem
 		widgets = {

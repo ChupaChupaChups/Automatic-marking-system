@@ -188,10 +188,12 @@
 						<div class="upload">				
 							<div class="login-form">
 								<div id="dropfile_ic">
-									<a> SELECT Files or DROP</a>{{create_form.answercodeFile}}
+									<a> SELECT Files or DROP</a>
+									<input type="file" id="ic_codefile" multiple="">
 								</div>
 								<div id="dropfolder_ic">
-									<a>SELECT Foleds or DROP</a>{{create_form.answercodeFolder}}
+									<a> SELECT Folder or DROP</a>
+									<input type="file" id="ic_codefolder" webkitdirectory="">
 								</div>
 								<ul id="listFile_ic">
 								<!-- Upload file show here -->
@@ -211,11 +213,11 @@
 						<div class="login-form">
 							<div id = "inputfile_ic">
 								<a> INPUT EXAMPLE FILES</a>
-									{{create_form.inputfile}}
+								<input type="file" id="ic_inputfile" multiple="">
 							</div>
 							<div id = "inputfolder_ic">
 								<a>INPUT EXAMPLE FOLDERS</a>
-									{{create_form.inputfolder}}
+								<input type="file" id="ic_inputfolder" webkitdirectory="">
 							</div>
 							<ul id="inputlistFile_ic">
 								<!-- Upload file show here -->
@@ -240,10 +242,12 @@
 						<div class="upload">				
 							<div class="login-form">
 								<div id="dropfile_oc">
-									<a> SELECT Files or DROP</a>{{create_form.answercodeFile}}
+									<a> SELECT Files or DROP</a>
+									<input type="file" id="oc_codefile" multiple="">
 								</div>
 								<div id="dropfolder_oc">
-									<a>SELECT Foleds or DROP</a>{{create_form.answercodeFolder}}
+									<a>SELECT Foleds or DROP</a>
+									<input type="file" id="oc_codefolder" webkitdirectory="" multiple="">
 								</div>
 								<ul id="listFile_oc">
 								<!-- Upload file show here -->
@@ -252,7 +256,7 @@
 						</div>
 						<p id="entry-point-selector_oc">
 							<label for="id_entry_point">entry point :</label>
-							<select name="entry_point" id="id_entry_point" size="8"></select>
+							<select name="entry_point" id="oc_entrypoint" size="8"></select>
 						</p>
 					</div>
 				</div>
@@ -265,11 +269,11 @@
 						<div class="login-form">
 							<div id = "inputfile_io">
 								<a> INPUT EXAMPLE FILES</a>
-									{{create_form.inputfile}}
+								<input type="file" id="io_inputfile" multiple="">
 							</div>
 							<div id = "inputfolder_io">
 								<a>INPUT EXAMPLE FOLDERS</a>
-									{{create_form.inputfolder}}
+								<input type="file" id="io_inputfolder" webkitdirectory="">
 							</div>
 							<ul id="inputlistFile_io">
 								<!-- Upload file show here -->
@@ -284,11 +288,11 @@
 						<div class="login-form">
 							<div id = "outputfile_io">
 								<a>OUTPUT EXAMPLE FILES</a>
-									{{create_form.outputfile}}
+								<input type="file" id="io_outputfile" multiple="">
 							</div>
 							<div id = "outputfolder_io">
 								<a>OUTPUT EXAMPLE FOLDERS</a>
-									{{create_form.outputfolder}}
+								<input type="file" id="io_outputfolder" webkitdirectory="">
 							</div>
 							<ul id="outputlistFile_io">
 								<!-- Upload file show here -->
