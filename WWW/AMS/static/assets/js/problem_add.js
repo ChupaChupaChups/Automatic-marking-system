@@ -48,45 +48,30 @@ document.addEventListener("DOMContentLoaded", function () {
 	var entryList = document.getElementById("id_entry_point");
 	var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 
-	var fileUploadBtn_ic = document.getElementById("id_answercodeFile");
-	var folderUploadBtn_ic = document.getElementById("id_answercodeFolder");
-	var infileUploadBtn_ic = document.getElementById("id_inputfile");
-	var infolderUploadBtn_ic = document.getElementById("id_inputfolder");
-	var fileUploadBtn_oc = document.getElementById("id_answercodeFile");
-	var folderUploadBtn_oc = document.getElementById("id_answercodeFolder");
-	var infileUploadBtn_io = document.getElementById("id_inputfile");
-	var infolderUploadBtn_io = document.getElementById("id_inputfolder");
-	var outfileUploadBtn_io = document.getElementById("id_outputfile");
-	var outfolderUploadBtn_io = document.getElementById("id_outputfolder");
+	var fileUploadBtn = document.getElementById("id_answercodeFile");
+	var folderUploadBtn = document.getElementById("id_answercodeFolder");
+	var infileUploadBtn = document.getElementById("id_inputfile");
+	var infolderUploadBtn = document.getElementById("id_inputfolder");
+ 	var outfileUploadBtn = document.getElementById("id_outputfile");
+	var outfolderUploadBtn = document.getElementById("id_outputfolder");
 
-	var tempFileList_ic = fileUploadBtn_ic.files;
-	var tempFolderList_ic = folderUploadBtn_ic.files;
-	var tempinFileList_ic = infileUploadBtn_ic.files;
-	var tempinFolderList_ic = infolderUploadBtn_ic.files;
-	var tempFileList_oc = fileUploadBtn_oc.files;
-	var tempFolderList_oc = folderUploadBtn_oc.files;
-	var tempinFileList_io = infileUploadBtn_io.files;
-	var tempinFolderList_io = infolderUploadBtn_io.files;
-	var tempoutFileList_io = outfileUploadBtn_io.files;
-	var tempoutFolderList_io = outfolderUploadBtn_io.files;
+	var tempFileList = fileUploadBtn.files;
+	var tempFolderList = folderUploadBtn.files;
+	var tempinFileList = infileUploadBtn.files;
+	var tempinFolderList = infolderUploadBtn.files;
+	var tempoutFileList = outfileUploadBtn.files;
+	var tempoutFolderList = outfolderUploadBtn.files;
 
-	var printFileList_ic, printFileList_oc;
+	var printFileList, printFileList;
 	var mapPath={}, inmapPath={}, outmapPath={};
 	var tabNum = 1;
 
-	/** input + code tab **/
-	var fileDragUpload_ic = document.getElementById("dropfile_ic");
-	var folderDragUpload_ic = document.getElementById("dropfolder_ic");
-	var infileDragUpload_ic = document.getElementById("inputfile_ic");
-	var infolderDragUpload_ic = document.getElementById("inputfolder_ic");
-	/** only code tab **/
-	var fileDragUpload_oc = document.getElementById("dropfile_oc");
-	var folderDragUpload_oc = document.getElementById("dropfolder_oc");
-	/** input + output tab **/
-	var infileDragUpload_io = document.getElementById("inputfile_io");
-	var infolderDragUpload_io = document.getElementById("inputfolder_io");
-	var outfileDragUpload_io = document.getElementById("outputfile_io");
-	var outfolderDragUpload_io = document.getElementById("outputfolder_io");
+	var fileDragUpload = document.getElementById("dropfile_ic");
+	var folderDragUpload = document.getElementById("dropfolder_ic");
+	var infileDragUpload = document.getElementById("inputfile_ic");
+	var infolderDragUpload = document.getElementById("inputfolder_ic");
+	var outfileDragUpload = document.getElementById("outputfile_io");
+	var outfolderDragUpload = document.getElementById("outputfolder_io");
 
 	/** language in input + code tab **/
 	var cCheckbox = document.getElementById('id_language_0');
@@ -94,13 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	var javaCheckbox = document.getElementById('id_language_2');
 	var pythonCheckbox = document.getElementById('id_language_3');
 	var makefileCheckbox = document.getElementById("id_language_4");
-	/** language in only code tab **/
-	var cCheckbox_oc = document.getElementById('id_language_00');
-	var cppCheckbox_oc = document.getElementById('id_language_11');
-	var javaCheckbox_oc = document.getElementById('id_language_22');
-	var pythonCheckbox_oc = document.getElementById('id_language_33');
-	var makefileCheckbox_oc = document.getElementById("id_language_44");
 
+console.log("file",fileDragUpload,"folder",folderDragUpload,"infile",infileDragUpload,"infolder",infolderDragUpload,"outfile",outfileDragUpload,"outfolder",outfolderDragUpload);
 
 	document.getElementById('content').addEventListener('click', function (event) {
 		if (event.target.checked) content.style.display = 'block';
@@ -123,6 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
 		else inputfiles.style.display = 'none';
 	});
 	
+	var inputfiles2 = document.getElementById('input_file_upload2');
+	inputfiles2.style.display = 'none';
+
+	document.getElementById('input_file2').addEventListener('click', function (event){
+		if (event.target.checked) inputfiles2.style.display = 'block';
+		else inputfiles2.style.display = 'none';
+	});	
+
 	var outputfiles = document.getElementById('output_file_upload');
 	outputfiles.style.display = 'none';
 	
@@ -141,9 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if (document.getElementById("hintBar").value == 100) document.getElementById("percent").innerHTML = "힌트를 보여주지 않습니다";
 		else document.getElementById("percent").innerHTML = document.getElementById("hintBar").value + "% 이상 맞으면 힌트보여주기";
 	});
-	document.getElementById('input_code').addEventListener('click',function(event){ tabNum = 1 });
-	document.getElementById('only_code').addEventListener('click',function(event){ tabNum = 2 });
-	document.getElementById('input_output').addEventListener('click',function(event){ tabNum = 3 });
+	
 
 
 	var submit_res = document.getElementById('save_problem');
@@ -151,11 +137,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		e.preventDefault();
 		var formdata_temp = new FormData();
 		var xhr = makeHttpObject();
-		var checkedc = (cCheckbox.checked && cCheckbox_oc.checked);
-		var checkedcpp = (cppCheckbox.checked && cppCheckbox_oc.checked);
-		var checkedjava = (javaCheckbox.checked && javaCheckbox_oc.checked);
-		var checkedpy = (pythonCheckbox.checked && pythonCheckbox_oc.checked);
-		var checkedmake = (makefileCheckbox.checked && makefileCheckbox_oc.checked);
+		var checkedc = cCheckbox.checked;
+		var checkedcpp = cppCheckbox.checked;
+		var checkedjava = javaCheckbox.checked;
+		var checkedpy = pythonCheckbox.checked;
+		var checkedmake = makefileCheckbox.checked;
 		var language;
 		
 		formdata_temp.append("csrfmiddlewaretoken", csrf_token[1]);
@@ -225,14 +211,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		console.log(xhr);
 	});
 
-
-
-
-	var listUl_ic = document.getElementById("listFile_ic");
-	var inlistUl_ic = document.getElementById("inputlistFile_ic");
-	var listUl_oc = document.getElementById("listFile_oc");
-	var inlistUl_io = document.getElementById("inputlistFile_io");
-	var outlistUl_io = document.getElementById("outputlistFile_io");
+	var listUl = document.getElementById("listFile_ic");
+	var inlistUl = document.getElementById("inputlistFile_ic");
+	var outlistUl = document.getElementById("outputlistFile_io");
 
 	/** input + code tab**/
 	$('#dropfile_ic').find('a').click(function () {
@@ -310,48 +291,29 @@ document.addEventListener("DOMContentLoaded", function () {
 			//console.log("click folder:", folderList);
 	}
 
-	/** input + code **/
-	fileUploadBtn_ic.addEventListener('change', function() {
-		fileUpBtn(fileUploadBtn_ic, tempFileList_ic, listUl_ic);
-		console.log("click file:", tempFileList_ic);
+	fileUploadBtn.addEventListener('change', function() {
+		fileUpBtn(fileUploadBtn, tempFileList, listUl);
+		console.log("click file:", tempFileList);
 	});
-	folderUploadBtn_ic.addEventListener('change', function() {
-		folderUpBtn(folderUploadBtn_ic, tempFolderList_ic, mapPath, listUl_ic);
-		console.log("click folder:", tempFolderList_ic);
+	folderUploadBtn.addEventListener('change', function() {
+		folderUpBtn(folderUploadBtn, tempFolderList, mapPath, listUl);
+		console.log("click folder:", tempFolderList);
 	});
-	infileUploadBtn_ic.addEventListener('change', function(){
-		fileUpBtn(infileUploadBtn_ic, tempinFileList_ic, inlistUl_ic);
-		console.log("click infile:", tempinFileList_ic);
+	infileUploadBtn.addEventListener('change', function(){
+		fileUpBtn(infileUploadBtn, tempinFileList, inlistUl);
+		console.log("click infile:", tempinFileList);
 	});
-	infolderUploadBtn_ic.addEventListener('change', function() {
-		folderUpBtn(infolderUploadBtn_ic, tempinFolderList_ic, inmapPath, inlistUl_ic);
-		console.log("click infolder:", tempinFolderList_ic);
+	infolderUploadBtn.addEventListener('change', function() {
+		folderUpBtn(infolderUploadBtn, tempinFolderList, inmapPath, inlistUl);
+		console.log("click infolder:", tempinFolderList);
 	});
-	/** only code **/
-	fileUploadBtn_oc.addEventListener('change', function() {
-		fileUpBtn(fileUploadBtn_oc, tempFileList_oc, listUl_oc);
-		console.log("click file:", tempFileList_oc);
+	outfileUploadBtn.addEventListener('change', function(){
+		fileUpBtn(outfileUploadBtn, tempoutFileList, outlistUl);
+		console.log("click outfile:", tempoutFileList);
 	});
-	folderUploadBtn_oc.addEventListener('change', function() {
-		folderUpBtn(folderUploadBtn_oc, tempFolderList_oc, mapPath, listUl_oc);
-		console.log("click folder:", tempFolderList_oc);
-	});
-	/** input + output **/
-	infileUploadBtn_io.addEventListener('change', function(){
-		fileUpBtn(infileUploadBtn_io, tempinFileList_io, inlistUl_io);
-		console.log("click infile:", tempinFileList_io);
-	});
-	infolderUploadBtn_io.addEventListener('change', function() {
-		folderUpBtn(infolderUploadBtn_io, tempinFolderList_io, inmapPath, inlistUl_io);
-		console.log("click infolder:", tempinFolderList_io);
-	});
-	outfileUploadBtn_io.addEventListener('change', function(){
-		fileUpBtn(outfileUploadBtn_io, tempoutFileList_io, outlistUl_io);
-		console.log("click outfile:", tempoutFileList_io);
-	});
-	outfolderUploadBtn_io.addEventListener('change', function() {
-		folderUpBtn(outfolderUploadBtn_io, tempoutFolderList_io, outmapPath, outlistUl_io);
-		console.log("click outfolder:", tempoutFolderList_io);
+	outfolderUploadBtn.addEventListener('change', function() {
+		folderUpBtn(outfolderUploadBtn, tempoutFolderList, outmapPath, outlistUl);
+		console.log("click outfolder:", tempoutFolderList);
 	});
 
 	/** prevent to open droped file **/
@@ -397,19 +359,14 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 
 	/** file Drag Upload **/
-	fileDragUpload_ic.ondragover = function (e) {
+
+	fileDragUpload.ondragover = function (e) {
 		e.preventDefault();
 	};
-	infileDragUpload_ic.ondragover = function (e) {
+	infileDragUpload.ondragover = function (e) {
 		e.preventDefault();
 	};
-	fileDragUpload_oc.ondragover = function (e) {
-		e.preventDefault();
-	};
-	infileDragUpload_io.ondragover = function (e) {
-		e.preventDefault();
-	};
-	outfileDragUpload_io.ondragover = function (e) {
+	outfileDragUpload.ondragover = function (e) {
 		e.preventDefault();
 	};
 
@@ -432,50 +389,34 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 		}
 		//console.log("drag file:",fileList);
-		if (javaCheckbox.checked || javaCheckbox_oc) extractClass();
-		if (pythonCheckbox.checked || javaCheckbox_oc) extractFiles();
+		if (javaCheckbox.checked) extractClass();
+		if (pythonCheckbox.checked) extractFiles();
 	}
 
-	fileDragUpload_ic.ondrop = function (e) {
+	fileDragUpload.ondrop = function (e) {
 		e.preventDefault();
-		fileDrag(e.dataTransfer, tempFileList_ic, listUl_ic);
-		console.log("drag file:",tempFileList_ic);
+		fileDrag(e.dataTransfer, tempFileList, listUl);
+		console.log("drag file:",tempFileList);
 	};
-	infileDragUpload_ic.ondrop = function (e) {
+	infileDragUpload.ondrop = function (e) {
 		e.preventDefault();
-		fileDrag(e.dataTransfer, tempinFileList_ic, inlistUl_ic);
-		console.log("drag infile:",tempinFileList_ic);
+		fileDrag(e.dataTransfer, tempinFileList, inlistUl);
+		console.log("drag infile:",tempinFileList);
 	};
-	fileDragUpload_oc.ondrop = function (e) {
+	outfileDragUpload.ondrop = function (e) {
 		e.preventDefault();
-		fileDrag(e.dataTransfer, tempFileList_oc, listUl_oc);
-		console.log("drag file:",tempFileList_oc);
-	};
-	infileDragUpload_io.ondrop = function (e) {
-		e.preventDefault();
-		fileDrag(e.dataTransfer, tempinFileList_io, inlistUl_io);
-		console.log("drag infile:",tempinFileList_io);
-	};
-	outfileDragUpload_io.ondrop = function (e) {
-		e.preventDefault();
-		fileDrag(e.dataTransfer, tempoutFileList_io, outlistUl_io);
-		console.log("drag outfile:",tempoutFileList_io);
+		fileDrag(e.dataTransfer, tempoutFileList, outlistUl);
+		console.log("drag outfile:",tempoutFileList);
 	};
 	
 	/** folder Drag Upload **/
-	folderDragUpload_ic.ondragover = function (e) {
+	folderDragUpload.ondragover = function (e) {
 		e.preventDefault();
 	};
-	infolderDragUpload_ic.ondragover = function (e) {
+	infolderDragUpload.ondragover = function (e) {
 		e.preventDefault();
 	};
-	folderDragUpload_oc.ondragover = function (e) {
-		e.preventDefault();
-	};
-	infolderDragUpload_io.ondragover = function (e) {
-		e.preventDefault();
-	};
-	outfolderDragUpload_io.ondragover = function (e) {
+	outfolderDragUpload.ondragover = function (e) {
 		e.preventDefault();
 	};
 
@@ -490,36 +431,102 @@ document.addEventListener("DOMContentLoaded", function () {
 			}
 		}
 		//console.log("drag folder:",tempFolderList);
-		if (javaCheckbox.checked || javaCheckbox_oc.checked) extractClass();
-		if (pythonCheckbox.checked || pythonCheckbox_oc.checked) extractFiles();
+		if (javaCheckbox.checked) extractClass();
+		if (pythonCheckbox.checked) extractFiles();
 	}
 	
-	folderDragUpload_ic.ondrop = function (e) {
+	folderDragUpload.ondrop = function (e) {
 		e.preventDefault();
-		folderDrag(e.dataTransfer, tempFolderList_ic, mapPath, listUl_ic);
-		console.log("drag folder:", tempFolderList_ic);
+		folderDrag(e.dataTransfer, tempFolderList, mapPath, listUl);
+		console.log("drag folder:", tempFolderList);
 	};
-	infolderDragUpload_ic.ondrop = function (e) {
+	infolderDragUpload.ondrop = function (e) {
 		e.preventDefault();
-		folderDrag(e.dataTransfer, tempinFolderList_ic, inmapPath, inlistUl_ic);
-		console.log("drag infolder:", tempinFolderList_ic);
+		folderDrag(e.dataTransfer, tempinFolderList, inmapPath, inlistUl);
+		console.log("drag infolder:", tempinFolderList);
 	};
-	folderDragUpload_oc.ondrop = function (e) {
+	outfolderDragUpload.ondrop = function (e) {
 		e.preventDefault();
-		folderDrag(e.dataTransfer, tempFolderList_oc, mapPath, listUl_oc);
-		console.log("drag folder:", tempFolderList_oc);
-	};
-	infolderDragUpload_io.ondrop = function (e) {
-		e.preventDefault();
-		folderDrag(e.dataTransfer, tempinFolderList_io, inmapPath, inlistUl_io);
-		console.log("drag infolder:", tempinFolderList_io);
-	};
-	outfolderDragUpload_io.ondrop = function (e) {
-		e.preventDefault();
-		folderDrag(e.dataTransfer, tempoutFolderList_io, outmapPath, outlistUl_io);
-		console.log("drag outfolder:", tempoutFolderList_io);
+		folderDrag(e.dataTransfer, tempoutFolderList, outmapPath, outlistUl);
+		console.log("drag outfolder:", tempoutFolderList);
 	};
 
+
+	document.getElementById('in_co').addEventListener('click',function(event){ 
+		console.log("tab 1 clicked");
+		tabNum = 1;
+		fileDragUpload = document.getElementById("dropfile_ic");
+		folderDragUpload = document.getElementById("dropfolder_ic");
+		infileDragUpload = document.getElementById("inputfile_ic");
+		infolderDragUpload = document.getElementById("inputfolder_ic");
+		outfileDragUpload = "\0";
+		outfolderDragUpload = "\0";
+
+		tempFileList = fileUploadBtn.files;
+		tempFolderList = folderUploadBtn.files;
+		tempinFileList = infileUploadBtn.files;
+		tempinFolderList = infolderUploadBtn.files;
+		tempoutFileList = "\0";
+		tempoutFolderList = "\0";
+
+		cCheckbox = document.getElementById('id_language_0');
+		cppCheckbox = document.getElementById('id_language_1');
+		javaCheckbox = document.getElementById('id_language_2');
+		pythonCheckbox = document.getElementById('id_language_3');
+		makefileCheckbox = document.getElementById("id_language_4");
+
+		listUl = document.getElementById("listFile_ic");
+		inlistUl = document.getElementById("inputlistFile_ic");
+		outlistUl = "\0";
+	});
+	document.getElementById('only_co').addEventListener('click',function(event){ 
+		console.log("tab 2 clicked");
+		tabNum = 2; 
+		fileDragUpload = document.getElementById("dropfile_oc");
+		folderDragUpload = document.getElementById("dropfolder_oc");
+		infileDragUpload = "\0";
+		infolderDragUpload = "\0";
+		outfileDragUpload = "\0";
+		outfolderDragUpload = "\0";
+
+		tempFileList = fileUploadBtn.files;
+		tempFolderList = folderUploadBtn.files;
+		tempinFileList = "\0";
+		tempinFolderList = "\0";
+		tempoutFileList = "\0";
+		tempoutFolderList = "\0";
+
+		cCheckbox = document.getElementById('id_language_00');
+		cppCheckbox = document.getElementById('id_language_11');
+		javaCheckbox = document.getElementById('id_language_22');
+		pythonCheckbox = document.getElementById('id_language_33');
+		makefileCheckbox = document.getElementById("id_language_44");
+
+		listUl = document.getElementById("listFile_oc");
+		inlistUl = "\0";
+		outlistUl = "\0";
+	});
+	document.getElementById('in_out').addEventListener('click',function(event){ 
+		console.log("tab 3 clicked");
+		tabNum = 3; 
+		fileDragUpload = "\0";
+		folderDragUpload = "\0";
+		infileDragUpload = document.getElementById("inputfile_io");
+		infolderDragUpload = document.getElementById("inputfolder_io");
+		outfileDragUpload = document.getElementById("outputfile_io");
+		outfolderDragUpload = document.getElementById("outputfolder_io");
+
+		tempFileList = "\0";
+		tempFolderList = "\0";
+		tempinFileList = infileUploadBtn.files;
+		tempinFolderList = infolderUploadBtn.files;
+		tempoutFileList = outfileUploadBtn.files;
+		tempoutFolderList = outfolderUploadBtn.files;
+
+		listUl = "\0";
+		inlistUl = document.getElementById("inputlistFile_io");
+		outlistUl = document.getElementById("outputlistFile_io");
+	});
 
 
 	/**
@@ -531,11 +538,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	function extractClass() {
 		// 이전목록 지움
 		while (entryList.options.length) entryList.remove(0);
-		printFileList_ic = tempFolderList_ic;
-		printFileList_oc = tempFolderList_oc;
+		printFileList = tempFolderList;
 
-		if ( tabNum == 1 ) exClass(printFileList_ic, tempFileList_ic);
-		else if ( tabNum == 2 ) exClass(printFileList_oc, tempFileList_oc);
+		exClass(printFileList, tempFileList);
 	}
 	function exClass(printFile, fileList){
 		var filelen, folderlen, j = 0;
@@ -581,8 +586,7 @@ document.addEventListener("DOMContentLoaded", function () {
 				 * 선택을 초기화하고, 메시지박스 띄움
 				 */
 				reader.onerror = function () {
-					fileUploadBtn_ic.value = '';
-					fileUploadBtn_oc.value = '';
+					fileUploadBtn.value = '';
 					alert("File could not be read!");
 				};
 
@@ -626,11 +630,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	function extractFiles() {
 		while (entryList.options.length) entryList.remove(0);
 
-		printFileList_ic = tempFolderList_ic;
-		printFileList_oc = tempFolderList_oc;
+		printFileList = tempFolderList;
 
-		if (tabNum == 1) exFiles(printFileList_ic, tempFileList_ic);
-		else if (tabNum == 2) exFiles(printFileList_oc, tempFileList_oc);
+		exFiles(printFileList, tempFileList);
 	}
 	function exFiles(printFile, fileList) {
 		var formdata = new FormData(form);
@@ -672,42 +674,22 @@ document.addEventListener("DOMContentLoaded", function () {
 	javaCheckbox.addEventListener('change', function (event) {
 		if (event.target.checked) {
 			extractClass();
-			fileUploadBtn_ic.addEventListener('change', extractClass);
-			folderUploadBtn_ic.addEventListener('change', extractClass);
+			fileUploadBtn.addEventListener('change', extractClass);
+			folderUploadBtn.addEventListener('change', extractClass);
 		} else {
-			fileUploadBtn_ic.removeEventListener('change', extractClass);
-			folderUploadBtn_ic.removeEventListener('change', extractClass);
-		}
-	});
-	javaCheckbox_oc.addEventListener('change', function (event) {
-		if (event.target.checked) {
-			extractClass();
-			fileUploadBtn_oc.addEventListener('change', extractClass);
-			folderUploadBtn_oc.addEventListener('change', extractClass);
-		} else {
-			fileUploadBtn_oc.removeEventListener('change', extractClass);
-			folderUploadBtn_oc.removeEventListener('change', extractClass);
+			fileUploadBtn.removeEventListener('change', extractClass);
+			folderUploadBtn.removeEventListener('change', extractClass);
 		}
 	});
 
 	pythonCheckbox.addEventListener('change', function (event) {
 		if (event.target.checked) {
 			extractFiles();
-			fileUploadBtn_ic.addEventListener('change', extractFiles);
-			folderUploadBtn_ic.addEventListener('change', extractFiles);
+			fileUploadBtn.addEventListener('change', extractFiles);
+			folderUploadBtn.addEventListener('change', extractFiles);
 		} else {
-			fileUploadBtn_ic.removeEventListener('change', extractFiles);
-			folderUploadBtn_ic.addEventListener('change', extractFiles);
-		}
-	});
-	pythonCheckbox_oc.addEventListener('change', function (event) {
-		if (event.target.checked) {
-			extractFiles();
-			fileUploadBtn_oc.addEventListener('change', extractFiles);
-			folderUploadBtn_oc.addEventListener('change', extractFiles);
-		} else {
-			fileUploadBtn_oc.removeEventListener('change', extractFiles);
-			folderUploadBtn_oc.addEventListener('change', extractFiles);
+			fileUploadBtn.removeEventListener('change', extractFiles);
+			folderUploadBtn.addEventListener('change', extractFiles);
 		}
 	});
 
@@ -716,8 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	 초기값을 위해 설정
 	 TODO: 언어별로 다른 함수 호출 하도록 변경
 	 */
-	if (fileUploadBtn_ic.value != "") extractClass();
-	if (fileUploadBtn_oc.value != "") extractClass();
+	if (fileUploadBtn.value != "") extractClass();
 
 
 });
