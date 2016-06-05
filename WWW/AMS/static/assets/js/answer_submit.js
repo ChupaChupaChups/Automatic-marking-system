@@ -1,7 +1,4 @@
-var regex_class = /class\s+([^\W]+)/g;
-var regex_package = /package\s(\w+(\.?\w+)*)/g;
 var entryList = document.getElementById("id_entry_point");
-var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 
 var fileUploadBtn = document.getElementById("id_attachments_file");
 var folderUploadBtn = document.getElementById("id_attachments_folder");

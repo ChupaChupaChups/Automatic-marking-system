@@ -8,6 +8,9 @@
  * TODO: main()이 있는 클래스만 엔트리 포인트 목록에 추가하도록 수정
  * TODO: main()이 하나인 경우 자동으로 그 클래스를 엔트리 포인트로 사용하도는 기능 추가
  */
+var regex_class = /class\s+([^\W]+)/g;
+var regex_package = /package\s(\w+(\.?\w+)*)/g;
+var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 function extractClass(fileList, folderList, entryList) {
 	// 이전목록 지움
 

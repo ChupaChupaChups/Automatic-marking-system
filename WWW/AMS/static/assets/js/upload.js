@@ -6,7 +6,6 @@ function traverseFileTree(item, folderList, map, Ul, path) {
 		item.file(
 			function (file) {
 				for (templen = 0; folderList[templen]; templen++);
-				console.log(templen);
 				folderList[templen] = file;
 				if (map[file.name] == undefined) {
 					map[file.name] = [];
@@ -64,9 +63,8 @@ function folderDrag(dataTransfer, folderList, map, Ul){
 		}
 	}
 	//console.log("drag folder:",tempFolderList);
-	if (javaCheckbox.checked) extractClass();
-	if (pythonCheckbox.checked) extractFiles();
-
+//	if (javaCheckbox.checked) extractClass();
+//	if (pythonCheckbox.checked) extractFiles();
 	return folderList;
 }
 
@@ -81,7 +79,6 @@ function fileUpBtn(fileBtn, fileList, Ul){
 		}
 	}
 	else {
-		console.log("1");
 		fileList = data;
 	}
 	for (var i=0; i < data.length; i++){

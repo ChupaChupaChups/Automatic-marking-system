@@ -19,7 +19,6 @@
 	<link rel="stylesheet" href="{% static "web/css/style.css" %}">
 	<!--CustomJS-->
 	{{ create_form.media.js }}
-	<script src="{% static "assets/js/problem_add.js" %}"></script>
 	<script type="text/javascript">
 		/**
 		 * invoked when whole document is ready
@@ -202,7 +201,7 @@
 						</div>
 						<p id="entry-point-selector">
 							<label for="id_entry_point">entry point :</label>
-							<select name="entry_point" id="id_entry_point" size="8"></select>
+							<select name="entry_point" id="ic_entry_point" size="8"></select>
 						</p>
 					</div>
 					<label class="switch-content-slide">
@@ -329,4 +328,8 @@
 			</div>
 		</form>
 	</div>
+	
+	<script src="{% static "assets/js/classfinder.js" %}"></script>
+	<script src="{% static "assets/js/upload.js" %}"></script>
+	<script src="{% static "assets/js/problem_add.js" %}"></script>
 {% endblock %}

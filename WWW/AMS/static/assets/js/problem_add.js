@@ -25,11 +25,18 @@ var outFolderList = outfolderUploadBtn.files;
 var listUl = document.getElementById("listFile_ic");
 var inlistUl = document.getElementById("inputlistFile_ic");
 var outlistUl = document.getElementById("outputlistFile_io");
+/* Drag upload Btn */
 
 var fileDragUpload = document.getElementById("dropfile_ic");
 var folderDragUpload = document.getElementById("dropfolder_ic");
 var infileDragUpload = document.getElementById("inputfile_ic");
 var infolderDragUpload = document.getElementById("inputfolder_ic");
+
+var ofileDragUpload = document.getElementById("dropfile_oc");
+var ofolderDragUpload = document.getElementById("dropfolder_oc");
+
+var ioinfileDragUpload = document.getElementById("inputfile_io");
+var ioinfolderDragUpload = document.getElementById("inputfolder_io");
 var outfileDragUpload = document.getElementById("outputfile_io");
 var outfolderDragUpload = document.getElementById("outputfolder_io");
 
@@ -39,7 +46,20 @@ var cppCheckbox = document.getElementById('id_language_1');
 var javaCheckbox = document.getElementById('id_language_2');
 var pythonCheckbox = document.getElementById('id_language_3');
 var makefileCheckbox = document.getElementById("id_language_4");
+var ic_entry_point = document.getElementById("ic_entry_point");
 
+/* onlycode language */
+
+var ocCheckbox = document.getElementById('id_language_00');
+var ocppCheckbox = document.getElementById('id_language_11');
+var ojavaCheckbox = document.getElementById('id_language_22');
+var opythonCheckbox = document.getElementById('id_language_33');
+var omakefileCheckbox = document.getElementById("id_language_44");
+var oc_entry_point = document.getElementById("oc_entry_point");
+
+var mapPath = [];
+var inmapPath = [];
+var outmapPath = [];
 document.getElementById('content').addEventListener('click', function (event) {
 	if (event.target.checked) content.style.display = 'block';
 	else content.style.display = 'none';
@@ -165,7 +185,7 @@ document.getElementById('in_co').addEventListener('click',function(event){
 	console.log("tab 1 clicked");
 	codeFileList = null, codeFolderList = null, inFileList = null, inFolderList = null, outFileList = null, outFolderList = null;
 	tabNum = 1;
-	
+	mapPath = [], inmapPath = [], outmapPath = [];
 	inlistUl = document.getElementById("inputlistFile_ic");
 	listUl = document.getElementById("listFile_ic");
 	
@@ -190,7 +210,7 @@ document.getElementById('only_co').addEventListener('click',function(event){
 	console.log("tab 2 clicked");
 	codeUploadBtn = document.getElementById("oc_codefile");
 	codeFolderUploadBtn = document.getElementById("oc_codefolder");
-	mapPath = [];
+	mapPath = [], inmapPath = [], outmapPath = [];
 	listUl = document.getElementById("listFile_oc"); 
 	while(listUl.children.length) listUl.children.item(0).remove();
 	tabNum = 2;
@@ -199,7 +219,7 @@ document.getElementById('only_co').addEventListener('click',function(event){
 document.getElementById('in_out').addEventListener('click',function(event){ 
 	codeFileList = null, codeFolderList = null, inFileList = null, inFolderList = null, outFileList = null, outFolderList = null;
 	console.log("tab 3 clicked");
-
+	mapPath = [], inmapPath = [], outmapPath = [];
 	inlistUl = document.getElementById("inputlistFile_io");
 	outlistUl = document.getElementById("outputlistFile_io");
 
@@ -210,12 +230,6 @@ document.getElementById('in_out').addEventListener('click',function(event){
 	infolderUploadBtn = document.getElementById("io_inputfolder");
 	outfileUploadBtn = document.getElementById("io_outputfile");
 	outfolderUploadBtn = document.getElementById("io_outputfolder");
-	cCheckbox = document.getElementById('id_language_00');
-	cppCheckbox = document.getElementById('id_language_11');
-	javaCheckbox = document.getElementById('id_language_22');
-	pythonCheckbox = document.getElementById('id_language_33');
-	makefileCheckbox = document.getElementById("id_language_44");
-
 
 	tabNum = 3;		
 		
@@ -241,53 +255,145 @@ fileDragUpload.ondragover = function (e) {
 infileDragUpload.ondragover = function (e) {
 	e.preventDefault();
 };
+ofileDragUpload.ondragover = function (e){
+	e.preventDefault();
+};
+ioinfileDragUpload.ondragover = function (e){
+	e.preventDefault();
+};
 outfileDragUpload.ondragover = function (e) {
 	e.preventDefault();
 };
 
 
-	fileDragUpload.ondrop = function (e) {
-		e.preventDefault();
-		fileDrag(e.dataTransfer, codeFileList, listUl);
-		console.log("drag file:",codeFileList);
-	};
-	infileDragUpload.ondrop = function (e) {
-		e.preventDefault();
-		fileDrag(e.dataTransfer, inFileList, inlistUl);
-		console.log("drag infile:",inFileList);
-	};
-	outfileDragUpload.ondrop = function (e) {
-		e.preventDefault();
-		fileDrag(e.dataTransfer, outFileList, outlistUl);
-		console.log("drag outfile:",outFileList);
-	};
-	
-	/** folder Drag Upload **/
-	folderDragUpload.ondragover = function (e) {
-		e.preventDefault();
-	};
-	infolderDragUpload.ondragover = function (e) {
-		e.preventDefault();
-	};
-	outfolderDragUpload.ondragover = function (e) {
-		e.preventDefault();
-	};
+fileDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	codeFileList = fileDrag(e.dataTransfer, codeFileList, listUl);
+	console.log("drag file:",codeFileList);
+};
+infileDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	inFileList = fileDrag(e.dataTransfer, inFileList, inlistUl);
+	console.log("drag infile:",inFileList);
+};
+ofileDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	codeFileList = fileDrag(e.dataTransfer, codeFileList, listUl);
+	console.log("drag file:", codeFileList);
+};
+
+ioinfileDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	inFileList = fileDrag(e.dataTransfer, inFileList, inlistUl);
+};
+outfileDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	outFileList = fileDrag(e.dataTransfer, outFileList, outlistUl);
+	console.log("drag outfile:",outFileList);
+};
+
+/** folder Drag Upload **/
+folderDragUpload.ondragover = function (e) {
+	e.preventDefault();
+};
+infolderDragUpload.ondragover = function (e) {
+	e.preventDefault();
+};
+ofolderDragUpload.ondragover = function (e) {
+	e.preventDefault();
+};
+ioinfolderDragUpload.ondragover = function (e) {
+	e.preventDefault();
+};
+outfolderDragUpload.ondragover = function (e) {
+	e.preventDefault();
+};
 
 
-	
-	folderDragUpload.ondrop = function (e) {
-		e.preventDefault();
-		folderDrag(e.dataTransfer, codeFolderList, mapPath, listUl);
-		console.log("drag folder:", codeFolderList);
-	};
-	infolderDragUpload.ondrop = function (e) {
-		e.preventDefault();
-		folderDrag(e.dataTransfer, inFolderList, inmapPath, inlistUl);
-		console.log("drag infolder:", inFolderList);
-	};
-	outfolderDragUpload.ondrop = function (e) {
-		e.preventDefault();
-		folderDrag(e.dataTransfer, outFolderList, outmapPath, outlistUl);
-		console.log("drag outfolder:", outFolderList);
-	};
+folderDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	codeFolderList = folderDrag(e.dataTransfer, codeFolderList, mapPath, listUl);
+	console.log("drag folder:", codeFolderList);
+};
+infolderDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	inFolderList = folderDrag(e.dataTransfer, inFolderList, inmapPath, inlistUl);
+	console.log("drag infolder:", inFolderList);
+};
+ofolderDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	codeFolderList = folderDrag(e.dataTransfer, codeFolderList, mapPath, listUl);
+	console.log("drag ofolder:", codeFolderList);
+};
+
+ioinfolderDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	inFolderList = folderDrag(e.dataTransfer, inFolderList, inmapPath, inlistUl);
+	console.log("drag infolder:", inFolderList);
+};
+outfolderDragUpload.ondrop = function (e) {
+	e.preventDefault();
+	outFolderList = folderDrag(e.dataTransfer, outFolderList, outmapPath, outlistUl);
+	console.log("drag outfolder:", outFolderList);
+};
+
+javaCheckbox.addEventListener('change', function (event) {
+	if (event.target.checked) {
+		extractClass(codeFileList, codeFolderList, ic_entry_point);
+		codeUploadBtn.addEventListener('change', function(){
+			extractClass(codeFileList, codeFolderList, ic_entry_point);
+
+		});
+		codeFolderUploadBtn.addEventListener('change', function(){
+			extractClass(codeFileList, codeFolderList, ic_entry_point);
+		});
+	} else {
+		codeUploadBtn.removeEventListener('change', extractClass);
+		codeFolderUploadBtn.removeEventListener('change', extractClass);
+	}
+});
+pythonCheckbox.addEventListener('change', function (event) {
+	if (event.target.checked) {
+		extractFiles(codeFileList, codeFolderList, ic_entry_point);
+		codeUploadBtn.addEventListener('change', function(){
+			extractFiles(codeFileList, codeFolderList, ic_entry_point);
+		});
+		codeFolderUploadBtn.addEventListener('change', function(){
+			extractFiles(codeFileList, codeFolderList, ic_entry_point);
+		});
+	} else {
+		codeUploadBtn.removeEventListener('change', extractFiles);
+		codeFolderUploadBtn.removeEventListener('change', extractFiles);
+	}
+});
+
+ojavaCheckbox.addEventListener('change', function (event) {
+	if (event.target.checked) {
+		extractClass(codeFileList, codeFolderList, oc_entry_point);
+		occodeUploadBtn.addEventListener('change', function(){
+			extractClass(codeFileList, codeFolderList, oc_entry_point);
+
+		});
+		occodeFolderUploadBtn.addEventListener('change', function(){
+			extractClass(codeFileList, codeFolderList, oc_entry_point);
+		});
+	} else {
+		occodeUploadBtn.removeEventListener('change', extractClass);
+		occodeFolderUploadBtn.removeEventListener('change', extractClass);
+	}
+});
+opythonCheckbox.addEventListener('change', function (event) {
+	if (event.target.checked) {
+		extractFiles(codeFileList, codeFolderList, oc_entry_point);
+		occodeUploadBtn.addEventListener('change', function(){
+			extractFiles(codeFileList, codeFolderList, oc_entry_point);
+		});
+		occodeFolderUploadBtn.addEventListener('change', function(){
+			extractFiles(codeFileList, codeFolderList, oc_entry_point);
+		});
+	} else {
+		occodeUploadBtn.removeEventListener('change', extractFiles);
+		occodeFolderUploadBtn.removeEventListener('change', extractFiles);
+	}
+});
 
