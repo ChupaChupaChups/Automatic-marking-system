@@ -113,5 +113,3 @@ function folderUpBtn(folderBtn, folderList, map, Ul){
 	//console.log("click folder:", folderList);
 };
 
-
-

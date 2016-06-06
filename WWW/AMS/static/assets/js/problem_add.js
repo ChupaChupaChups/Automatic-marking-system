@@ -60,6 +60,29 @@ var oc_entry_point = document.getElementById("oc_entry_point");
 var mapPath = [];
 var inmapPath = [];
 var outmapPath = [];
+
+var content = document.getElementById("p_content");
+content.style.display = 'none';
+function init(){
+	$('#ic_codefile').val('');
+	$('#ic_codefolder').val('');
+	$('#ic_inputfile').val('');
+	$('#ic_inputfolder').val('');
+	$('#oc_codefile').val('');
+	$('#oc_codefolder').val('');
+	$('#io_inputfile').val('');
+	$('#io_inputfolder').val('');
+	$('#io_outputfile').val('');
+	$('#io_outputfolder').val('');
+	inFileList = infileUploadBtn.files;
+	inFolderList = infolderUploadBtn.files;
+	outFileList = outfileUploadBtn.files;
+	outFolderList = outfolderUploadBtn.files;
+	codeFileList = codeUploadBtn.files;
+	codeFolderList = codeFolderUploadBtn.files
+	
+};
+
 document.getElementById('content').addEventListener('click', function (event) {
 	if (event.target.checked) content.style.display = 'block';
 	else content.style.display = 'none';
@@ -183,12 +206,11 @@ outfolderUploadBtn.addEventListener('change', function(){
 
 document.getElementById('in_co').addEventListener('click',function(event){
 	console.log("tab 1 clicked");
-	codeFileList = null, codeFolderList = null, inFileList = null, inFolderList = null, outFileList = null, outFolderList = null;
 	tabNum = 1;
 	mapPath = [], inmapPath = [], outmapPath = [];
 	inlistUl = document.getElementById("inputlistFile_ic");
 	listUl = document.getElementById("listFile_ic");
-	
+	while(ic_entry_point.options.length) ic_entry_point.remove(0);	
 	while(inlistUl.children.length) inlistUl.children.item(0).remove();
 	while(listUl.children.length) listUl.children.item(0).remove();
 		
@@ -201,24 +223,41 @@ document.getElementById('in_co').addEventListener('click',function(event){
 	javaCheckbox = document.getElementById('id_language_2');
 	pythonCheckbox = document.getElementById('id_language_3');
 	makefileCheckbox = document.getElementById("id_language_4");
-
+	occodeUploadBtn.removeEventListener('change', extractClass);
+	occodeFolderUploadBtn.removeEventListener('change', extractClass);
+	occodeUploadBtn.removeEventListener('change', extractFiles);
+	occodeFolderUploadBtn.removeEventListener('change', extractFiles);
+	
+	init();
 
 });
 
 document.getElementById('only_co').addEventListener('click',function(event){ 
-	codeFileList = null, codeFolderList = null, inFileList = null, inFolderList = null, outFileList = null, outFolderList = null;
 	console.log("tab 2 clicked");
+	while(oc_entry_point.options.length) oc_entry_point.remove(0);
 	codeUploadBtn = document.getElementById("oc_codefile");
 	codeFolderUploadBtn = document.getElementById("oc_codefolder");
 	mapPath = [], inmapPath = [], outmapPath = [];
 	listUl = document.getElementById("listFile_oc"); 
 	while(listUl.children.length) listUl.children.item(0).remove();
 	tabNum = 2;
+	cCheckbox = document.getElementById('id_language_00');
+	cppCheckbox = document.getElementById('id_language_11');
+	javaCheckbox = document.getElementById('id_language_22');
+	pythonCheckbox = document.getElementById('id_language_33');
+	makefileCheckbox = document.getElementById("id_language_44");
+	
+	codeUploadBtn.removeEventListener('change', extractClass);
+	codeFolderUploadBtn.removeEventListener('change', extractClass);
+	codeUploadBtn.removeEventListener('change', extractFiles);
+	codeFolderUploadBtn.removeEventListener('change', extractFiles);
+	
+	init();
 });
 
 document.getElementById('in_out').addEventListener('click',function(event){ 
-	codeFileList = null, codeFolderList = null, inFileList = null, inFolderList = null, outFileList = null, outFolderList = null;
 	console.log("tab 3 clicked");
+	init();
 	mapPath = [], inmapPath = [], outmapPath = [];
 	inlistUl = document.getElementById("inputlistFile_io");
 	outlistUl = document.getElementById("outputlistFile_io");
@@ -230,10 +269,18 @@ document.getElementById('in_out').addEventListener('click',function(event){
 	infolderUploadBtn = document.getElementById("io_inputfolder");
 	outfileUploadBtn = document.getElementById("io_outputfile");
 	outfolderUploadBtn = document.getElementById("io_outputfolder");
+	codeUploadBtn.removeEventListener('change', extractClass);
+	codeFolderUploadBtn.removeEventListener('change', extractClass);
+	codeUploadBtn.removeEventListener('change', extractFiles);
+	codeFolderUploadBtn.removeEventListener('change', extractFiles);
+	occodeUploadBtn.removeEventListener('change', extractClass);
+	occodeFolderUploadBtn.removeEventListener('change', extractClass);
+	occodeUploadBtn.removeEventListener('change', extractFiles);
+	occodeFolderUploadBtn.removeEventListener('change', extractFiles);
 
 	tabNum = 3;		
 		
-	inmapPath = [], outmapPath = [];	
+	init();
 });
 
 /** prevent to open droped file **/
@@ -380,6 +427,8 @@ ojavaCheckbox.addEventListener('change', function (event) {
 	} else {
 		occodeUploadBtn.removeEventListener('change', extractClass);
 		occodeFolderUploadBtn.removeEventListener('change', extractClass);
+			occodeUploadBtn.removeEventListener('change', extractFiles);
+		occodeFolderUploadBtn.removeEventListener('change', extractFiles);
 	}
 });
 opythonCheckbox.addEventListener('change', function (event) {
@@ -397,3 +446,8 @@ opythonCheckbox.addEventListener('change', function (event) {
 	}
 });
 
+var Upload_files = document.getElementById("Upload_files");
+
+Upload_files.addEventListener('click', function(){
+	
+});

@@ -32,6 +32,7 @@ class ProblemForm(forms.ModelForm):
 		self.fields['p_java_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_py_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_judge'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_pdffile'].widget.attrs.update({'class' : ''})
 		self.fields['p_name'].widget.attrs.update({
 			'value': 'problemName',
 			'onfocus': "if (this.value == this.defaultValue) {this.value = '';}",
