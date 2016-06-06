@@ -143,3 +143,56 @@ def shell_begin(_):
 	response = HttpResponse()
 	response['X-ShellSession'] = onlineshellmanager.build_session()
 	return response
+
+def problem_files(req):
+	media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
+	codefile_path = os.path.join(media_path, 'answercode')
+	inputfile_path = os.path.join(media_path, 'inputfile')
+	outputfile_path = os.path.join(media_path, 'outputfile')
+	check = req.POST['tabnum']
+	if check == 1:
+		language = req.POST['language']
+		if language == 3 or language == 4:
+			entry_point = req.POST['entrypoint']
+		codefile = req.POST['codefile']
+		handle_upload_file(req, codefile, codefile_path, 1)
+		codefolder = req.POST['codefolder']
+		handle_upload_file(req, codefolder, codefile_path, 2)
+		inputfile = req.POST['inputfile']
+		handle_upload_file(req, inputfile, inputfile_path, 1)
+		inputfolder = req.POST['inputfolder']
+		handle_upload_file(req, inputfolder, inputfile_path, 2)
+	elif check == 2:
+		language = req.POST['language']
+		if language == 3 or language == 4:
+			entry_point = req.POST['entrypoint']
+		codefile = req.POST['codefile']
+		handle_upload_file(req, codefile, codefile_path, 1)
+		codefolder = req.POST['codefolder']
+		handle_upload_file(req, codefolder, codefile_path, 2)
+	else:
+		inputfile = req.POST['inputfile']
+		inputfolder = req.POST['inputfolder']
+		outputfile = req.POST['outputfile']
+		outputfolder = req.POST['outputfolder']
+		handle_upload_file(req, inputfile, inputfile_path, 1)
+		handle_upload_file(req, inputfolder, inputfile_path, 2)
+		handle_upload_file(req, outputfile, outputfile_path, 1)
+		handle_upload_file(req, outputfolder, outputfile_path, 2)
+
+	return response
+
+def handle_upload_file(req, files, Path, check):
+	media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
+	for each in files:
+		fileName = each.name
+		if check == 1:
+			filePath = Path
+		else:
+			filePath = os.path.join(Path, req.POST[fileName])
+		with open(filePath, 'wb+') as destination:
+			for chunk in fileName.chunks():
+				destination.write(chunk)
+
+
+

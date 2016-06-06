@@ -26,6 +26,7 @@ urlpatterns = [
 	url(r'^logout', views.web_logout, name='logout'),
 	url(r'^problem/list', views.problem_list, name='problem/list'),
 	url(r'^problem/add', views.problem_add, name='problem/add'),
+	url(r'^problem/files', views.problem_files, name='problem/files'),
 	url(r'^problem/(?P<problem_number>[0-9]+)$', views.problem_read, name='problem'),
 	url(r'^problem/update/(?P<problem_number>[0-9]+)$', views.problem_update, name='problem/update'),
 	url(r'^submit/(?P<problem_number>[0-9]+)$', views.answer_submit, name='submit'),
