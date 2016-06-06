@@ -5,15 +5,26 @@
 const CMD_INITIALIZE = 0;
 const CMD_REQ_OUTPUT = 1;
 const CMD_PROCESS_DONE = 2;
-const CMD_PROCESS_ERROR = 3;
+const CMD_KILL_PROCESS = 3;
+const CMD_PROCESS_ERROR = 4;
+const CMD_RESET_SESSION = 5;
+
+var term = null;
 
 document.addEventListener("DOMContentLoaded", function () {
-	var screen = document.getElementById('screen');
+	var socket = null;
+	var sessionId;
+	var screen = document.getElementById('screen-wrapper');
 	var request = new XMLHttpRequest();
 	var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 	var runBtn = document.getElementById('btn-run');
-	var sessionId;
-	var socket;
+	var killBtn = document.getElementById('btn-kill');
+
+	killBtn.disabled = true;
+	killBtn.addEventListener('click', sessionClose);
+
+	window.addEventListener("beforeunload", sessionClose);
+
 
 	runBtn.addEventListener('click', function () {
 		request.onreadystatechange = function () {
@@ -32,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
 				};
 
 				socket.onmessage = socketCallBack;
+				killBtn.disabled = false;
+				runBtn.disabled = true;
 			}
 		};
 
@@ -40,19 +53,28 @@ document.addEventListener("DOMContentLoaded", function () {
 		request.send();
 	});
 
-	// TODO: add scroll
-	var term = new Terminal(
+	// TODO: changing size feature
+	// TODO: add ctrl key handling
+	// TODO: support Paste (Ctrl + V)
+	// TODO: should handle special ``write`` parameter like ``%+r`` or ``%-r``
+	term = new Terminal(
 		{
-			greeting: '%+r 제출한 소스코드에 입력을 전송합니다. \n 입출력을 확인하고 선택하세요.' +
-			' \n 세션은 마지막 입력으로 부터 5분간만 유지됩니다. %-r\n',
-			handler: termHandler,
+			greeting: '%+r Start program %-r',
 			termDiv: 'screen-wrapper',
 			bgColor: '#232e45',
 			fontClass: 'Nanum Gothic Coding',
 			crsrBlinkMode: true,
-			ps: '>>>'
+			ps: '>>>',
+			closeOnESC: false,
+			catchCtrlH: false,
+			handler: termHandler,
+			initHandler: termInitHandler,
+			exitHandler: termExitHandler,
+			ctrlHandler: termCtrlHandler
 		}
 	);
+	term.open();
+	term.close();
 
 	function termHandler() {
 		this.newLine();
@@ -65,12 +87,56 @@ document.addEventListener("DOMContentLoaded", function () {
 		}));
 	}
 
+	function termFocus() {
+		term.globals.keylock = false;
+	}
+
+	function termBlur() {
+		term.globals.keylock = true;
+	}
+
+	function termPaste(e) {
+		var pastedText = null;
+		if (window.clipboardData && window.clipboardData.getData) { // IE
+			pastedText = window.clipboardData.getData('Text');
+		} else if (e.clipboardData && e.clipboardData.getData) {
+			pastedText = e.clipboardData.getData('text/plain');
+		}
+
+		term.globals.insertText(pastedText);
+	}
+
+	/**
+	 *  invoked between ``Terminal`` creation and initialization
+	 */
+	function termInitHandler() {
+		screen.focus();
+
+		screen.addEventListener('focus', termFocus);
+		screen.addEventListener('blur', termBlur);
+		screen.addEventListener("paste", termPaste);
+
+		this.write(this.conf.greeting);
+		this.newLine();
+		this.prompt();
+	}
+
+	function termExitHandler() {
+		screen.removeEventListener('focus', termFocus);
+		screen.removeEventListener('blur', termBlur);
+		screen.removeEventListener("paste", termPaste);
+	}
+
 	function socketCallBack(message) {
 		var response = JSON.parse(message.data);
 
 		switch (response.command) {
+			case CMD_RESET_SESSION:
+				sessionId = response.session;
+
 			case CMD_INITIALIZE:
 				term.open();
+				screen.style.maxHeight = screen.clientHeight + 'px';
 				break;
 
 			case CMD_REQ_OUTPUT:
@@ -78,11 +144,11 @@ document.addEventListener("DOMContentLoaded", function () {
 				term.prompt();
 				break;
 
-			// TODO: implement
+			// FIXME: add history list's element
 			case CMD_PROCESS_DONE:
 				term.cursorOff();
-				term.newLine();
-				term.write('%+r 프로그램을 다시 시작합니다. %-r');
+				term.cursorSet(term.r, 0);
+				term.write('%+r Restart Program %-r');
 				term.prompt();
 				break;
 
@@ -91,8 +157,28 @@ document.addEventListener("DOMContentLoaded", function () {
 				break;
 
 			default:
-				term.write(fail);
+				console.log('unsupported command :' + response.command);
+				term.write('fail');
 				term.prompt();
 		}
+	}
+
+	function termCtrlHandler() {
+		console.log(this.inputChar);
+	}
+
+	function sessionClose() {
+		if (socket) {
+			socket.send(JSON.stringify({
+				'command': CMD_KILL_PROCESS,
+				'session': sessionId
+			}));
+
+			socket.close();
+			term.close();
+		}
+
+		killBtn.disabled = true;
+		runBtn.disabled = false;
 	}
 });

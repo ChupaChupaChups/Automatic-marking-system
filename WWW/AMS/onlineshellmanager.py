@@ -9,6 +9,7 @@ from .judge_server.config import Config
 
 __author__ = 'isac322'
 
+
 _sessions = dict()
 
 
@@ -38,9 +39,34 @@ def build_session():
 	return session
 
 
+def check_or_build(session):
+	"""
+	Check ``session`` is valid.
+	If ``session`` is valid just return through.
+	If not valid generate new session and return it.
+
+	Call when
+
+	:param	session:	session number (Integer)
+	:return session id (see ``_generate_session``)
+	"""
+	if _sessions.get(session):
+		return True, session
+	else:
+		return False, build_session()
+
+
 # TODO: add error handling
-def get_shell(session):
-	return _sessions[session]
+def gen_output(session, message):
+	return _sessions[session].get_output(message)
+
+
+def close_shell(session):
+	del _sessions[session]
+
+
+def close_all_shell():
+	_sessions.clear()
 
 
 class ShellSession:
@@ -52,6 +78,11 @@ class ShellSession:
 		judgeServer.async_start_container(self._container)
 		self._socket = judgeServer.get_websocket(self._container)
 		self._selector.register(self._socket, selectors.EVENT_READ)
+
+	def __del__(self):
+		del self._selector
+		self._socket.close()
+		judgeServer.kill_container(self._container)
 
 	@staticmethod
 	def _make_container():

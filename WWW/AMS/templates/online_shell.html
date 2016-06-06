@@ -6,7 +6,7 @@
 	<meta charset="UTF-8">
 	<title>Title</title>
 
-	<script type="text/javascript" src="{% static 'assets/js/termlib.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/scrollable.termlib.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/interactive_shell_module.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/reconnecting-websocket.min.js' %}"></script>
 
@@ -15,10 +15,11 @@
 </head>
 
 <body>
-<button id="btn-run" type="button" class="name">실행</button>
-<div id="screen-wrapper">
+<div>
+	<button id="btn-run" type="button" class="name">실행</button>
+	<button id="btn-kill" type="button" class="name">kill</button>
 </div>
-<ul id="screen"></ul>
+<div tabindex="0" style="outline: none;" id="screen-wrapper"></div>
 <ul id="history-list"></ul>
 </body>
 

@@ -130,6 +130,11 @@ def async_start_container(container):
 	thread.start()
 
 
+def kill_container(container):
+	client = _get_client()
+	client.kill(container)
+
+
 if __name__ == "__main__":
 	build_image()
 
