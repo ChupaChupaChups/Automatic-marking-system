@@ -452,15 +452,18 @@ Upload_files.addEventListener('click', function(event){
 	var formdata_temp = new FormData();
 	var xhr = makeHttpObject();
 
-	formdata_temp.append("csrfmiddlewaretoken, csrf_token[1]");
+	formdata_temp.append("csrfmiddlewaretoken", csrf_token[1]);
 	formdata_temp.append("tabnum",tabNum);
 
 	switch(tabNum) {
 		case 1: tab1(formdata_temp);
+			break;
 		case 2: tab2(formdata_temp);
+			break;
 		case 3: tab3(formdata_temp);
+			break;
 	}
-
+/*
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState == 4) {
 			if (xhr.status == 200) {
@@ -468,6 +471,7 @@ Upload_files.addEventListener('click', function(event){
 			}
 		}
 	};
+	*/
 	xhr.open("POST", "/problem/files");
 	xhr.send(formdata_temp);
 	console.log(xhr);
@@ -492,13 +496,13 @@ function tab3(formdata_temp){
 function append_language (formdata_temp) {
 	var language;
 
-	if (checkedc) language = 1;
-	else if (checkedcpp) language = 2;
-	else if (checkedjava) {
+	if (cCheckbox.checked) language = 1;
+	else if (cppCheckbox.checked) language = 2;
+	else if (javaCheckbox.checked) {
 		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
 		language = 3;
 	}
-	else if (checkedpy) {
+	else if (pythonCheckbox.checked) {
 		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
 		language = 4;
 	}

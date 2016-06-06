@@ -150,49 +150,59 @@ def problem_files(req):
 	inputfile_path = os.path.join(media_path, 'inputfile')
 	outputfile_path = os.path.join(media_path, 'outputfile')
 	check = req.POST['tabnum']
-	if check == 1:
-		language = req.POST['language']
+	files = req.FILES
+	print(files)
+	print(check)
+	if check == "1":
+		language = req.POST.get('language')
+		print(language)
 		if language == 3 or language == 4:
-			entry_point = req.POST['entrypoint']
-		codefile = req.POST['codefile']
+			entry_point = req.POST.get('entrypoint')
+		codefile = req.FILES.getlist('codefile')
+		print(codefile)
 		handle_upload_file(req, codefile, codefile_path, 1)
-		codefolder = req.POST['codefolder']
+		codefolder = req.FILES.getlist('codefolder')
+		print(codefolder)
 		handle_upload_file(req, codefolder, codefile_path, 2)
-		inputfile = req.POST['inputfile']
+		inputfile = req.FILES.getlist('inputfile')
+		print(inputfile)
 		handle_upload_file(req, inputfile, inputfile_path, 1)
-		inputfolder = req.POST['inputfolder']
+		inputfolder = req.FILES.getlist('inputfolder')
 		handle_upload_file(req, inputfolder, inputfile_path, 2)
-	elif check == 2:
-		language = req.POST['language']
+	elif check == "2":
+		language = req.POST.get('language')
 		if language == 3 or language == 4:
-			entry_point = req.POST['entrypoint']
-		codefile = req.POST['codefile']
+			entry_point = req.POST.get('entrypoint')
+		codefile = req.FILES.getlist('codefile')
 		handle_upload_file(req, codefile, codefile_path, 1)
-		codefolder = req.POST['codefolder']
+		codefolder = req.FILES.getlist('codefolder')
 		handle_upload_file(req, codefolder, codefile_path, 2)
 	else:
-		inputfile = req.POST['inputfile']
-		inputfolder = req.POST['inputfolder']
-		outputfile = req.POST['outputfile']
-		outputfolder = req.POST['outputfolder']
+		inputfile = req.FILES.getlist('inputfile')
+		inputfolder = req.FILES.getlist('inputfolder')
+		outputfile = req.FILES.getlist('outputfile')
+		outputfolder = req.FILES.getlist('outputfolder')
 		handle_upload_file(req, inputfile, inputfile_path, 1)
 		handle_upload_file(req, inputfolder, inputfile_path, 2)
 		handle_upload_file(req, outputfile, outputfile_path, 1)
 		handle_upload_file(req, outputfolder, outputfile_path, 2)
 
-	return response
+	return HttpResponse()
 
 def handle_upload_file(req, files, Path, check):
+	print(files)
 	media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
 	for each in files:
-		fileName = each.name
+		fileName = each
+		print(fileName)
 		if check == 1:
-			filePath = Path
+			filePath = os.path.join(Path, str(fileName))
 		else:
 			filePath = os.path.join(Path, req.POST[fileName])
+		if not os.path.exists(os.path.dirname(filePath)):
+			os.makedirs(os.path.dirname(filePath))
 		with open(filePath, 'wb+') as destination:
-			for chunk in fileName.chunks():
-				destination.write(chunk)
+				destination.write(each.read())
 
 
 
