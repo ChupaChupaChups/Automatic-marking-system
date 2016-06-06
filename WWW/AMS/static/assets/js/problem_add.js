@@ -60,6 +60,7 @@ var oc_entry_point = document.getElementById("oc_entry_point");
 var mapPath = [];
 var inmapPath = [];
 var outmapPath = [];
+var tabNum = 1;
 
 var content = document.getElementById("p_content");
 content.style.display = 'none';
@@ -447,7 +448,107 @@ opythonCheckbox.addEventListener('change', function (event) {
 });
 
 var Upload_files = document.getElementById("Upload_files");
+Upload_files.addEventListener('click', function(event){
+	var formdata_temp = new FormData();
+	var xhr = makeHttpObject();
 
-Upload_files.addEventListener('click', function(){
-	
+	formdata_temp.append("csrfmiddlewaretoken, csrf_token[1]");
+	formdata_temp.append("tabnum",tabNum);
+
+	switch(tabNum) {
+		case 1: tab1(formdata_temp);
+		case 2: tab2(formdata_temp);
+		case 3: tab3(formdata_temp);
+	}
+
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4) {
+			if (xhr.status == 200) {
+				
+			}
+		}
+	};
+	xhr.open("POST", "/problem/files");
+	xhr.send(formdata_temp);
+	console.log(xhr);
 });
+
+function tab1(formdata_temp){
+	append_language(formdata_temp);
+	append_code(formdata_temp);
+	append_input(formdata_temp);
+}
+
+function tab2(formdata_temp){
+	append_language(formdata_temp);
+	append_code(formdata_temp);
+}
+
+function tab3(formdata_temp){
+	append_input(formdata_temp);
+	append_output(formdata_temp);
+}
+
+function append_language (formdata_temp) {
+	var language;
+
+	if (checkedc) language = 1;
+	else if (checkedcpp) language = 2;
+	else if (checkedjava) {
+		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		language = 3;
+	}
+	else if (checkedpy) {
+		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		language = 4;
+	}
+	else language = 5;
+
+	formdata_temp.append("language", language);
+}
+
+function append_input (formdata_temp) {
+	var filelen = 0, folderlen = 0;
+	for (filelen; inFileList[filelen]; filelen++);
+	for (var i = 0; i < filelen; i++) {
+		formdata_temp.append("inputfile", inFileList[i]);
+	}
+	for (folderlen; inFolderList[folderlen]; folderlen++);
+	for (var i = 0; i < folderlen; i++) {
+		formdata_temp.append("inputfolder", inFolderList[i]);
+		if (inFolderList[i].webkitRelativePath == "") {
+			formdata_temp.append(inFolderList[i].name, inmapPath[inFolderList[i].name]);
+		}
+		else formdata_temp.append(inFolderList[i].webkitRelativePath, "");
+	}
+}
+function append_code (formdata_temp) {
+	var filelen = 0, folderlen = 0;
+	for (filelen; codeFileList[filelen]; filelen++);
+	for (var i = 0; i < filelen; i++) {
+		formdata_temp.append("codefile", codeFileList[i]);
+	}
+	for (folderlen; codeFolderList[folderlen]; folderlen++);
+	for (var i = 0; i < folderlen; i++) {
+		formdata_temp.append("codefolder", codeFolderList[i]);
+		if (codeFolderList[i].webkitRelativePath == "") {
+			formdata_temp.append(codeFolderList[i].name, mapPath[codeFolderList[i].name]);
+		}
+		else formdata_temp.append(codeFolderList[i].webkitRelativePath, "");
+	}
+}
+function append_output (formdata_temp) {
+	var filelen = 0, folderlen = 0;
+	for (filelen; outFileList[filelen]; filelen++);
+	for (var i = 0; i < filelen; i++) {
+		formdata_temp.append("outputfile", outFileList[i]);
+	}
+	for (folderlen; outFolderList[folderlen]; folderlen++);
+	for (var i = 0; i < folderlen; i++) {
+		formdata_temp.append("outputfolder", outFolderList[i]);
+		if (outFolderList[i].webkitRelativePath == "") {
+			formdata_temp.append(outFolderList[i].name, outmapPath[outFolderList[i].name]);
+		}
+		else formdata_temp.append(outFolderList[i].webkitRelativePath, "");
+	}
+}
