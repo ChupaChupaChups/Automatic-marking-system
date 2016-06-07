@@ -1,29 +1,35 @@
-.button {
-	width: 48%;
-	height: 25px;
-	margin-left: 1%;
-	border-style: solid;
-	border-width: 0 0 3px;
-	box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
-	color: #FFFFFF;
-	border-radius: 6px;
-	cursor: pointer;
-	display: inline-block;
-	font-style: normal;
-	overflow: hidden;
-	text-align: center;
-	text-decoration: none;
-	text-overflow: ellipsis;
-	transition: all 200ms ease-in-out 0s;
-	white-space: nowrap;
-	font-family: "Gotham Rounded A", "Gotham Rounded B", Helvetica, Arial, sans-serif;
-	font-weight: 700;
-	font-size: 13px;
+.dropdown-mycss {
+	width: 100%;
 }
-
-.button-green {
-	border-color: #BDC7BF;
-	background-color: #C3D4C6;
+.ullist {
+	width: 100%;
+	cursor: pointer;
+	margin : 0;
+}
+.fileUpload, .folderUpload {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+}
+.pdfUpload {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.fileUpload input, .folderUpload input, .pdfUpload input{
+	position: absolute;
+	width: 100%;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
 }
 
 .p_name #id_p_name {

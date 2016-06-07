@@ -22,8 +22,6 @@ class Problem(models.Model):
 
 	# Problem options
 	p_hint_integer = models.IntegerField(default=100)
-	p_judge = models.BooleanField()
-	p_submissions_count = models.IntegerField(default=0)
 	p_day_limit = models.DateTimeField()
 
 	# Problem content

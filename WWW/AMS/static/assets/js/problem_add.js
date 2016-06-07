@@ -27,17 +27,10 @@ var inlistUl = document.getElementById("inputlistFile_ic");
 var outlistUl = document.getElementById("outputlistFile_io");
 /* Drag upload Btn */
 
-var fileDragUpload = document.getElementById("dropfile_ic");
 var folderDragUpload = document.getElementById("dropfolder_ic");
-var infileDragUpload = document.getElementById("inputfile_ic");
 var infolderDragUpload = document.getElementById("inputfolder_ic");
-
-var ofileDragUpload = document.getElementById("dropfile_oc");
 var ofolderDragUpload = document.getElementById("dropfolder_oc");
-
-var ioinfileDragUpload = document.getElementById("inputfile_io");
 var ioinfolderDragUpload = document.getElementById("inputfolder_io");
-var outfileDragUpload = document.getElementById("outputfile_io");
 var outfolderDragUpload = document.getElementById("outputfolder_io");
 
 /** language in input + code tab **/
@@ -61,6 +54,8 @@ var mapPath = [];
 var inmapPath = [];
 var outmapPath = [];
 var tabNum = 1;
+
+cCheckbox.checked = true;
 
 var content = document.getElementById("p_content");
 content.style.display = 'none';
@@ -132,41 +127,7 @@ document.getElementById('plus').addEventListener('click',function(event){
 	else document.getElementById("percent").innerHTML = document.getElementById("hintBar").value + "% 이상 맞으면 힌트보여주기";
 });
 	
-
-/** input + code tab**/
-$('#dropfile_ic').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-$('#dropfolder_ic').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-$('#inputfile_ic').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-$('#inputfolder_ic').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-/** only code tab **/
-$('#dropfile_oc').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-$('#dropfolder_oc').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-/** input + output tab **/
-$('#inputfile_io').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-$('#inputfolder_io').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-$('#outputfile_io').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-$('#outputfolder_io').find('a').click(function () {
-	$(this).parent().find('input').click();
-});
-	/** answer code, input example, output example upload **/
+/** answer code, input example, output example upload **/
 codeUploadBtn.addEventListener('change', function(){
 	codeFileList = fileUpBtn(codeUploadBtn, codeFileList, listUl);
 	console.log("click file:", codeFileList);
@@ -219,16 +180,11 @@ document.getElementById('in_co').addEventListener('click',function(event){
 	codeFolderUploadBtn = document.getElementById("ic_codefolder");
 	infileUploadBtn = document.getElementById("ic_inputfile");
 	infolderUploadBtn = document.getElementById("ic_inputfolder");
-	cCheckbox = document.getElementById('id_language_0');
-	cppCheckbox = document.getElementById('id_language_1');
-	javaCheckbox = document.getElementById('id_language_2');
-	pythonCheckbox = document.getElementById('id_language_3');
-	makefileCheckbox = document.getElementById("id_language_4");
 	occodeUploadBtn.removeEventListener('change', extractClass);
 	occodeFolderUploadBtn.removeEventListener('change', extractClass);
 	occodeUploadBtn.removeEventListener('change', extractFiles);
 	occodeFolderUploadBtn.removeEventListener('change', extractFiles);
-	
+	cCheckbox.checked = true;
 	init();
 
 });
@@ -242,17 +198,11 @@ document.getElementById('only_co').addEventListener('click',function(event){
 	listUl = document.getElementById("listFile_oc"); 
 	while(listUl.children.length) listUl.children.item(0).remove();
 	tabNum = 2;
-	cCheckbox = document.getElementById('id_language_00');
-	cppCheckbox = document.getElementById('id_language_11');
-	javaCheckbox = document.getElementById('id_language_22');
-	pythonCheckbox = document.getElementById('id_language_33');
-	makefileCheckbox = document.getElementById("id_language_44");
-	
 	codeUploadBtn.removeEventListener('change', extractClass);
 	codeFolderUploadBtn.removeEventListener('change', extractClass);
 	codeUploadBtn.removeEventListener('change', extractFiles);
 	codeFolderUploadBtn.removeEventListener('change', extractFiles);
-	
+	ocCheckbox.checked = true;	
 	init();
 });
 
@@ -292,52 +242,6 @@ window.ondragover = function (e) {
 window.ondrop = function (e) {
 	e.preventDefault();
 	return false
-};
-
-
-/** file Drag Upload **/
-
-fileDragUpload.ondragover = function (e) {
-	e.preventDefault();
-};
-infileDragUpload.ondragover = function (e) {
-	e.preventDefault();
-};
-ofileDragUpload.ondragover = function (e){
-	e.preventDefault();
-};
-ioinfileDragUpload.ondragover = function (e){
-	e.preventDefault();
-};
-outfileDragUpload.ondragover = function (e) {
-	e.preventDefault();
-};
-
-
-fileDragUpload.ondrop = function (e) {
-	e.preventDefault();
-	codeFileList = fileDrag(e.dataTransfer, codeFileList, listUl);
-	console.log("drag file:",codeFileList);
-};
-infileDragUpload.ondrop = function (e) {
-	e.preventDefault();
-	inFileList = fileDrag(e.dataTransfer, inFileList, inlistUl);
-	console.log("drag infile:",inFileList);
-};
-ofileDragUpload.ondrop = function (e) {
-	e.preventDefault();
-	codeFileList = fileDrag(e.dataTransfer, codeFileList, listUl);
-	console.log("drag file:", codeFileList);
-};
-
-ioinfileDragUpload.ondrop = function (e) {
-	e.preventDefault();
-	inFileList = fileDrag(e.dataTransfer, inFileList, inlistUl);
-};
-outfileDragUpload.ondrop = function (e) {
-	e.preventDefault();
-	outFileList = fileDrag(e.dataTransfer, outFileList, outlistUl);
-	console.log("drag outfile:",outFileList);
 };
 
 /** folder Drag Upload **/
@@ -478,13 +382,13 @@ Upload_files.addEventListener('click', function(event){
 });
 
 function tab1(formdata_temp){
-	append_language(formdata_temp);
+	ic_append_language(formdata_temp);
 	append_code(formdata_temp);
 	append_input(formdata_temp);
 }
 
 function tab2(formdata_temp){
-	append_language(formdata_temp);
+	oc_append_language(formdata_temp);
 	append_code(formdata_temp);
 }
 
@@ -492,8 +396,7 @@ function tab3(formdata_temp){
 	append_input(formdata_temp);
 	append_output(formdata_temp);
 }
-
-function append_language (formdata_temp) {
+function ic_append_language (formdata_temp) {
 	var language;
 
 	if (cCheckbox.checked) language = 1;
@@ -503,6 +406,25 @@ function append_language (formdata_temp) {
 		language = 3;
 	}
 	else if (pythonCheckbox.checked) {
+		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		language = 4;
+	}
+	else language = 5;
+
+	formdata_temp.append("language", language);
+}
+
+
+function oc_append_language (formdata_temp) {
+	var language;
+
+	if (ocCheckbox.checked) language = 1;
+	else if (ocppCheckbox.checked) language = 2;
+	else if (ojavaCheckbox.checked) {
+		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		language = 3;
+	}
+	else if (opythonCheckbox.checked) {
 		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
 		language = 4;
 	}

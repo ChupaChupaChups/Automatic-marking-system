@@ -8,9 +8,10 @@
 }
 
 .upload {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     margin-top: 10px;
+    margin-bottom: 10px;
     background-color: #009688;
     padding: 3px;
     border-radius: 3px
