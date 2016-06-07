@@ -27,8 +27,8 @@ class Problem(models.Model):
 	p_day_limit = models.DateTimeField()
 
 	# Problem content
-	p_content = models.TextField(null=True)  # 문제 내용
-	p_pdffile = models.FileField(upload_to=_get_upload_to_pdf, null=True)
+	p_content = models.TextField(null=True, blank=True)  # 문제 내용
+	p_pdffile = models.FileField(upload_to=_get_upload_to_pdf, null=True, blank=True)
 	p_name = models.CharField(max_length=100, unique=True)  # 문제 이름
 
 	def __str__(self):
