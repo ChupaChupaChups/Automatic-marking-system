@@ -202,7 +202,7 @@ def handle_upload_file(req, files, Path, check):
 			if tempfilePath == "":
 				filePath = os.path.join(Path, str(fileName))
 			else:
-				filePath = os.path.join(Path, str(req.POST[str(fileName)]))
+				filePath = os.path.join(Path, str(req.POST[str(fileName)]), str(fileName))
 			print(filePath)
 		if not os.path.exists(os.path.dirname(filePath)):
 			os.makedirs(os.path.dirname(filePath))
