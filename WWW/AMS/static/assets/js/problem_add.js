@@ -55,7 +55,7 @@ var ocppCheckbox = document.getElementById('id_language_11');
 var ojavaCheckbox = document.getElementById('id_language_22');
 var opythonCheckbox = document.getElementById('id_language_33');
 var omakefileCheckbox = document.getElementById("id_language_44");
-var oc_entry_point = document.getElementById("oc_entry_point");
+var oc_entry_point = document.getElementById("oc_entrypoint");
 
 var mapPath = [];
 var inmapPath = [];
