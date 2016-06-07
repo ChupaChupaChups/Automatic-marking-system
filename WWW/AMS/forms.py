@@ -22,7 +22,7 @@ class ProblemForm(forms.ModelForm):
 		}
 		fields = [
 			'p_day_limit', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
-			'p_name', 'p_content', 'p_pdffile',
+			'p_name', 'p_content', 'p_pdffile', 'p_make_ok',
 		]
 
 	def __init__(self, *args, **kwargs):
@@ -31,6 +31,7 @@ class ProblemForm(forms.ModelForm):
 		self.fields['p_cpp_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_java_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_py_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_make_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_name'].widget.attrs.update({
 			'value': 'problemName',
 			'onfocus': "if (this.value == this.defaultValue) {this.value = '';}",
