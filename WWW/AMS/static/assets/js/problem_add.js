@@ -15,12 +15,12 @@ var ioinfolderUploadBtn = document.getElementById("io_inputfolder");
 var outfileUploadBtn = document.getElementById("io_outputfile");
 var outfolderUploadBtn = document.getElementById("io_outputfolder");
 
-var codeFileList = codeUploadBtn.files;
-var codeFolderList = codeFolderUploadBtn.files;
-var inFileList = infileUploadBtn.files;
-var inFolderList = infolderUploadBtn.files;
-var outFileList = outfileUploadBtn.files;
-var outFolderList = outfolderUploadBtn.files;
+var codeFileList = [];
+var codeFolderList = [];
+var inFileList = [];
+var inFolderList = [];
+var outFileList = [];
+var outFolderList = [];
 
 var listUl = document.getElementById("listFile_ic");
 var inlistUl = document.getElementById("inputlistFile_ic");
@@ -60,23 +60,12 @@ cCheckbox.checked = true;
 var content = document.getElementById("p_content");
 content.style.display = 'none';
 function init(){
-	$('#ic_codefile').val('');
-	$('#ic_codefolder').val('');
-	$('#ic_inputfile').val('');
-	$('#ic_inputfolder').val('');
-	$('#oc_codefile').val('');
-	$('#oc_codefolder').val('');
-	$('#io_inputfile').val('');
-	$('#io_inputfolder').val('');
-	$('#io_outputfile').val('');
-	$('#io_outputfolder').val('');
-	inFileList = infileUploadBtn.files;
-	inFolderList = infolderUploadBtn.files;
-	outFileList = outfileUploadBtn.files;
-	outFolderList = outfolderUploadBtn.files;
-	codeFileList = codeUploadBtn.files;
-	codeFolderList = codeFolderUploadBtn.files
-	
+	codeFileList = [];
+	codeFolderList = [];
+	inFileList = [];
+	inFolderList = [];
+	outFileList = [];
+	outFolderList = [];
 };
 
 document.getElementById('content').addEventListener('click', function (event) {
@@ -434,13 +423,10 @@ function oc_append_language (formdata_temp) {
 }
 
 function append_input (formdata_temp) {
-	var filelen = 0, folderlen = 0;
-	for (filelen; inFileList[filelen]; filelen++);
-	for (var i = 0; i < filelen; i++) {
+	for (var i = 0; i < inFileList.length; i++) {
 		formdata_temp.append("inputfile", inFileList[i]);
 	}
-	for (folderlen; inFolderList[folderlen]; folderlen++);
-	for (var i = 0; i < folderlen; i++) {
+	for (var i = 0; i < inFolderList.length; i++) {
 		formdata_temp.append("inputfolder", inFolderList[i]);
 		if (inFolderList[i].webkitRelativePath == "") {
 			formdata_temp.append(inFolderList[i].name, inmapPath[inFolderList[i].name]);
@@ -449,13 +435,10 @@ function append_input (formdata_temp) {
 	}
 }
 function append_code (formdata_temp) {
-	var filelen = 0, folderlen = 0;
-	for (filelen; codeFileList[filelen]; filelen++);
-	for (var i = 0; i < filelen; i++) {
+	for (var i = 0; i < codeFileList.length; i++) {
 		formdata_temp.append("codefile", codeFileList[i]);
 	}
-	for (folderlen; codeFolderList[folderlen]; folderlen++);
-	for (var i = 0; i < folderlen; i++) {
+	for (var i = 0; i < codeFolderList.length; i++) {
 		formdata_temp.append("codefolder", codeFolderList[i]);
 		if (codeFolderList[i].webkitRelativePath == "") {
 			formdata_temp.append(codeFolderList[i].name, mapPath[codeFolderList[i].name]);
@@ -464,13 +447,10 @@ function append_code (formdata_temp) {
 	}
 }
 function append_output (formdata_temp) {
-	var filelen = 0, folderlen = 0;
-	for (filelen; outFileList[filelen]; filelen++);
-	for (var i = 0; i < filelen; i++) {
+	for (var i = 0; i < outFileList.length; i++) {
 		formdata_temp.append("outputfile", outFileList[i]);
 	}
-	for (folderlen; outFolderList[folderlen]; folderlen++);
-	for (var i = 0; i < folderlen; i++) {
+	for (var i = 0; i < outFolderList.length; i++) {
 		formdata_temp.append("outputfolder", outFolderList[i]);
 		if (outFolderList[i].webkitRelativePath == "") {
 			formdata_temp.append(outFolderList[i].name, outmapPath[outFolderList[i].name]);

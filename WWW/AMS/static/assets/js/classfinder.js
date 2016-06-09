@@ -18,13 +18,10 @@ function extractClass(fileList, folderList, entryList) {
 	console.log("infolderList ", folderList);
 	while (entryList.options.length) entryList.remove(0);
 	var printFileList = [];
-	var filelen, folderlen, j = 0;
-	for (folderlen = 0; folderList[folderlen]; folderlen++);
-	for (var i = 0; i< folderlen; i++){
+	for (var i = 0; i< folderList.length; i++){
 		printFileList.push(folderList[i]);
 	}
-	for (filelen = 0; fileList[filelen]; filelen++);
-	for (var i = 0; i < filelen; i++) {
+	for (var i = 0; i < fileList.length; i++) {
 		printFileList.push(fileList[i]);
 	}
 	console.log("printFileList", printFileList);
@@ -103,13 +100,10 @@ function extractFiles(fileList, folderList, entryList) {
 	while (entryList.options.length) entryList.remove(0);
 	var formdata = new FormData(form);
 	var printFileList = [];
-	var filelen, folderlen;
-	for (folderlen = 0; printFileList[folderlen]; folderlen++);
-	for (var i = 0; i < folderlen; i++){
+	for (var i = 0; i < folderList.length; i++){
 		printFileList.push(folderList[i]);
 	}
-	for (filelen = 0; fileList[filelen]; filelen++);
-	for (var i = 0; i < filelen; i++) {
+	for (var i = 0; i < fileList.length; i++) {
 		printFileList.push(fileList[i]);
 	}
 	for (var i = 0; i < filelen + folderlen; i++) {

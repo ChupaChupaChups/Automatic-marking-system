@@ -5,8 +5,7 @@ function traverseFileTree(item, folderList, map, Ul, path) {
 	if (item.isFile) {
 		item.file(
 			function (file) {
-				for (templen = 0; folderList[templen]; templen++);
-				folderList[templen] = file;
+				folderList.push(file);
 				if (map[file.name] == undefined) {
 					map[file.name] = [];
 				}
@@ -15,7 +14,7 @@ function traverseFileTree(item, folderList, map, Ul, path) {
 		);
 		//console.log(tempFolderList);
 		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(item.fullPath).append('<i>' + '</i>');
+		tpl.find('p').text(item.fullPath).append('<input type="checkbox" class="d_checkbox" name="delete">');
 		tpl.appendTo(Ul);
 		//	tempFileList[templen].webkitRelativePath = item.fullPath;
 	}
@@ -33,18 +32,16 @@ function fileDrag(dataTransfer, fileList, Ul){
 	if (dataTransfer && dataTransfer.files.length != 0) {
 		var data = dataTransfer.files;
 		if (fileList != null) {
-			var templen, j = 0;
-			for (templen = 0; fileList[templen]; templen++);
-			for (var i = templen; i < templen + data.length; i++) {
-				fileList[i] = data[j++];
+			for (var i = 0; i < data.length; i++) {
+				fileList.push(data[i]);
 			}
 		}
 		else fileList = data;
 			for (var i = 0; i < data.length; i++) {
-			var tpl = $('<li class="working"><p></p></li>');
-			tpl.find('p').text(data[i].name).append('<i>' + '</i>');
-			tpl.appendTo(Ul);
-		}
+				var tpl = $('<li class="working"><p></p><span></span></li>');
+				tpl.find('p').text(data[i].name).append('<input type="checkbox" class="d_checkbox" name="delete">');
+				tpl.appendTo(Ul);
+			}
 	}
 	//console.log("drag file:",fileList);
 	//if (javaCheckbox.checked) extractClass();
@@ -71,11 +68,9 @@ function folderDrag(dataTransfer, folderList, map, Ul){
 
 function fileUpBtn(fileBtn, fileList, Ul){
 	var data = fileBtn.files;
-	var filelen, j = 0;
 	if(fileList != null){
-		for (filelen = 0; fileList[filelen]; filelen++);
-		for (var i = filelen; i < filelen + data.length; i++, j++) {
-			fileList[i] = data[j];
+		for (var i = 0; i < data.length; i++) {
+			fileList.push(data[i])
 		}
 	}
 	else {
@@ -83,7 +78,7 @@ function fileUpBtn(fileBtn, fileList, Ul){
 	}
 	for (var i=0; i < data.length; i++){
 		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(data[i].name).append('<i>' + '</i>');
+		tpl.find('p').text(data[i].name).append('<input type="checkbox" class="d_checkbox" name="delete">');
 		tpl.appendTo(Ul);
 	}
 	console.log("click file:", fileList);
@@ -92,13 +87,12 @@ function fileUpBtn(fileBtn, fileList, Ul){
 
 function folderUpBtn(folderBtn, folderList, map, Ul){
 	var data = folderBtn.files;
-	var filelen, j = 0;
 	if(folderList != null){
 		for (filelen = 0; folderList[filelen]; filelen++);
-		for (var i = filelen; i < filelen + data.length; i++, j++) {
-			folderList[i] = data[j];
-			if (map[data[j].webkitRelativePath] == undefined) map[data[j].webkitRelativePath] = [];
-			map[data[j].webkitRelativePath].push(data[j].webkitRelativePath);
+		for (var i = 0; i < data.length; i++) {
+			folderList.push(data[i]);
+			if (map[data[i].webkitRelativePath] == undefined) map[data[i].webkitRelativePath] = [];
+			map[data[i].webkitRelativePath].push(data[i].webkitRelativePath);
 		}
 	}
 	else {
@@ -106,10 +100,13 @@ function folderUpBtn(folderBtn, folderList, map, Ul){
 	}
 	for (var i=0; i < data.length; i++){
 		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(data[i].webkitRelativePath).append('<i>' + '</i>');
+		tpl.find('p').text(data[i].webkitRelativePath).append('<input type="checkbox" class="d_checkbox" name="delete">');
 		tpl.appendTo(Ul);
 	}
 	return folderList;
 	//console.log("click folder:", folderList);
 };
 
+function delete_ullist(){
+	
+}

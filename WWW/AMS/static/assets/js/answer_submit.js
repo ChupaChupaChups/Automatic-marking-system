@@ -2,8 +2,8 @@ var entryList = document.getElementById("id_entry_point");
 
 var fileUploadBtn = document.getElementById("id_attachments_file");
 var folderUploadBtn = document.getElementById("id_attachments_folder");
-var tempFileList = fileUploadBtn.files;
-var tempFolderList = folderUploadBtn.files;
+var tempFileList = [];
+var tempFolderList = [];
 var mapPath = {};
 var fileDragUpload = document.getElementById("dropfile");
 var folderDragUpload = document.getElementById("dropfolder");
@@ -49,14 +49,10 @@ submit_res.addEventListener('click', function (e) {
 
 	formdata_temp.append("language", language);
 
-	var filelen = 0, folderlen = 0;
-
-	for (filelen; tempFileList[filelen]; filelen++);
-	for (var i = 0; i < filelen; i++) {
+	for (var i = 0; i < tempFileList.length; i++) {
 		formdata_temp.append("attachments_file", tempFileList[i]);
 	}
-	for (folderlen; tempFolderList[folderlen]; folderlen++);
-	for (var i = 0; i < folderlen; i++) {
+	for (var i = 0; i < tempFolderList.length; i++) {
 		formdata_temp.append("attachments_folder", tempFolderList[i]);
 		if (tempFolderList[i].webkitRelativePath == "") {
 			formdata_temp.append(tempFolderList[i].name, mapPath[tempFolderList[i].name]);
