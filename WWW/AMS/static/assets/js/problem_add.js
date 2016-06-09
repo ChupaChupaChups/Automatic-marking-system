@@ -56,7 +56,7 @@ var ocppCheckbox = document.getElementById('id_language_11');
 var ojavaCheckbox = document.getElementById('id_language_22');
 var opythonCheckbox = document.getElementById('id_language_33');
 var omakefileCheckbox = document.getElementById("id_language_44");
-var oc_entry_point = document.getElementById("oc_entrypoint");
+var oc_entry_point = document.getElementById("oc_entry_point");
 
 var mapPath = [];
 var inmapPath = [];
@@ -387,15 +387,7 @@ Upload_files.addEventListener('click', function (event) {
 			tab3(formdata_temp);
 			break;
 	}
-	/*
-	 xhr.onreadystatechange = function () {
-	 if (xhr.readyState == 4) {
-	 if (xhr.status == 200) {
 
-	 }
-	 }
-	 };
-	 */
 	xhr.open("POST", "/problem/files");
 	xhr.setRequestHeader("X-CSRFToken", csrf_token[1]);
 	xhr.send(formdata_temp);

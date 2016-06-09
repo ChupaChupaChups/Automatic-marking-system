@@ -95,8 +95,6 @@ function extractClass(fileList, folderList, entryList) {
 
 /**
  * Python의 경우 사용, 파일들의 이름을 엔트리 포인트 설정을 위해 추출.
- *
- * TODO: 브라우저가 상대경로를 지원 할 경우 HTTP request를 보내지 않고 그 기능을 바로 사용하도록 수정
  */
 var form = document.querySelector("form");
 
