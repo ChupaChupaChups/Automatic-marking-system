@@ -1,24 +1,56 @@
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothiccoding.css);
 
-body, ul, li, a, div {
-	margin: 0;
-}
-
-ul {
-	padding: 0;
-	margin: 0;
-}
-
 #screen-wrapper {
+	font-size: 1.2em;
 	color: #bcbcbc;
 	background: none;
 	font-family: 'Nanum Gothic Coding', serif;
 	overflow-x: hidden;
 	overflow-y: scroll;
-	//max-height: 500px;
 	display: inline-block;
 	width: fit-content;
-	//height: fit-content;
+	line-height: 1;
+	outline: none;
+	margin-bottom: 20px;
+
+	#inner-table {
+		margin: 3px;
+	}
+
+	.center-block
+}
+
+#shell-result {
+	height: 270px;
+
+	pre {
+		margin: 0;
+
+		&:before, &:after {
+			content: '';
+		}
+	}
+
+	#shell-result-btn {
+		height: 100%;
+		overflow: auto;
+	}
+
+	#shell-result-table {
+		padding: 0;
+
+		.panel-body {
+			min-height: 207px;
+			max-height: 207px;
+			overflow: auto;
+		}
+	}
+}
+
+.center-block {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .term {

@@ -1306,7 +1306,7 @@ Terminal.prototype = {
 		if (this.domAPI) {
 			// if applicable we're using createElement
 			this.globals.hasSubDivs = false;
-			var td, row, table, tbody, table2, tr, node;
+			var td, row, table, tbody, table2, tr, node, ptd;
 			table = document.createElement('table');
 			table.setAttribute('border', 0);
 			table.setAttribute('cellSpacing', 0);
@@ -1335,6 +1335,7 @@ Terminal.prototype = {
 			table2.setAttribute('border', 0);
 			table2.setAttribute('cellSpacing', 0);
 			table2.setAttribute('cellPadding', 0);
+			table2.setAttribute('id', 'inner-table');
 			this.tbody2 = document.createElement('tbody');
 			table2.appendChild(this.tbody2);
 			var rstr = this.globals.repeat('&nbsp;', this.conf.cols);
@@ -2177,7 +2178,6 @@ Terminal.prototype = {
 		},
 
 		keyHandler: function (e) {
-			console.log('keyHandler');
 			var tg = Terminal.prototype.globals;
 			var term = tg.activeTerm;
 			if (tg.keylock || term.lock || term.isMac && e && e.metaKey) return true;

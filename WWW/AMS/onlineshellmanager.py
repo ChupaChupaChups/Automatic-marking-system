@@ -4,11 +4,11 @@ import selectors
 
 import os
 import random
+from django.conf import settings
 from .judge_server import judgeServer
 from .judge_server.config import Config
 
 __author__ = 'isac322'
-
 
 _sessions = dict()
 
@@ -96,14 +96,17 @@ class ShellSession:
 
 		# TODO: dynamic file select
 		current = os.path.dirname(__file__)
-		current = os.path.join(current, 'judge_server')
+		current = os.path.join(current, 'judge_server', 'onlineShell_scripts')
+
+		source_path = os.path.join(settings.MEDIA_ROOT, 'temp', 'answercode')
 
 		return judgeServer.make_container(
 				image_tag=image_tag,
 				stdin_open=True,
-				command='/compiler_and_judge/shell_executor.py',
+				command='/compiler_and_judge/compile_run.sh',
 				volume_bind={
-					current: {'bind': '/compiler_and_judge', 'mode': 'rw'}
+					current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
+					source_path: {'bind': '/source_code', 'mode': 'rw'}
 				}
 		)
 
@@ -131,6 +134,7 @@ class ShellSession:
 		for event, mask in self._selector.select(0.05):
 			output = event.fileobj.recv()
 			if output != '\u0004':
+				print(output)
 				raise NotImplementedError
 
 			output_str += output

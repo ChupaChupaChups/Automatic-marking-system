@@ -1,7 +1,6 @@
 import json
 
 import os
-import re
 from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -78,9 +77,9 @@ def answer_submit(req, problem_number):
 			save_metadata(instance)
 
 			# TODO: rename variable
-			#media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-			#inputfiles = os.path.dirname(instance.problem.p_infile.path)
-			#judgeServer.start_judge(media_path, inputfiles)
+			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+			inputfiles = os.path.dirname(instance.problem.p_infile.path)
+			judgeServer.start_judge(media_path, inputfiles)
 
 			return redirect('/problem/list')
 	else:
@@ -91,18 +90,9 @@ def answer_submit(req, problem_number):
 
 @login_required
 def submit_py_path(req):
-	upload_file = str(req.FILES)
-	# FIXME: fix regex error
-	p = re.compile(r'((\w+\w+)+\.\w+)')
-	test_str = upload_file
-	file_name = re.findall(p, test_str)
-
-	for i in range(len(file_name)):
-		file_name[i] = file_name[i][0]
-		print(file_name[i])
-	print(file_name)
-	response = JsonResponse({'file_name': file_name})
-	print(response.content)
+	upload_files = req.FILES.getlist('attachments')
+	file_names = [file.name for file in upload_files]
+	response = JsonResponse({'file_name': file_names})
 	return response
 
 
@@ -144,16 +134,18 @@ def shell_begin(_):
 	response['X-ShellSession'] = onlineshellmanager.build_session()
 	return response
 
+
 def problem_files(req):
 	media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
 	codefile_path = os.path.join(media_path, 'answercode')
 	inputfile_path = os.path.join(media_path, 'inputfile')
 	outputfile_path = os.path.join(media_path, 'outputfile')
-	check = req.POST['tabnum']
+	web_tab_number = req.POST['tabnum']
 	files = req.FILES
 	print(files)
-	print(check)
-	if check == "1":
+	print(web_tab_number)
+
+	if web_tab_number == "1":
 		language = req.POST.get('language')
 		print(language)
 		if language == 3 or language == 4:
@@ -169,14 +161,27 @@ def problem_files(req):
 		handle_upload_file(req, inputfile, inputfile_path, 1)
 		inputfolder = req.FILES.getlist('inputfolder')
 		handle_upload_file(req, inputfolder, inputfile_path, 2)
-	elif check == "2":
-		language = req.POST.get('language')
-		if language == 3 or language == 4:
+
+	elif web_tab_number == "2":
+		language = int(req.POST.get('language'))
+		entry_point = ''
+		if language in (3, 4):
 			entry_point = req.POST.get('entrypoint')
 		codefile = req.FILES.getlist('codefile')
 		handle_upload_file(req, codefile, codefile_path, 1)
 		codefolder = req.FILES.getlist('codefolder')
 		handle_upload_file(req, codefolder, codefile_path, 2)
+
+		json_path = os.path.join(codefile_path, Config["django"]["code_meta_file"])
+
+		with open(json_path, "w") as file:
+			json.dump(
+					{
+						'language': language,
+						'entry_point': entry_point
+					},
+					file, ensure_ascii=False)
+
 	else:
 		inputfile = req.FILES.getlist('inputfile')
 		inputfolder = req.FILES.getlist('inputfolder')
@@ -188,6 +193,7 @@ def problem_files(req):
 		handle_upload_file(req, outputfolder, outputfile_path, 2)
 
 	return HttpResponse()
+
 
 def handle_upload_file(req, files, Path, check):
 	print(files)
@@ -207,7 +213,4 @@ def handle_upload_file(req, files, Path, check):
 		if not os.path.exists(os.path.dirname(filePath)):
 			os.makedirs(os.path.dirname(filePath))
 		with open(filePath, 'wb+') as destination:
-				destination.write(each.read())
-
-
-
+			destination.write(each.read())

@@ -3,8 +3,8 @@ from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone
 from django.utils.safestring import mark_safe
-from django_summernote.widgets import SummernoteInplaceWidget
 from multiupload.fields import MultiFileField, MultiFileInput
+from tinymce.widgets import TinyMCE
 from .models import Problem, SubmitRecord, SubmitFile
 
 
@@ -18,7 +18,7 @@ class ProblemForm(forms.ModelForm):
 		model = Problem
 		widgets = {
 			'p_day_limit': DateTimeWidget(usel10n=True, bootstrap_version=3),
-			'p_content': SummernoteInplaceWidget(),
+			'p_content': TinyMCE(attrs={'cols': 80, 'rows': 30}),
 		}
 		fields = [
 			'p_day_limit', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
@@ -33,9 +33,8 @@ class ProblemForm(forms.ModelForm):
 		self.fields['p_py_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_make_ok'].widget.attrs.update({'class': 'switch-input'})
 		self.fields['p_name'].widget.attrs.update({
-			'value': 'problemName',
-			'onfocus': "if (this.value == this.defaultValue) {this.value = '';}",
-			'onblur': "if (this.value == '') {this.value = this.defaultValue;}"
+			'class': 'form-control',
+			'placeholder': 'Problem Name'
 		})
 
 
@@ -93,3 +92,7 @@ class SubmitForm(forms.ModelForm):
 						SubmitFile.objects.create(record=instance, file=each, path="/" + filepath + "/")
 
 		return instance
+
+
+class Test(forms.Form):
+	content = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))

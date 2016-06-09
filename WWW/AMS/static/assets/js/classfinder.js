@@ -6,63 +6,89 @@
  * Java의 경우 사용, 클래스의 이름을 엔트리 포인트 설정을 위해 추출.
  *
  * TODO: main()이 있는 클래스만 엔트리 포인트 목록에 추가하도록 수정
- * TODO: main()이 하나인 경우 자동으로 그 클래스를 엔트리 포인트로 사용하도는 기능 추가
+ * TODO: main()이 하나인 경우 자동으로 그 클래스를 엔트리 포인트로 사용하는 기능 추가
+ * TODO: main()이 하나인 경우 entry point 리스트를 끄도록 수정
  */
-var regex_class = /class\s+([^\W]+)/g;
-var regex_package = /package\s(\w+(\.?\w+)*)/g;
 var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
+
 function extractClass(fileList, folderList, entryList) {
 	// 이전목록 지움
-
-	console.log("inFileList ", fileList);
-	console.log("infolderList ", folderList);
 	while (entryList.options.length) entryList.remove(0);
-	var printFileList = [];
-	for (var i = 0; i< folderList.length; i++){
-		printFileList.push(folderList[i]);
-	}
-	for (var i = 0; i < fileList.length; i++) {
-		printFileList.push(fileList[i]);
-	}
-	console.log("printFileList", printFileList);
-	for (var i = 0; i < printFileList.length; i++) {
-			var re = /\.java/;
-		if (re.exec(printFileList[i].name) != null) {
-			var reader = new FileReader();
-			/**
-			 * 파일 읽기가 완료된 경우 호출됨
-			 * 정규표현식 객체 `regex`로 클래스 이름 걸러내고 선택지에 추가
-			 * @param event    이벤트 객체
-			 */
-			reader.onload = function (event) {
-				var contents = event.target.result;
-				var matches_class;
-				var matches_package = regex_package.exec(contents);
-				while (matches_class = regex_class.exec(contents)) {
-					console.log(matches_class);
-					var option = document.createElement("option");
-					if (matches_package) {
-						option.text = matches_package[1] + "." + matches_class[1];
-					} else {
-						option.text = matches_class[1];
-					}
-					option.value = matches_class[1];
-	//				console.log("option txt : " + option.text);
-					entryList.add(option);
-	//				console.log("add option do ? option : " + option);
-				}
-			};
 
-			/**
-			 * 읽기도중 오류가 날 경우 호출됨
-			 * 선택을 초기화하고, 메시지박스 띄움
-			 */
-			reader.onerror = function () {
-				fileUploadBtn.value = '';
-				alert("File could not be read!");
-			};
-				// 비동기로 파일읽기 시작
-			reader.readAsText(printFileList[i]);
+	// 추가된 개별 파일과 폴더 하나로 합침
+	var printFileList = [], i;
+	for (i = 0; i < folderList.length; i++) {
+		if (/\.java/.test(folderList[i])) {
+			printFileList.push(folderList[i]);
+		}
+	}
+	for (i = 0; i < fileList.length; i++) {
+		if (/\.java/.test(folderList[i])) {
+			printFileList.push(fileList[i]);
+		}
+	}
+
+	// 파일 읽기 시작
+	var entries = [];
+	for (i = 0; i < printFileList.length; i++) {
+		console.log('start\t' + printFileList[i].name);
+		var reader = new FileReader();
+		/**
+		 * 파일 읽기가 완료된 경우 호출됨
+		 * 정규표현식 객체 `regex`로 클래스 이름 걸러내고 선택지에 추가
+		 * @param event    이벤트 객체
+		 */
+		reader.onload = function (event) {
+			console.log(event.target.result + '\tread');
+
+			var contents = event.target.result;
+			var matches_class;
+			var matches_package = /package\s+(\w+(\.\w+)*)/g.exec(contents);
+			var regex_class = /class\s+(\w+)\s*\{(\s|.)*public\s+static\s+void\s+main\s*\(String(\s+)?(\[]|\.\.\.)\s*\w+\)/g;
+
+			while (matches_class = regex_class.exec(contents)) {
+				console.log(matches_class);
+				var result = null;
+				if (matches_package) {
+					result = matches_package[1] + "." + matches_class[1];
+				} else {
+					result = matches_class[1];
+				}
+
+				entries.push(result);
+			}
+
+			console.log('done');
+			checkAllRead();
+		};
+
+		/**
+		 * 읽기도중 오류가 날 경우 호출됨
+		 * 선택을 초기화하고, 메시지박스 띄움
+		 */
+		reader.onerror = function () {
+			fileUploadBtn.value = '';
+			alert("File could not be read!");
+			checkAllRead();
+		};
+
+		// 비동기로 파일읽기 시작
+		reader.readAsText(printFileList[i]);
+	}
+
+	// 파일 읽기 완료 확인할 변수
+	var checkCount = 0;
+
+	// 파일 읽기 
+	function checkAllRead() {
+		checkCount++;
+		console.log(checkCount);
+		if (checkCount == printFileList.length) {
+			for (var i in entries) {
+				var option = document.createElement("option");
+				option.value = option.text = entries[i];
+				entryList.add(option);
+			}
 		}
 	}
 }
@@ -72,8 +98,42 @@ function extractClass(fileList, folderList, entryList) {
  *
  * TODO: 브라우저가 상대경로를 지원 할 경우 HTTP request를 보내지 않고 그 기능을 바로 사용하도록 수정
  */
-var all_file = [];
-var py_file_name = [];
+var form = document.querySelector("form");
+
+function extractFiles(fileList, folderList, entryList) {
+	// 이전 목록 지우기
+	while (entryList.options.length) entryList.remove(0);
+
+	var formdata = new FormData(form);
+	var i;
+	for (i = 0; i < folderList.length; i++) {
+		if (/\.py/.test(folderList[i].name)) {
+			formdata.append("attachments", folderList[i]);
+		}
+	}
+	for (i = 0; i < fileList.length; i++) {
+		if (/\.py/.test(fileList[i].name)) {
+			formdata.append("attachments", fileList[i]);
+		}
+	}
+
+	var xhr = makeHttpObject();
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == XMLHttpRequest.DONE) {
+			var all_file = JSON.parse(xhr.responseText);
+
+			all_file.file_name.forEach(function (currentValue) {
+				var option = document.createElement("option");
+				option.text = option.value = currentValue;
+				entryList.add(option);
+			});
+		}
+	};
+
+	xhr.open("POST", "/savefiles");
+	xhr.setRequestHeader("X-CSRFToken", csrf_token[1]);
+	xhr.send(formdata);
+}
 
 function makeHttpObject() {
 	try {
@@ -93,45 +153,3 @@ function makeHttpObject() {
 	}
 	throw new Error("Could not create HTTP request object.");
 }
-
-var form = document.querySelector("form");
-
-function extractFiles(fileList, folderList, entryList) {
-	while (entryList.options.length) entryList.remove(0);
-	var formdata = new FormData(form);
-	var printFileList = [];
-	for (var i = 0; i < folderList.length; i++){
-		printFileList.push(folderList[i]);
-	}
-	for (var i = 0; i < fileList.length; i++) {
-		printFileList.push(fileList[i]);
-	}
-	for (var i = 0; i < filelen + folderlen; i++) {
-		formdata.append("id_attachments", printFileList[i]);
-	}
-	var xhr = makeHttpObject();
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == XMLHttpRequest.DONE) {
-			var json = xhr.responseText;
-			all_file = JSON.parse(json);
-			var re = /\.py/;
-			var j = 0;
-			for (var i = 0; i < all_file.file_name.length; i++) {
-				if (re.exec(all_file.file_name[i]) != null) {
-					py_file_name.push(all_file.file_name[i]);
-				}
-			}
-			for (var i = 0; i < py_file_name.length; i++) {
-				var option = document.createElement("option");
-				option.text = py_file_name[i];
-				option.value = py_file_name[i];
-				entryList.add(option);
-			}
-		}
-	};
-	xhr.open("POST", "/savefiles");
-	xhr.setRequestHeader("X-CSRFToken", csrf_token[1]);
-	xhr.send(formdata);
-}
-
-

@@ -44,7 +44,6 @@
 			</tbody>
 		</table>
 		<div class="problem-header" id="problem-content">
-			<h2 class="header">Problem</h2>
 			{% if problem.p_content %} {{ problem.p_content|safe }} {% endif %}
 			{% if problem.p_pdffile %}
 				<div id="test"></div>
@@ -59,24 +58,6 @@
 				</style>
 				<script> PDFObject.embed("/media/{{problem.p_pdffile}}", "#test");</script>
 			{% endif %}
-		</div>
-
-
-		<div class="problem-header">
-			<h2 class="header in">입력 설명</h2>
-			<p class="value in">{{ problem.p_input }}</p>
-		</div>
-		<div class="problem-header">
-			<h2 class="header out">출력 설명</h2>
-			<p class="value out">{{ problem.p_output }}</p>
-		</div>
-		<div class="problem-header">
-			<h2 class="header inex">입력예제</h2>
-			<p class="value inex">{{ problem.p_inputex }}</p>
-		</div>
-		<div class="problem-header">
-			<h2 class="header outex">출력예제</h2>
-			<p class="value outex">{{ problem.p_outputex }}</p>
 		</div>
 	</div>
 {% endblock %}

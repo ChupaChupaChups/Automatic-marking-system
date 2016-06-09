@@ -17,14 +17,11 @@
 	-ms-user-select: none;
 	-webkit-user-select: none;
 	user-select: none;
-	-moz-transition-duration: 0.7s;
-	-o-transition-duration: 0.7s;
-	-webkit-transition-duration: 0.7s;
-	transition-duration: 0.7s;
-	-moz-transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
-	-o-transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
-	-webkit-transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
-	transition-timing-function: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	-webkit-transition: all 0.7s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	-moz-transition: all 0.7s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	-ms-transition: all 0.7s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	-o-transition: all 0.7s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+	transition: all 0.7s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 	-webkit-tap-highlight-color: transparent;
 }
 
@@ -35,10 +32,10 @@
 }
 
 .segmented-control > input[type='checkbox'] ~ label {
-	-moz-transition-duration: 0;
-	-o-transition-duration: 0;
-	-webkit-transition-duration: 0;
-	transition-duration: 0;
+	-moz-transition-duration: 0ms;
+	-o-transition-duration: 0ms;
+	-webkit-transition-duration: 0ms;
+	transition-duration: 0ms;
 }
 
 .segmented-control > input[type='checkbox'] ~ label:before {
@@ -55,27 +52,27 @@
 }
 
 .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(1):after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(1):before, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(1) ~ label:after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(1) ~ label:before {
-	left: 0%;
+	left: 0;
 }
 
 .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(2):after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(2):before, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(2) ~ label:after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(2) ~ label:before {
-	left: 0%;
+	left: 0;
 }
 
 .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(3):after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(3):before, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(3) ~ label:after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(3) ~ label:before {
-	left: 0%;
+	left: 0;
 }
 
 .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(4):after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(4):before, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(4) ~ label:after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(4) ~ label:before {
-	left: 0%;
+	left: 0;
 }
 
 .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(5):after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(5):before, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(5) ~ label:after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(5) ~ label:before {
-	left: 0%;
+	left: 0;
 }
 
 .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(6):after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(6):before, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(6) ~ label:after, .segmented-control > input:nth-child(1):checked ~ label:first-of-type:nth-last-of-type(6) ~ label:before {
-	left: 0%;
+	left: 0;
 }
 
 .segmented-control > input:disabled:nth-child(2) ~ label:nth-of-type(2) {

@@ -44,7 +44,9 @@ INSTALLED_APPS = [
 	# Project
 	'AMS',
 	# for WebSocket service
-	'channels'
+	'channels',
+	# for TinyMCE web editor
+	'tinymce'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -148,3 +150,17 @@ FILE_UPLOAD_HANDLERS = [
 	'AMS.custom.uploadhandler.FullPathUploadHandler',
 	'django.core.files.uploadhandler.TemporaryFileUploadHandler',
 ]
+
+# for TinyMCE editor
+TINYMCE_JS_URL = os.path.join(os.path.join(BASE_DIR, STATIC_URL), 'tinymce', 'tinymce.min.js')
+TINYMCE_JS_ROOT = os.path.join(os.path.join(BASE_DIR, STATIC_URL), 'tinymce')
+TINYMCE_DEFAULT_CONFIG = {
+	'theme': 'modern',
+	'language': 'ko_KR',
+	'plugins': [
+		'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print', 'preview', 'hr', 'anchor', 'pagebreak',
+		'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+		'media', 'nonbreaking', 'save', 'table', 'contextmenu', 'directionality', 'emoticons', 'template', 'paste',
+		'textcolor', 'colorpicker', 'textpattern', 'imagetools'
+	]
+}

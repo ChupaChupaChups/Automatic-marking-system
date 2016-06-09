@@ -3,24 +3,75 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="UTF-8">
 	<title>Title</title>
 
 	<script type="text/javascript" src="{% static 'assets/js/scrollable.termlib.js' %}"></script>
-	<script type="text/javascript" src="{% static 'assets/js/interactive_shell_module.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/reconnecting-websocket.min.js' %}"></script>
-
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/online_shell.less" %} ">
-	<script src="{% static "assets/js/less.min.js" %}" type="text/javascript"></script>
+	<script type="text/javascript" src="{% static "assets/js/less.min.js" %}"></script>
+
+	<script type="text/javascript" src="{% static "assets/js/jquery-2.2.4.min.js" %}"></script>
+	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap-theme.min.css" %}">
+	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap.min.css" %}">
+	<script src="{% static "bootstrap3/js/bootstrap.min.js" %}"></script>
 </head>
 
-<body>
-<div>
-	<button id="btn-run" type="button" class="name">실행</button>
-	<button id="btn-kill" type="button" class="name">kill</button>
-</div>
-<div tabindex="0" style="outline: none;" id="screen-wrapper"></div>
-<ul id="history-list"></ul>
-</body>
+<body class="container">
 
+
+<button id="btn-run" type="button" class="name">실행</button>
+<button id="btn-kill" type="button" class="name">kill</button>
+
+<div id="shell-content">
+	<div class="row">
+		<div class="center-block" tabindex="0" id="screen-wrapper"></div>
+	</div>
+
+	<div class="row row-eq-height" id="shell-result">
+		<div class="col-md-2 list-group" id="shell-result-btn">
+		</div>
+		<div class="col-md-10" id="shell-result-table">
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">입력</div>
+					<pre class="panel-body" id="input-content"></pre>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="panel panel-default">
+					<div class="panel-heading">출력</div>
+					<pre class="panel-body" id="output-contend"></pre>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var buttonList = document.getElementById('shell-result-btn');
+		var inputPanel = document.getElementById('input-content');
+		var outputPanel = document.getElementById('output-contend');
+		var index = 0;
+
+		function makeResult() {
+			var button = document.createElement('button');
+			button.setAttribute('class', 'list-group-item');
+			button.setAttribute('type', 'button');
+			button.setAttribute('value', String(index));
+			button.innerHTML = String(index + 1);
+			button.addEventListener('click', function (event) {
+				var clicked = event.target;
+				var result = shellResults[clicked.value];
+
+				inputPanel.innerHTML = result.input;
+				outputPanel.innerHTML = result.output;
+			});
+			buttonList.appendChild(button);
+			index++;
+		}
+	</script>
+	<script type="text/javascript" src="{% static 'assets/js/interactive_shell_module.js' %}"></script>
+</div>
+
+</body>
 </html>

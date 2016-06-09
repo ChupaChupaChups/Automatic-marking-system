@@ -7,7 +7,7 @@
 {% block submit_class %}active{% endblock %}
 
 {% block content_header %}
-	<script type="text/javascript" src="{% static 'assets/js/jquery-2.2.3.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/jquery-2.2.4.min.js' %}"></script>
 	<script type="text/javascript">
 		/**
 		 * invoked when whole document is ready
@@ -73,14 +73,14 @@
 				<div class="login-form">
 					<div id="dropfile">
 						<a> Select FILE or DROP</a>
-						{{create_form.attachments_file}}
+						{{ create_form.attachments_file }}
 					</div>
 					<div id="dropfolder">
 						<a> Select FOLDER or DROP</a>
-						{{create_form.attachments_folder}}
+						{{ create_form.attachments_folder }}
 					</div>
 					<ul id="listFile">
-					<!-- Upload file show here -->
+						<!-- Upload file show here -->
 					</ul>
 				</div>
 			</div>
@@ -94,7 +94,7 @@
 {% endblock %}
 
 {% block jsfile %}
-<script type="text/javascript" src="{% static 'assets/js/upload.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
-<script type="text/javascript" src="{% static 'assets/js/answer_submit.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/upload.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/answer_submit.js' %}"></script>
 {% endblock %}

@@ -100,8 +100,8 @@ window.ondrop = function (e) {
 fileDragUpload.ondrop = function (e) {
 	e.preventDefault();
 	tempFileList = fileDrag(e.dataTransfer, tempFileList, listUl);
-	if(javaCheckbox.checked) extractClass(tempFileList, tempFolderList, entryList);
-	if(pythonCheckbox.checked) extractFiles(tempFileList, tempFolderList, entryList);	
+	if (javaCheckbox.checked) extractClass(tempFileList, tempFolderList, entryList);
+	if (pythonCheckbox.checked) extractFiles(tempFileList, tempFolderList, entryList);
 };
 fileDragUpload.ondragover = function (e) {
 	e.preventDefault();
@@ -109,8 +109,8 @@ fileDragUpload.ondragover = function (e) {
 folderDragUpload.ondrop = function (e) {
 	e.preventDefault();
 	tempFolderList = folderDrag(e.dataTransfer, tempFolderList, mapPath, listUl);
-	if(javaCheckbox.checked) extractClass(tempFileList, tempFolderList, entryList);
-	if(pythonCheckbox.checked) extractFiles(tempFileList, tempFolderList, entryList);
+	if (javaCheckbox.checked) extractClass(tempFileList, tempFolderList, entryList);
+	if (pythonCheckbox.checked) extractFiles(tempFileList, tempFolderList, entryList);
 };
 folderDragUpload.ondragover = function (e) {
 	e.preventDefault();
@@ -119,13 +119,13 @@ folderDragUpload.ondragover = function (e) {
 javaCheckbox.addEventListener('change', function (event) {
 	if (event.target.checked) {
 		extractClass(tempFileList, tempFolderList, entryList);
-		fileUploadBtn.addEventListener('change', function(){
+		fileUploadBtn.addEventListener('change', function () {
 			extractClass(tempFileList, tempFolderList, entryList);
 			console.log("tempFileList", tempFileList);
 			console.log("tempFolderList", tempFolderList);
 
 		});
-		folderUploadBtn.addEventListener('change', function(){
+		folderUploadBtn.addEventListener('change', function () {
 			extractClass(tempFileList, tempFolderList, entryList);
 		});
 	} else {
@@ -136,10 +136,10 @@ javaCheckbox.addEventListener('change', function (event) {
 pythonCheckbox.addEventListener('change', function (event) {
 	if (event.target.checked) {
 		extractFiles(tempFileList, tempFolderList, entryList);
-		fileUploadBtn.addEventListener('change', function(){
+		fileUploadBtn.addEventListener('change', function () {
 			extractFiles(tempFileList, tempFolderList, entryList);
 		});
-		folderUploadBtn.addEventListener('change', function(){
+		folderUploadBtn.addEventListener('change', function () {
 			extractFiles(tempFileList, tempFolderList, entryList);
 		});
 	} else {

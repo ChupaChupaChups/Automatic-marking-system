@@ -21,7 +21,7 @@ def _get_client():
 
 	Rather than make client handle every time needed, using this method are reduce duplicate client object
 
-	:return	docker-py's docker client handle
+	:return docker-py's docker client handle
 	"""
 	global _docker_client
 
@@ -56,28 +56,28 @@ def build_image():
 
 
 def start_judge(media_path, inputfiles):
-	cli = _get_client()
+	client = _get_client()
 	image_tag = Config["Docker"]["tag"]
 
 	build_image()
 
-	current = os.path.dirname(__file__)
+	current = os.path.join(os.path.dirname(__file__), 'judge_scripts')
 
 	# TODO: dynamic inputfiles
 
-	container = cli.create_container(
+	container = client.create_container(
 			image=image_tag,
-			command='/compiler_and_judge/lang_option.sh',
+			command='/compiler_and_judge/compile_execute.sh',
 			volumes=['/source_code', '/compiler_and_judge', '/inputfiles'],
-			host_config=cli.create_host_config(binds={
+			host_config=client.create_host_config(binds={
 				media_path: {'bind': '/source_code', 'mode': 'rw'},
 				current: {'bind': '/compiler_and_judge', 'mode': 'rw'},
 				inputfiles: {'bind': '/inputfiles', 'mode': 'ro'}
 			})
 	)
-	cli.start(container)
-	cli.wait(container)
-	cli.remove_container(container)
+	client.start(container)
+	client.wait(container)
+	client.remove_container(container)
 
 
 # TODO: when debug is finished, must handle docker container exception at this point
