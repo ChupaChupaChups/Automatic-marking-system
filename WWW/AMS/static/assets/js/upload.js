@@ -1,4 +1,8 @@
 /** recursive search in uploaded folder **/
+tempList1 = [];
+tempList2 = [];
+var fileindex = 0;
+var folderindex = 0;
 function traverseFileTree(item, folderList, map, Ul, path) {
 	var templen;
 	path = path || "";
@@ -6,6 +10,7 @@ function traverseFileTree(item, folderList, map, Ul, path) {
 		item.file(
 			function (file) {
 				folderList.push(file);
+				tempList2.push(file);
 				if (map[file.name] == undefined) {
 					map[file.name] = [];
 				}
@@ -14,7 +19,17 @@ function traverseFileTree(item, folderList, map, Ul, path) {
 		);
 		//console.log(tempFolderList);
 		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(item.fullPath).append('<input type="checkbox" class="d_checkbox" name="delete">');
+		tpl.find('p').text(item.fullPath).append('<button class="btn btn-danger myleft" id="folder' + folderindex + '">delete');
+		var a = tpl.find("#folder" + folderindex++);
+		tpl.find('button').bind('click', function(e){
+				e.preventDefault();
+				$(this).parent().parent().remove();
+				var index = $(this).attr('id').replace(/[^0-9]/g,"");
+				var removeindex = folderList.indexOf(tempList2[index]);
+				folderList.splice(removeindex, 1);
+				map[tempList2[index].webkitRelativePath] = [];
+				console.log(folderList);
+		});
 		tpl.appendTo(Ul);
 		//	tempFileList[templen].webkitRelativePath = item.fullPath;
 	}
@@ -26,27 +41,6 @@ function traverseFileTree(item, folderList, map, Ul, path) {
 			}
 		});
 	}
-}
-
-function fileDrag(dataTransfer, fileList, Ul){
-	if (dataTransfer && dataTransfer.files.length != 0) {
-		var data = dataTransfer.files;
-		if (fileList != null) {
-			for (var i = 0; i < data.length; i++) {
-				fileList.push(data[i]);
-			}
-		}
-		else fileList = data;
-			for (var i = 0; i < data.length; i++) {
-				var tpl = $('<li class="working"><p></p><span></span></li>');
-				tpl.find('p').text(data[i].name).append('<input type="checkbox" class="d_checkbox" name="delete">');
-				tpl.appendTo(Ul);
-			}
-	}
-	//console.log("drag file:",fileList);
-	//if (javaCheckbox.checked) extractClass();
-	//if (pythonCheckbox.checked) extractFiles();
-	return fileList;
 }
 
 function folderDrag(dataTransfer, folderList, map, Ul){
@@ -70,7 +64,8 @@ function fileUpBtn(fileBtn, fileList, Ul){
 	var data = fileBtn.files;
 	if(fileList != null){
 		for (var i = 0; i < data.length; i++) {
-			fileList.push(data[i])
+			fileList.push(data[i]);
+			tempList1.push(data[i]);
 		}
 	}
 	else {
@@ -78,7 +73,16 @@ function fileUpBtn(fileBtn, fileList, Ul){
 	}
 	for (var i=0; i < data.length; i++){
 		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(data[i].name).append('<input type="checkbox" class="d_checkbox" name="delete">');
+		tpl.find('p').text(data[i].name).append('<button class="btn btn-danger myleft" id="file'+ fileindex++ +'">delete');
+		var a = tpl.find('button');
+		a.bind('click', function(e){
+				e.preventDefault();
+				$(this).parent().parent().remove();
+				var index = $(this).attr('id').replace(/[^0-9]/g,"");
+				var removeindex = fileList.indexOf(tempList1[index]);
+				fileList.splice(removeindex, 1);
+				console.log(fileList);
+		});
 		tpl.appendTo(Ul);
 	}
 	console.log("click file:", fileList);
@@ -88,9 +92,9 @@ function fileUpBtn(fileBtn, fileList, Ul){
 function folderUpBtn(folderBtn, folderList, map, Ul){
 	var data = folderBtn.files;
 	if(folderList != null){
-		for (filelen = 0; folderList[filelen]; filelen++);
 		for (var i = 0; i < data.length; i++) {
 			folderList.push(data[i]);
+			tempList2.push(data[i]);
 			if (map[data[i].webkitRelativePath] == undefined) map[data[i].webkitRelativePath] = [];
 			map[data[i].webkitRelativePath].push(data[i].webkitRelativePath);
 		}
@@ -100,13 +104,24 @@ function folderUpBtn(folderBtn, folderList, map, Ul){
 	}
 	for (var i=0; i < data.length; i++){
 		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(data[i].webkitRelativePath).append('<input type="checkbox" class="d_checkbox" name="delete">');
+		tpl.find('p').text(data[i].webkitRelativePath).append('<button class="btn btn-danger myleft" id="folder'+ folderindex +'" >delete');
+		var a = tpl.find("#folder" + folderindex++);
+		a.bind('click', function(e){
+				e.preventDefault();
+				$(this).parent().parent().remove();
+				var index = $(this).attr('id').replace(/[^0-9]/g,"");
+				var removeindex = folderList.indexOf(tempList2[index]);
+				folderList.splice(removeindex, 1);
+				map[tempList2[index].webkitRelativePath] = [];
+				console.log(folderList);
+				
+		});
 		tpl.appendTo(Ul);
 	}
 	return folderList;
 	//console.log("click folder:", folderList);
 };
 
-function delete_ullist(){
-	
+function delete_all(ul){
+	while(ul.children.length) ul.children.item(0).remove();	
 }

@@ -1,3 +1,11 @@
+/* all delete button */
+
+var ic_delete = document.getElementById("ic_delete");
+var ic_inputdelete = document.getElementById("ic_inputdelete");
+var oc_delete = document.getElementById("oc_delete");
+var io_inputdelete = document.getElementById("io_delete");
+var io_outputdelete = document.getElementById("io_delete2");
+
 /* code + input */
 var codeUploadBtn = document.getElementById("ic_codefile");
 var codeFolderUploadBtn = document.getElementById("ic_codefolder");
@@ -278,6 +286,27 @@ outfolderDragUpload.ondrop = function (e) {
 	console.log("drag outfolder:", outFolderList);
 };
 
+ic_delete.addEventListener('click', function(){
+	codeFileList = [],codeFolderList = [],mapPath = [];
+	delete_all(listUl);
+});
+ic_inputdelete.addEventListener('click', function(){
+	inFileList = [], inFolderList = [], inmapPath = [];
+	delete_all(inlistUl);
+});
+oc_delete.addEventListener('click', function(){
+	codeFileList = [], codeFolderList = [], mapPath = [];
+	delete_all(listUl);
+});
+io_inputdelete.addEventListener('click', function(){
+	inFileList = [], inFolderList = [], inmapPath = [];
+	delete_all(inlistUl);
+});
+io_outputdelete.addEventListener('click', function(){
+	outFileList = [], outFolderList = [], outmapPath = [];
+	delete_all(outlistUl);
+});
+
 javaCheckbox.addEventListener('change', function (event) {
 	if (event.target.checked) {
 		extractClass(codeFileList, codeFolderList, ic_entry_point);
@@ -391,11 +420,11 @@ function ic_append_language (formdata_temp) {
 	if (cCheckbox.checked) language = 1;
 	else if (cppCheckbox.checked) language = 2;
 	else if (javaCheckbox.checked) {
-		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		formdata_temp.append("entrypoint", ic_entry_point[ic_entry_point.selectedIndex].value);
 		language = 3;
 	}
 	else if (pythonCheckbox.checked) {
-		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		formdata_temp.append("entrypoint", ic_entry_point[ic_entry_point.selectedIndex].value);
 		language = 4;
 	}
 	else language = 5;
@@ -410,11 +439,11 @@ function oc_append_language (formdata_temp) {
 	if (ocCheckbox.checked) language = 1;
 	else if (ocppCheckbox.checked) language = 2;
 	else if (ojavaCheckbox.checked) {
-		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		formdata_temp.append("entrypoint", oc_entry_point[oc_entry_point.selectedIndex].value);
 		language = 3;
 	}
 	else if (opythonCheckbox.checked) {
-		formdata_temp.append("entrypoint", entryList[entryList.selectedIndex].value);
+		formdata_temp.append("entrypoint", oc_entry_point[oc_entry_point.selectedIndex].value);
 		language = 4;
 	}
 	else language = 5;

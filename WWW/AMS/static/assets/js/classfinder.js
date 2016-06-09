@@ -25,7 +25,7 @@ function extractClass(fileList, folderList, entryList) {
 		printFileList.push(fileList[i]);
 	}
 	console.log("printFileList", printFileList);
-	for (var i = 0; i < filelen + folderlen; i++) {
+	for (var i = 0; i < printFileList.length; i++) {
 			var re = /\.java/;
 		if (re.exec(printFileList[i].name) != null) {
 			var reader = new FileReader();

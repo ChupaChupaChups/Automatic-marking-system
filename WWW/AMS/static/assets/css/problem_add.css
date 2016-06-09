@@ -1,16 +1,9 @@
-.mydropdown {
-}
-.dropdown-mycss {
-	width: 10%;
-}
-.ullist {
-	width: 50%;
-	cursor: pointer;
+.myleft{
+	margin-left: 80%;
 }
 .fileUpload, .folderUpload {
 	position: relative;
 	overflow: hidden;
-	width: 100%;
 	margin-bottom: 5px;
 }
 .pdfUpload {
