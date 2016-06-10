@@ -99,6 +99,7 @@ window.ondrop = function (e) {
 
 fileDragUpload.ondrop = function (e) {
 	e.preventDefault();
+	// FIXME: fileDrag가 upload.js에 없음
 	tempFileList = fileDrag(e.dataTransfer, tempFileList, listUl);
 	if (javaCheckbox.checked) extractClass(tempFileList, tempFolderList, entryList);
 	if (pythonCheckbox.checked) extractFiles(tempFileList, tempFolderList, entryList);
@@ -106,6 +107,7 @@ fileDragUpload.ondrop = function (e) {
 fileDragUpload.ondragover = function (e) {
 	e.preventDefault();
 };
+
 folderDragUpload.ondrop = function (e) {
 	e.preventDefault();
 	tempFolderList = folderDrag(e.dataTransfer, tempFolderList, mapPath, listUl);
