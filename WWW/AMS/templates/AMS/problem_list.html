@@ -1,0 +1,109 @@
+{% extends "AMS/header.html" %}
+
+{% load static %}
+
+{% block title %}문제 목록{% endblock %}
+
+{% block problem_list %}active{% endblock %}
+
+{% block content_header %}
+	<script type="text/javascript" src="{% static "assets/js/jquery-2.2.3.min.js" %}"></script>
+        <link rel="stylesheet" href="{% static "assets/bootstrap3/css/bootstrap.min.css" %}">
+        <link rel="stylesheet" href="{% static "assets/bootstrap3/css/bootstrap-theme.min.css" %}">
+        <script src="{% static "assets/bootstrap3/js/bootstrap.min.js" %}"></script>
+
+	<script type="text/javascript">
+		/*
+		 get CSRF token that given by django server for security from cookie of this page
+		 more info of CSRF in Django:
+		 https://docs.djangoproject.com/en/1.9/ref/csrf/
+		 */
+		var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
+
+		function btn_delete(url) {
+			var request = new XMLHttpRequest();
+
+			request.onreadystatechange = function () {
+				if (request.readyState == XMLHttpRequest.DONE && request.status == 200) {
+					location.reload();
+				}
+			};
+
+			request.open("DELETE", url, true);
+			request.setRequestHeader("X-CSRFToken", csrf_token[1]);
+			request.send();
+		}
+	</script>
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/problem_list.less" %} ">
+{% endblock %}
+
+
+{% block content %}
+	<div class="container content">
+		<section class="list-wrapper" role="main">
+			{% if problems %}
+				{% for problem in problems %}
+					<article class="problem-table">
+						<div class="row header">
+							<div class="cell">
+								<a href="{% url 'problem' problem.pk %}" class="name">{{ problem.p_name }}</a>
+							</div>
+							<!-- The Modal -->
+							<button id="answerPop">답안제출</button>
+
+							<div id="myModal" class="modal">
+							  	<div class="modal-content" >
+								    	<div class="modal-header">
+									      	<span class="close">x</span>
+									      	<h2>{{ problem.p_name }}</h2>
+								    	</div>
+								    	<div class="modal-body">
+										<div id="contents" > 
+						<iframe src="{% url 'submit' problem.pk %}" name="targetframe" allowTransparency="true" width="85%" height="500px" frameborder="0" >
+    </iframe>
+										</div>
+								    	</div>
+<!--
+								    	<div class="modal-footer">
+								      		<button type="submit" class="btn btn-default" id="submit">제출</button>
+								    	</div>
+-->
+							  	</div>
+							</div>
+							<div class="cell">
+								<a href="#" class="name"> 채점결과</a>
+							</div>
+							<div class="cell">
+								<button type="button" class="name"
+										onclick="btn_delete('{% url 'problem' problem.pk %}');">삭제
+								</button>
+							</div>
+							<div>
+								<a href="{% url 'problem/update' problem.pk %}" class="name">수정</a>
+							</div>
+						</div>
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell"></div>
+							<div class="cell">#</div>
+							<div class="cell"></div>
+						</div>
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell"></div>
+							<div class="cell">#</div>
+							<div class="cell"></div>
+						</div>
+						<div class="row">
+							<div class="cell"></div>
+							<div class="cell"></div>
+							<div class="cell">#</div>
+							<div class="cell"></div>
+						</div>
+					</article>
+				{% endfor %}
+			{% endif %}
+		</section>
+	</div>
+	<script src="{% static "assets/js/problem_list.js" %}"></script>
+{% endblock %}

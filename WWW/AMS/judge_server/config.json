@@ -1,0 +1,16 @@
+{
+	"Docker": {
+		"Dockerfile": "Dockerfile",
+		"daemon_address": "tcp://localhost:2375",
+		"tag": "judge_server"
+	},
+	"django": {
+		"language": {
+			"1": "c",
+			"2": "c++",
+			"3": "java",
+			"4": "python"
+		},
+		"code_meta_file": "config.json"
+	}
+}

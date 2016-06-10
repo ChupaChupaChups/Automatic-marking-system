@@ -1,0 +1,62 @@
+{% extends "AMS/base_2.html" %}
+
+{% load static %}
+
+{% block title %}{{ problem.p_name }}{% endblock %}
+
+{% block content_header %}
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
+{% endblock %}
+
+{% block problem_class %} active {% endblock %}
+
+{% block content2 %}
+	<div class="content container">
+		<table id="problem-info">
+			<thead>
+			<tr>
+				<th>User</th>
+				<th>Result</th>
+				<th>Language</th>
+				<th>Percent</th>
+				<th>RunnigTime</th>
+				<th>Hint</th>
+				<th>#Try</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>{{ record.user }}</td>
+				<td>{{ result.result }}</td>
+				<td>
+					{% if record.language == 1 %}C {% endif %}
+					{% if record.language == 2 %}C++ {% endif %}
+					{% if record.language == 3 %}Java {% endif %}
+					{% if record.language == 4 %}Python {% endif %}
+				</td>
+				<td>{{ result.correct_percent }}</td>
+				<td>{{ result.process_time }}</td>
+				{% if problem.p_hint_integer != 100 %}
+
+					{% if problem.p_hint_integer <= result.correct_percent %}
+						<td>Satisfy</td>
+					{% else %}
+						<td>Below</td>
+					{% endif %}
+
+				{% else %}
+					<td>false</td>
+				{% endif %}
+				<td></td>
+			</tr>
+			</tbody>
+		</table>
+		{% if problem.p_hint_integer <= result.correct_percent %}
+			<div class="problem-header">
+				<h2 class="header in">HINT</h2>
+				<p class="value in">input: {{ problem.p_inputex }}</p>
+				<p class="value in">output: {{ problem.p_outputex }}</p>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}

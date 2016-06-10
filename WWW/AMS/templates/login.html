@@ -1,0 +1,53 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login</title>
+	<link rel="stylesheet" href="{% static "login/css/style.css" %}">
+
+	<link rel="shortcut icon" href="{% static "assets/img/favicon.ico" %}"/>
+
+	<script type="text/javascript" src="{% static "assets/js/jquery-2.2.4.min.js" %}"></script>
+	<link href="{% static "login/css/toastr.min.css" %}" rel="stylesheet"/>
+	<script src="{% static "login/js/toastr.min.js" %}"></script>
+</head>
+
+<body>
+{% if form.errors %}
+	<script type="text/javascript">
+		$(document).ready(function () {
+			toastr.error('Invalid Account!');
+		});
+		toastr.options = {
+			"closeButton": false,
+			"debug": false,
+			"newestOnTop": false,
+			"progressBar": false,
+			"positionClass": "toast-top-full-width",
+			"preventDuplicates": false,
+			"showDuration": "300",
+			"hideDuration": "1000",
+			"timeOut": "5000",
+			"extendedTimeOut": "1000",
+			"showEasing": "swing",
+			"hideEasing": "linear",
+			"showMethod": "fadeIn",
+			"hideMethod": "fadeOut"
+		}
+	</script>
+{% endif %}
+<div class="login">
+	<div class="login-triangle"></div>
+
+	<h2 class="login-header">Log in</h2>
+
+	<form class="login-container" method="post" action="{% url 'login' %}">
+		{% csrf_token %}
+		<p><input type="text" name="username" placeholder="Username"></p>
+		<p><input type="password" name="password" placeholder="Password"></p>
+		<p><input type="submit" value="Log in"></p>
+	</form>
+</div>
+</body>
+</html>

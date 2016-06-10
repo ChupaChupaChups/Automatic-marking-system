@@ -1,0 +1,66 @@
+body, ul, li, a, div {
+	margin: 0;
+}
+
+@menu-shadow-color: #333;
+@menu-background-color: #009688;
+@menu-hover-color: #26A69A;
+@menu-active-color: #00897B;
+@logout-hover-color: #F44336;
+@menu-default-color: rgba(255, 255, 255, 0);
+
+body {
+	width: 100%;
+
+	.nav-wrapper {
+		background-color: @menu-background-color;
+		height: 60px;
+		box-shadow: 0 2px 4px @menu-shadow-color;
+		z-index: 3;
+		position: relative;
+
+		.nav {
+			margin-right: 3%;
+			float: right;
+
+			.nav-container {
+				padding: 0;
+				float: left;
+
+				li {
+					float: left;
+					list-style: none;
+					display: block;
+
+					.nav-item {
+						padding: 20px;
+						display: block;
+						line-height: 20px;
+						font-size: 18px;
+						text-decoration: none;
+						color: #ffffff;
+						background-color: @menu-default-color;
+						-webkit-transition: background-color 300ms;
+						transition: background-color 300ms;
+					}
+
+					.active {
+						background-color: @menu-active-color;
+					}
+				}
+			}
+
+			.nav-page {
+				margin-right: 30px;
+
+				.page_anchor:hover {
+					background-color: @menu-hover-color;
+				}
+			}
+
+			#log-out:hover {
+				background-color: @logout-hover-color;
+			}
+		}
+	}
+}

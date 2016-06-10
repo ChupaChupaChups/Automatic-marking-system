@@ -1,0 +1,26 @@
+@media screen {
+	.container, .secondMenu {
+		padding-right: 15px;
+		padding-left: 15px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+@media screen and (min-width: 768px) {
+	.container, .secondMenu {
+		width: 750px;
+	}
+}
+
+@media screen and (min-width: 992px) {
+	.container, .secondMenu {
+		width: 970px;
+	}
+}
+
+@media screen and (min-width: 1200px) {
+	.container, .secondMenu {
+		width: 1170px;
+	}
+}

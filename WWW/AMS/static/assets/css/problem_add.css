@@ -1,0 +1,291 @@
+.myleft{
+	margin-left: 80%;
+}
+.fileUpload, .folderUpload {
+	position: relative;
+	overflow: hidden;
+	margin-bottom: 5px;
+}
+.pdfUpload {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.fileUpload input, .folderUpload input, .pdfUpload input{
+	position: absolute;
+	width: 100%;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	padding: 0;
+	font-size: 20px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+.p_name #id_p_name {
+	font-size: 15px;
+	padding: 7px;
+	border-radius: 5px;
+	color: #8a8a8a;
+	border: 2px solid #dbdbdb;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+.switch-slide {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	width: 100px;
+	height: 30px;
+	padding: 3px;
+	margin: 10px 10px 10px 0;
+	background: linear-gradient(to bottom, #eeeeee, #FFFFFF 25px);
+	background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
+	border-radius: 18px;
+	box-shadow: inset 0 -1px white, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	cursor: pointer;
+}
+
+.switch-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+}
+
+.switch-label {
+	position: relative;
+	display: block;
+	height: inherit;
+	font-size: 10px;
+	text-transform: uppercase;
+	background: #eceeef;
+	border-radius: inherit;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+.switch-label:before, .switch-label:after {
+	position: absolute;
+	top: 50%;
+	margin-top: -5px;
+	line-height: 1;
+	-webkit-transition: inherit;
+	-moz-transition: inherit;
+	-o-transition: inherit;
+	transition: inherit;
+}
+
+.switch-label:before {
+	content: attr(data-off);
+	right: 11px;
+	color: #aaaaaa;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.switch-label:after {
+	content: attr(data-on);
+	left: 11px;
+	color: #FFFFFF;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+	opacity: 0;
+}
+
+.switch-input:checked ~ .switch-label {
+	background: #E1B42B;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.switch-input:checked ~ .switch-label:before {
+	opacity: 0;
+}
+
+.switch-input:checked ~ .switch-label:after {
+	opacity: 1;
+}
+
+/* Switch Slide
+==========================*/
+.switch-slide {
+	padding: 0;
+	border-radius: 0;
+	background: #FFF none;
+}
+
+.switch-slide .switch-label {
+	box-shadow: none;
+	background: none;
+	overflow: hidden;
+}
+
+.switch-slide .switch-label:after, .switch-slide .switch-label:before {
+	width: 100%;
+	height: 100%;
+	top: 5px;
+	left: 0;
+	text-align: center;
+	padding-top: 10%;
+	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.switch-slide .switch-label:after {
+	color: #FFFFFF;
+	background: #009688;
+	left: -100px;
+}
+
+.switch-slide .switch-label:before {
+	background: #eceeef;
+}
+
+.switch-slide .switch-handle {
+	display: none;
+}
+
+.switch-slide .switch-input:checked ~ .switch-label {
+	background: #FFF;
+	border-color: #0088cc;
+}
+
+.switch-slide .switch-input:checked ~ .switch-label:before {
+	left: 100px;
+}
+
+.switch-slide .switch-input:checked ~ .switch-label:after {
+	left: 0;
+}
+
+/* Transition
+============================================================ */
+.switch-label {
+	transition: All 0.3s ease;
+	-webkit-transition: All 0.3s ease;
+	-moz-transition: All 0.3s ease;
+	-o-transition: All 0.3s ease;
+}
+
+.switch-content-slide {
+	position: relative;
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	height: 30px;
+	padding: 3px;
+	margin: 10px 10px 10px 0;
+	background: linear-gradient(to bottom, #eeeeee, #FFFFFF 25px);
+	background-image: -webkit-linear-gradient(top, #eeeeee, #FFFFFF 25px);
+	border-radius: 18px;
+	box-shadow: inset 0 -1px white, inset 0 1px 1px rgba(0, 0, 0, 0.05);
+	cursor: pointer;
+}
+
+.switch-input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+}
+
+.switch-content {
+	position: relative;
+	display: block;
+	height: inherit;
+	font-size: 10px;
+	text-transform: uppercase;
+	background: #eceeef;
+	border-radius: inherit;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.12), inset 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+.switch-content:before, .switch-content:after {
+	position: absolute;
+	top: 50%;
+	margin-top: -5px;
+	line-height: 1;
+}
+
+.switch-content:before {
+	content: attr(data-off);
+	right: 11px;
+	color: #aaaaaa;
+	text-shadow: 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.switch-content:after {
+	content: attr(data-on);
+	left: 11px;
+	color: #FFFFFF;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.2);
+	opacity: 0;
+}
+
+.switch-input:checked ~ .switch-content {
+	background: #E1B42B;
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.15), inset 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.switch-input:checked ~ .switch-content:before {
+	opacity: 0;
+}
+
+.switch-input:checked ~ .switch-content:after {
+	opacity: 1;
+}
+
+/* Switch content-slide
+==========================*/
+.switch-content-slide {
+	padding: 0;
+	border-radius: 0;
+	background: #FFF none;
+}
+
+.switch-content-slide .switch-content {
+	box-shadow: none;
+	background: none;
+	overflow: hidden;
+}
+
+.switch-content-slide .switch-content:after, .switch-content-slide .switch-content:before {
+	width: 100%;
+	height: 100%;
+	top: 5px;
+	left: 0;
+	text-align: center;
+	padding-top: 10px;
+	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.2), inset 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.switch-content-slide .switch-content:after {
+	color: #FFFFFF;
+	background: #009688;
+	left: -100px;
+}
+
+.switch-content-slide .switch-content:before {
+	background: #eceeef;
+}
+
+.switch-content-slide .switch-input:checked ~ .switch-content {
+	background: #FFF;
+	border-color: #0088cc;
+}
+
+.switch-content-slide .switch-input:checked ~ .switch-content:before {
+	left: 100px;
+}
+
+.switch-content-slide .switch-input:checked ~ .switch-content:after {
+	left: 0;
+}
+
+.hidden-content {
+	/* FIXME: not working */
+	transition: display 300ms;
+}

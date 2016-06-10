@@ -1,7 +1,0 @@
-{
-  "Docker": {
-    "Dockerfile": "Dockerfile",
-    "daemon_address": "tcp://localhost:2375",
-    "tag": "judge_server"
-  }
-}

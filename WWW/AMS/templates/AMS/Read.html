@@ -1,0 +1,63 @@
+{% extends "AMS/base_2.html" %}
+
+{% load static %}
+
+{% block title %}{{ problem.p_name }}{% endblock %}
+
+{% block content_header %}
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
+	<script type="text/javascript" src="{% static "assets/js/pdfobject.min.js" %}"></script>
+{% endblock %}
+
+{% block problem_class %} active {% endblock %}
+
+{% block content2 %}
+	<div class="content container">
+		<h1 id="problem-name">{{ problem.p_name }}</h1>
+		<table id="problem-info">
+			<thead>
+			<tr>
+				<th>Language</th>
+				<th>Deadline</th>
+				<th>Standard</th>
+				<th>Hint</th>
+				<th>#Try</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>
+					{% if problem.p_c_ok %}C {% endif %}
+					{% if problem.p_cpp_ok %}C++ {% endif %}
+					{% if problem.p_java_ok %}Java {% endif %}
+					{% if problem.p_py_ok %}Python {% endif %}
+				</td>
+				<td>{{ problem.p_day_limit }}</td>
+				<td></td>
+				{% if problem.p_hint_integer != 100 %}
+					<td>true</td>
+				{% else %}
+					<td>false</td>
+				{% endif %}
+				<td></td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="problem-header" id="problem-content">
+			{% if problem.p_content %} {{ problem.p_content|safe }} {% endif %}
+			{% if problem.p_pdffile %}
+				<div id="test"></div>
+				<style>
+					.pdfobject-container {
+						height: 500px;
+					}
+
+					.pdfobject {
+						border: 1px solid #666;
+					}
+				</style>
+				<script> PDFObject.embed("/media/{{problem.p_pdffile}}", "#test");</script>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
