@@ -5,125 +5,61 @@
 {% block title %}문제 제출{% endblock %}
 
 {% block content_header %}
-
-	<!-- Jquery -->
-	<script type="text/javascript" src="{% static "assets/js/jquery-2.2.4.min.js" %}"></script>
-	<!--Bootstrap3-->
-	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap-theme.min.css" %}">
-	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap.min.css" %}">
-	<script src="{% static "bootstrap3/js/bootstrap.min.js" %}"></script>
 	<!--CustomCSS-->
 	{{ create_form.media.css }}
 	<link rel="stylesheet" href="{% static "assets/css/problem_add.css" %}">
-	<link rel="stylesheet" href="{% static "assets/css/answer_submit.css" %}">
-	<link rel="stylesheet" href="{% static "web/css/style.css" %}">
+	<link rel="stylesheet" href="{% static "assets/css/language_selector.css" %}">
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/upload_widget.less" %}">
 	<!--CustomJS-->
 	{{ create_form.media.js }}
+	<script src="{% static "assets/js/classfinder.js" %}"></script>
+	<script src="{% static "assets/js/upload.js" %}"></script>
+	<script src="{% static "assets/js/upload-widget.js" %}"></script>
 	<script type="text/javascript">
-		/**
-		 * invoked when whole document is ready
-		 */
+		/** prevent to open droped file **/
+		window.ondragover = function (e) {
+			e.preventDefault();
+			return false
+		};
+		window.ondrop = function (e) {
+			e.preventDefault();
+			return false
+		};
+
 		document.addEventListener("DOMContentLoaded", function () {
-			var selector = document.getElementById("entry-point-selector");
-			var cSelector = document.getElementById("id_language_0");
-			var cppSelector = document.getElementById("id_language_1");
-			var javaSelector = document.getElementById("id_language_2");
-			var pySelector = document.getElementById("id_language_3");
-			var mkSelector = document.getElementById("id_language_4");
-
-			/**
-			 * for initial value
-			 *
-			 * http://www.w3schools.com/jsref/prop_style_display.asp
-			 * visibility options reference
-			 */
-			if (javaSelector.checked || pySelector.checked) {
-				selector.style.display = "block";
-			} else {
-				selector.style.display = "none";
-			}
-
-			function showEntryPointSelector(event) {
-				if (event.target.checked) {
-					selector.style.display = "block";
-				} else {
-					selector.style.display = "none";
-				}
-			}
-
-			function blockEntryPointSelector(event) {
-				if (event.target.checked) {
-					selector.style.display = "none";
-				}
-			}
-
-			cSelector.addEventListener("click", blockEntryPointSelector);
-			cppSelector.addEventListener("click", blockEntryPointSelector);
-			javaSelector.addEventListener("click", showEntryPointSelector);
-			pySelector.addEventListener("click", showEntryPointSelector);
-			mkSelector.addEventListener("click", blockEntryPointSelector);
+			document.getElementById('minus').addEventListener('click', function (event) {
+				document.getElementById("hintBar").value -= 5;
+				if (document.getElementById("hintBar").value == 0) document.getElementById("percent").innerHTML = "항상 힌트를 보여줍니다";
+				else document.getElementById("percent").innerHTML = document.getElementById("hintBar").value + "% 이상 맞으면 힌트보여주기";
+			});
+			document.getElementById('plus').addEventListener('click', function (event) {
+				document.getElementById("hintBar").value += 5;
+				if (document.getElementById("hintBar").value == 100) document.getElementById("percent").innerHTML = "힌트를 보여주지 않습니다";
+				else document.getElementById("percent").innerHTML = document.getElementById("hintBar").value + "% 이상 맞으면 힌트보여주기";
+			});
 		});
 	</script>
-	<script type="text/javascript">
-		/**
-		 * invoked when whole document is ready
-		 */
-		document.addEventListener("DOMContentLoaded", function () {
-			var selector = document.getElementById("entry-point-selector_oc");
-			var cSelector = document.getElementById("id_language_00");
-			var cppSelector = document.getElementById("id_language_11");
-			var javaSelector = document.getElementById("id_language_22");
-			var pySelector = document.getElementById("id_language_33");
-			var mkSelector = document.getElementById("id_language_44");
-
-			if (javaSelector.checked || pySelector.checked) {
-				selector.style.display = "block";
-			} else {
-				selector.style.display = "none";
-			}
-
-			function showEntryPointSelector(event) {
-				if (event.target.checked) {
-					selector.style.display = "block";
-				} else {
-					selector.style.display = "none";
-				}
-			}
-
-			function blockEntryPointSelector(event) {
-				if (event.target.checked) {
-					selector.style.display = "none";
-				}
-			}
-
-			cSelector.addEventListener("click", blockEntryPointSelector);
-			cppSelector.addEventListener("click", blockEntryPointSelector);
-			javaSelector.addEventListener("click", showEntryPointSelector);
-			pySelector.addEventListener("click", showEntryPointSelector);
-			mkSelector.addEventListener("click", blockEntryPointSelector);
-		});
-	</script>
-
-	<!--online shell-->
-	<script type="text/javascript" src="{% static 'assets/js/scrollable.termlib.js' %}"></script>
-	<script type="text/javascript" src="{% static 'assets/js/reconnecting-websocket.min.js' %}"></script>
-	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/online_shell.less" %} ">
 {% endblock %}
 
 {% block problem_add %}active{% endblock %}
 
 {% block content %}
-	<div class="content container">
+	{# FIXME: style 태그 말고 bootstrap의 css로 화면 크기마다 유동적으로 좌 우의 마진 조절하기 #}
+	<div class="content container-fluid" style="margin-left: 100px; margin-right: 100px;">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
+			<h2>문제 이름</h2>
 			<fieldset class="form-group p_name">
 				{{ create_form.p_name }}
 			</fieldset>
+
 			<div class="date_picker">
-				<label>마감기한{{ create_form.p_day_limit }}</label>
+				<h2>마감기한</h2>
+				{{ create_form.p_day_limit }}
 			</div>
-			<h2>허용되는 언어</h2>
-			<div id="problem_language">
+
+			<div id="language-wrapper">
+				<h2>허용되는 언어</h2>
 				<label class="switch-slide">
 					{{ create_form.p_c_ok }}
 					<span class="switch-label" data-on="C on" data-off="C off"></span>
@@ -145,8 +81,9 @@
 					<span class="switch-label" data-on="MAKEFILE on" data-off="MAKEFILE off"></span>
 				</label>
 			</div>
-			<h2>힌트여부</h2>
+
 			<div id="hint-wrapper">
+				<h2>힌트여부</h2>
 				<div id="hintProgress">
 					<progress id="hintBar" value="100" max="100"
 							  style="width:70%">{{ create_form.p_hint_integer }}</progress>
@@ -160,237 +97,22 @@
 
 			<h2>입/출력/코드 옵션</h2>
 			<ul class="nav nav-tabs">
-				<li class="active"><a data-toggle="tab" href="#input_code" id="in_co">입력+코드</a></li>
-				<li><a data-toggle="tab" href="#only_code" id="only_co">코드</a></li>
-				<li><a data-toggle="tab" href="#input_output" id="in_out">입력+출력</a></li>
+				<li class="active"><a data-toggle="tab" href="#input_code">입력+코드</a></li>
+				<li><a data-toggle="tab" href="#only_code">코드</a></li>
+				<li><a data-toggle="tab" href="#input_output">입력+출력</a></li>
 			</ul>
 			<div class="tab-content">
 				<div id="input_code" class="tab-pane fade in active">
-					<label class="switch-content-slide">
-						<input type="checkbox" class="switch-input" id="answer_code">
-						<span class="switch-content" data-on="ANSWER CODE" data-off="ANSWER CODE"></span>
-					</label>
-					<div id="answer_code_upload">
-						<div class="segmented-control" style="width : 100%; color : #5FBAAC">
-							<input checked="checked" id="id_language_0" name="language" type="radio" value="1">
-							<input id="id_language_1" name="language" type="radio" value="2">
-							<input id="id_language_2" name="language" type="radio" value="3">
-							<input id="id_language_3" name="language" type="radio" value="4">
-							<input id="id_language_4" name="language" type="radio" value="5">
-							<label for="id_language_0" data-value="C">C</label>
-							<label for="id_language_1" data-value="CPP">CPP</label>
-							<label for="id_language_2" data-value="JAVA">JAVA</label>
-							<label for="id_language_3" data-value="PYTHON">PYTHON</label>
-							<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
-						</div>
-						<div class="upload">
-							<div class="fileUpload btn btn-primary">
-								<span>File upload</span>
-								<input type="file" id="ic_codefile" multiple="">
-							</div>
-							<div class="folderUpload btn btn-primary">
-								<span>Folder upload</span>
-								<input type="file" id="ic_codefolder" webkitdirectory="">
-							</div>
-							<button class="btn btn-danger dropdown-mycss" id="ic_delete" type="button">All Delete
-							</button>
-							<div class="login-form">
-								<div id="dropfolder_ic">
-									<a>Drag and Drop here</a>
-								</div>
-								<ul id="listFile_ic">
-									<!-- Upload file show here -->
-								</ul>
-							</div>
-						</div>
-						<p id="entry-point-selector">
-							<label for="ic_entry_point">entry point :</label>
-							<select class="form-control" name="entry_point" id="ic_entry_point" size="8"></select>
-						</p>
-					</div>
-					<label class="switch-content-slide">
-						<input type="checkbox" class="switch-input" id="input_file">
-						<span class="switch-content" data-on="INPUT EXAMPLE FILES"
-							  data-off="INPUT EXAMPLE FILES"></span>
-					</label>
-					<div id="input_file_upload">
-						<div class="upload">
-							<div class="fileUpload btn btn-primary">
-								<span>File upload</span>
-								<input type="file" id="ic_inputfile" multiple="">
-							</div>
-							<div class="folderUpload btn btn-primary">
-								<span>Folder upload</span>
-								<input type="file" id="ic_inputfolder" webkitdirectory="">
-							</div>
-							</ul>
-							<button class="btn btn-danger dropdown-mycss" id="ic_inputdelete" type="button">All Delete
-							</button>
-							<div class="login-form">
-								<div id="inputfolder_ic">
-									<a>INPUT EXAMPLE FOLDERS</a>
-									<input type="file" id="ic_inputfolder" webkitdirectory="">
-								</div>
-								<ul id="inputlistFile_ic">
-									<!-- Upload file show here -->
-								</ul>
-							</div>
-						</div>
-					</div>
+					{% include 'component/upload_tab_1.html' %}
 				</div>
 				<div id="only_code" class="tab-pane fade">
-					<div id="answer_code_upload">
-						<div class="segmented-control" style="width : 100%; color : #5FBAAC">
-							<input checked="checked" id="id_language_00" name="language" type="radio" value="1">
-							<input id="id_language_11" name="language" type="radio" value="2">
-							<input id="id_language_22" name="language" type="radio" value="3">
-							<input id="id_language_33" name="language" type="radio" value="4">
-							<input id="id_language_44" name="language" type="radio" value="5">
-							<label for="id_language_00" data-value="C">C</label>
-							<label for="id_language_11" data-value="CPP">CPP</label>
-							<label for="id_language_22" data-value="JAVA">JAVA</label>
-							<label for="id_language_33" data-value="PYTHON">PYTHON</label>
-							<label for="id_language_44" data-value="MakeFile">MAKEFILE</label>
-						</div>
-						<div class="upload">
-							<div class="fileUpload btn btn-primary">
-								<span>File upload</span>
-								<input type="file" id="oc_codefile" multiple="">
-							</div>
-							<div class="folderUpload btn btn-primary">
-								<span>Folder upload</span>
-								<input type="file" id="oc_codefolder" webkitdirectory="">
-							</div>
-							<button class="btn btn-danger dropdown-mycss" id="oc_delete" type="button">All Delete
-							</button>
-							<div class="login-form">
-								<div id="dropfolder_oc">
-									<a>Drag and Drop here</a>
-								</div>
-								<ul id="listFile_oc">
-									<!-- Upload file show here -->
-								</ul>
-							</div>
-						</div>
-						<p id="entry-point-selector_oc">
-							<label for="oc_entry_point">entry point :</label>
-							<select class="form-control" name="entry_point" id="oc_entry_point" size="8"></select>
-						</p>
-					</div>
-					<button id="btn-run" type="button" class="name">실행</button>
-					<button id="btn-kill" type="button" class="name">kill</button>
-
-					<div id="shell-content">
-						<div class="row">
-							<div class="center-block" tabindex="0" id="screen-wrapper"></div>
-						</div>
-
-						<div class="row row-eq-height" id="shell-result">
-							<div class="col-md-2 list-group" id="shell-result-btn">
-							</div>
-							<div class="col-md-10" id="shell-result-table">
-								<div class="col-md-6">
-									<div class="panel panel-default">
-										<div class="panel-heading">입력</div>
-										<pre class="panel-body" id="input-content"></pre>
-									</div>
-								</div>
-								<div class="col-md-6">
-									<div class="panel panel-default">
-										<div class="panel-heading">출력</div>
-										<pre class="panel-body" id="output-contend"></pre>
-									</div>
-								</div>
-							</div>
-						</div>
-						<script type="text/javascript">
-							var buttonList = document.getElementById('shell-result-btn');
-							var inputPanel = document.getElementById('input-content');
-							var outputPanel = document.getElementById('output-contend');
-							var index = 0;
-
-							function makeResult() {
-								var button = document.createElement('button');
-								button.setAttribute('class', 'list-group-item');
-								button.setAttribute('type', 'button');
-								button.setAttribute('value', String(index));
-								button.innerHTML = String(index + 1);
-								button.addEventListener('click', function (event) {
-									var clicked = event.target;
-									var result = shellResults[clicked.value];
-
-									inputPanel.innerHTML = result.input;
-									outputPanel.innerHTML = result.output;
-								});
-								buttonList.appendChild(button);
-								index++;
-							}
-						</script>
-						<script type="text/javascript"
-								src="{% static 'assets/js/interactive_shell_module.js' %}"></script>
-					</div>
+					{% include 'component/upload_tab_2.html' %}
 				</div>
 				<div id="input_output" class="tab-pane fade">
-					<label class="switch-content-slide">
-						<input type="checkbox" class="switch-input" id="input_file2">
-						<span class="switch-content" data-on="INPUT EXAMPLE FILES"
-							  data-off="INPUT EXAMPLE FILES"></span>
-					</label>
-					<div id="input_file_upload2">
-						<div id="input_file_upload2" class="upload">
-							<div class="fileUpload btn btn-primary">
-								<span>File upload</span>
-								<input type="file" id="io_inputfile" multiple="">
-							</div>
-							<div class="folderUpload btn btn-primary">
-								<span>Folder upload</span>
-								<input type="file" id="io_inputfolder" webkitdirectory="">
-							</div>
-
-							<button class="btn btn-danger dropdown-mycss" id="io_delete" type="button">All Delete
-							</button>
-							<div class="login-form">
-								<div id="inputfolder_io">
-									<a>Drag and Drop here</a>
-								</div>
-								<ul id="inputlistFile_io">
-									<!-- Upload file show here -->
-								</ul>
-							</div>
-						</div>
-					</div>
-					<label class="switch-content-slide">
-						<input type="checkbox" class="switch-input" id="output_file">
-						<span class="switch-content" data-on="OUTPUT EXAMPLE FILES"
-							  data-off="OUTPUT EXAMPLE FILES"></span>
-					</label>
-					<div id="output_file_upload">
-						<div class="upload">
-							<div class="fileUpload btn btn-primary">
-								<span>File upload</span>
-								<input type="file" id="io_outputfile" multiple="">
-							</div>
-							<div class="folderUpload btn btn-primary">
-								<span>Folder upload</span>
-								<input type="file" id="io_outputfolder" webkitdirectory="">
-							</div>
-							<button class="btn btn-danger dropdown-mycss" id="io_delete2" type="button">All Delete
-							</button>
-							<div class="login-form">
-								<div id="outputfolder_io">
-									<a>Drag and Drop here</a>
-								</div>
-								<ul id="outputlistFile_io">
-									<!-- Upload file show here -->
-								</ul>
-							</div>
-						</div>
-					</div>
+					{% include 'component/upload_tab_3.html' %}
 				</div>
 			</div>
-			<div>
-				<button type="button" class="btn btn-default" id="Upload_files">UPLOAD</button>
-			</div>
+
 			<h2>문제 내용</h2>
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
@@ -398,10 +120,6 @@
 			</ul>
 			<div class="tab-content">
 				<div id="editor" class="tab-pane fade in active">
-					<label class="switch-content-slide">
-						<input type="checkbox" class="switch-input" id="content">
-						<span class="switch-content" data-on="Content" data-off="Content"></span>
-					</label>
 					<div id="p_content">{{ create_form.p_content }}</div>
 				</div>
 				<div id="pdf-upload" class="tab-pane fade">
@@ -412,15 +130,10 @@
 				</div>
 			</div>
 
-			<!-- TODO: 입출력 답 선택 코드 생성 -->
 			<div>
 				<input class="btn btn-primary" id="save_problem" type="submit" value="SAVE"/>
 				<input class="btn btn-primary" id="temp_saveproblem" type="submit" value="TEMPORARY SAVE"/>
 			</div>
 		</form>
 	</div>
-
-	<script src="{% static "assets/js/classfinder.js" %}"></script>
-	<script src="{% static "assets/js/upload.js" %}"></script>
-	<script src="{% static "assets/js/problem_add.js" %}"></script>
 {% endblock %}

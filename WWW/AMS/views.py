@@ -57,6 +57,7 @@ def problem_update(req, problem_number):
 @login_required
 def problem_add(req):
 	if req.method == 'POST':
+		print(req.FILES)
 		form = ProblemForm(req.POST, req.FILES)
 		if form.is_valid():
 			form.save()
@@ -125,7 +126,7 @@ def submit_result(req, problem_number):
 
 @login_required
 def test(req):
-	return render(req, 'online_shell.html')
+	return render(req, 'component/source_upload_widget.html', {'id': 'ic'})
 
 
 # TODO: replace to WebSocket

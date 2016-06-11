@@ -1,5 +1,3 @@
-// TODO: Convert Jquery to pure JavaScript
-
 var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 
 /**
@@ -26,7 +24,6 @@ function extractClass(fileList, folderList, entryList) {
 		}
 	}
 
-	console.log(printFileList);
 	// 파일 읽기 시작
 	for (i = 0; i < printFileList.length; i++) {
 		console.log('start\t' + printFileList[i].name);
@@ -54,7 +51,9 @@ function extractClass(fileList, folderList, entryList) {
 						result = matches_class[1];
 					}
 
-					addOption(result);
+					var option = document.createElement('option');
+					option.value = option.text = result;
+					entryList.add(option);
 				}
 			}
 		};
@@ -81,16 +80,20 @@ function extractClass(fileList, folderList, entryList) {
  * TODO: FormData()는 ie, safari, chrome(<50v)등에서 지원이 안됨. JQuery를 찾아봐야할듯. (http://malsup.com/jquery/form)
  */
 var form = document.querySelector('form');
-var formData = new FormData(form);
 
 function extractFiles(fileList, folderList, entryList) {
 	// 이전 목록 지우기
 	while (entryList.options.length) entryList.remove(0);
 
+	var formData = new FormData(form);
+
+	function tester(currentValue) {
+		if (/\.py$/i.test(currentValue.name)) {
+			formData.append('attachments', currentValue);
+		}
+	}
 	folderList.forEach(tester);
 	fileList.forEach(tester);
-
-	console.log(formData.getAll('attachments'));
 
 	switch (formData.getAll('attachments').length) {
 		case 1:
@@ -102,49 +105,19 @@ function extractFiles(fileList, folderList, entryList) {
 			return;
 	}
 
-	var xhr = makeHttpObject();
+	var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function () {
 		if (xhr.readyState == XMLHttpRequest.DONE) {
 			var all_file = JSON.parse(xhr.responseText);
-			all_file.file_name.forEach(addOption);
+			for (var i = 0; i < all_file.file_name.length; i++) {
+				var option = document.createElement('option');
+				option.value = option.text = all_file.file_name[i];
+				entryList.add(option);
+			}
 		}
 	};
 
 	xhr.open('POST', '/savefiles');
 	xhr.setRequestHeader('X-CSRFToken', csrf_token[1]);
 	xhr.send(formData);
-	formData = new FormData(form);
-}
-
-// reusable functions
-
-function makeHttpObject() {
-	try {
-		return new XMLHttpRequest();
-	}
-	catch (error) {
-	}
-	try {
-		return new ActiveXObject('Msxml2.XMLHTTP');
-	}
-	catch (error) {
-	}
-	try {
-		return new ActiveXObject('Microsoft.XMLHTTP');
-	}
-	catch (error) {
-	}
-	throw new Error('Could not create HTTP request object.');
-}
-
-function addOption(currentValue) {
-	var option = document.createElement('option');
-	option.value = option.text = currentValue;
-	entryList.add(option);
-}
-
-function tester(currentValue) {
-	if (/\.py$/i.test(currentValue.name)) {
-		formData.append('attachments', currentValue);
-	}
 }

@@ -5,19 +5,25 @@
 <html>
 
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta charset="utf-8">
 
 	<!--TODO Django: title content-->
 	<title>{% block title %}{% endblock %}</title>
 
-	{% block content_header %}{% endblock %}
-	{% block base_2_header %}{% endblock %}
-
 	<link rel="shortcut icon" href="{% static "assets/img/favicon.ico" %}"/>
 
-	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/header.less" %} ">
-	<link rel="stylesheet" type="text/css" href="{% static "assets/css/style.css" %} ">
-	<script src="{% static "assets/js/less.min.js" %}" type="text/javascript"></script>
+	<!-- Jquery -->
+	<script type="text/javascript" src="{% static "assets/js/jquery-2.2.4.min.js" %}"></script>
+	<!--Bootstrap3-->
+	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap-theme.min.css" %}">
+	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap.min.css" %}">
+	<script src="{% static "bootstrap3/js/bootstrap.min.js" %}"></script>
+
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/header.less" %}">
+
+	{% block content_header %}{% endblock %}
+	{% block base_2_header %}{% endblock %}
 </head>
 
 <body>
@@ -43,6 +49,7 @@
 {% block content %}
 {% endblock %}
 
+<script src="{% static "assets/js/less.min.js" %}" type="text/javascript"></script>
 </body>
 
 </html>

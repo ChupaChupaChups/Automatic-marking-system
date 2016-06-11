@@ -51,8 +51,8 @@
 			pySelector.addEventListener("click", showEntryPointSelector);
 		});
 	</script>
-	<link rel="stylesheet" href="{% static "assets/css/answer_submit.css" %}">
-	<link rel="stylesheet" href="{% static "web/css/style.css" %}">
+	<link rel="stylesheet" href="{% static "assets/css/language_selector.css" %}">
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/upload_widget.less" %}">
 {% endblock %}
 
 {% block content2 %}
@@ -69,7 +69,7 @@
 				<label for="id_language_3" data-value="PYTHON">PYTHON</label>
 				<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
 			</div>
-			<div class="upload">
+			<div class="upload-panel">
 				<div class="login-form">
 					<div id="dropfile">
 						<a> Select FILE or DROP</a>

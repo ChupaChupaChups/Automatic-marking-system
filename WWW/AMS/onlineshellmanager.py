@@ -96,7 +96,7 @@ class ShellSession:
 
 		# TODO: dynamic file select
 		current = os.path.dirname(__file__)
-		current = os.path.join(current, 'judge_server', 'onlineShell_scripts')
+		current = os.path.join(current, 'judge_server', 'online_shell_scripts')
 
 		source_path = os.path.join(settings.MEDIA_ROOT, 'temp', 'answercode')
 

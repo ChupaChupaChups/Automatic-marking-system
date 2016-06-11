@@ -1,0 +1,77 @@
+{% comment %}
+Dependency:
+
+jquery-2.2.4.min.js
+bootstrap-theme.min.css
+bootstrap.min.css
+bootstrap.min.js
+
+problem_add.css
+upload_widget.less
+
+upload.js
+upload-widget.js
+{% endcomment %}
+
+{% block language_selector %}{% endblock %}
+
+<div class="upload-panel">
+	<div class="fileUpload btn btn-primary">
+		<span>File upload</span>
+		<input type="file" id="{{ id }}-file-btn" multiple>
+	</div>
+	<div class="folderUpload btn btn-primary">
+		<span>Folder upload</span>
+		<input type="file" id="{{ id }}-folder-btn" webkitdirectory>
+	</div>
+	<button class="btn btn-danger dropdown-mycss" id="{{ id }}-delete-btn" type="button">All Delete</button>
+	<div>
+		<div class="drag-panel" id="{{ id }}-drop-panel">
+			<a>Drag and Drop here</a>
+		</div>
+		<ul id="{{ id }}-file-list">
+			<!-- Upload file show here -->
+		</ul>
+	</div>
+</div>
+
+{% block entry_point %}{% endblock %}
+
+<script type="text/javascript">
+	var {{ id }}Object = new UploadWidget();
+
+	(function () {
+		var obj = {{ id }}Object;
+
+		obj.fileUploadBtn = document.getElementById("{{ id }}-file-btn");
+		obj.folderUploadBtn = document.getElementById("{{ id }}-folder-btn");
+		obj.deleteBtn = document.getElementById("{{ id }}-delete-btn");
+		obj.folderDrop = document.getElementById("{{ id }}-drop-panel");
+		obj.fileUL = document.getElementById("{{ id }}-file-list");
+
+		obj.fileUploadBtn.addEventListener('change', function () {
+			fileUpBtn(obj.fileUploadBtn, obj.fileList, obj.fileUL);
+		});
+		obj.folderUploadBtn.addEventListener('change', function () {
+			folderUpBtn(obj.folderUploadBtn, obj.folderList, obj.mapPath, obj.fileUL);
+		});
+		obj.deleteBtn.addEventListener('click', function () {
+			obj.fileList = [];
+			obj.folderList = [];
+			obj.mapPath = [];
+			delete_all(obj.fileUL);
+		});
+
+		obj.folderDrop.ondragover = function (e) {
+			e.preventDefault();
+		};
+
+		obj.folderDrop.ondrop = function (e) {
+			e.preventDefault();
+			folderDrag(e.dataTransfer, obj.folderList, obj.mapPath, obj.fileUL);
+			console.log("component drag folder:", obj.folderList);
+		};
+
+		{% block extended_javascript %}{% endblock %}
+	})();
+</script>

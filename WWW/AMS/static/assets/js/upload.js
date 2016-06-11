@@ -1,6 +1,6 @@
 /** recursive search in uploaded folder **/
-tempList1 = [];
-tempList2 = [];
+var tempList1 = [];
+var tempList2 = [];
 var fileindex = 0;
 var folderindex = 0;
 function traverseFileTree(item, folderList, map, Ul, path) {
@@ -61,7 +61,6 @@ function folderDrag(dataTransfer, folderList, map, Ul) {
 
 function fileUpBtn(fileBtn, fileList, Ul) {
 	var data = fileBtn.files;
-	var i;
 	if (fileList != null) {
 		for (i = 0; i < data.length; i++) {
 			fileList.push(data[i]);
@@ -71,7 +70,7 @@ function fileUpBtn(fileBtn, fileList, Ul) {
 	else {
 		fileList = data;
 	}
-	for (i = 0; i < data.length; i++) {
+	for (var i = 0; i < data.length; i++) {
 		var tpl = $('<li class="working"><p></p><span></span></li>');
 		tpl.find('p').text(data[i].name).append('<button class="btn btn-danger myleft" id="file' + fileindex++ + '">delete');
 		var a = tpl.find('button');
@@ -81,7 +80,7 @@ function fileUpBtn(fileBtn, fileList, Ul) {
 			var index = $(this).attr('id').replace(/[^0-9]/g, "");
 			var removeindex = fileList.indexOf(tempList1[index]);
 			fileList.splice(removeindex, 1);
-			console.log(fileList);
+			console.log('on file delete', fileList);
 		});
 		tpl.appendTo(Ul);
 	}
@@ -114,7 +113,7 @@ function folderUpBtn(folderBtn, folderList, map, Ul) {
 			var removeindex = folderList.indexOf(tempList2[index]);
 			folderList.splice(removeindex, 1);
 			map[tempList2[index].webkitRelativePath] = [];
-			console.log(folderList);
+			console.log('on folder delete', folderList);
 
 		});
 		tpl.appendTo(Ul);

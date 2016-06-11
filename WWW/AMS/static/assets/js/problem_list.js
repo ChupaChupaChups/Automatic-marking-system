@@ -5,24 +5,23 @@ var submit = document.getElementById("submit");
 var content = document.getElementById("contents");
 
 
-
-popBtn.onclick = function() {
-    modal.style.display = "block";
+popBtn.onclick = function () {
+	modal.style.display = "block";
 	//content.load("answer_submit.html");
 }
 
-close.onclick = function() {
-    modal.style.display = "none";
+close.onclick = function () {
+	modal.style.display = "none";
 }
 
-submit.onclick = function() {
-    modal.style.display = "none";
+submit.onclick = function () {
+	modal.style.display = "none";
 }
 
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
+window.onclick = function (event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
 }
 
 

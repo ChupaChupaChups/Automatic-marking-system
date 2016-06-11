@@ -1,26 +1,5 @@
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta charset="UTF-8">
-	<title>Title</title>
-
-	<script type="text/javascript" src="{% static 'assets/js/scrollable.termlib.js' %}"></script>
-	<script type="text/javascript" src="{% static 'assets/js/reconnecting-websocket.min.js' %}"></script>
-	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/online_shell.less" %} ">
-	<script type="text/javascript" src="{% static "assets/js/less.min.js" %}"></script>
-
-	<script type="text/javascript" src="{% static "assets/js/jquery-2.2.4.min.js" %}"></script>
-	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap-theme.min.css" %}">
-	<link rel="stylesheet" href="{% static "bootstrap3/css/bootstrap.min.css" %}">
-	<script src="{% static "bootstrap3/js/bootstrap.min.js" %}"></script>
-</head>
-
-<body class="container">
-
-
 <button id="btn-run" type="button" class="name">실행</button>
 <button id="btn-kill" type="button" class="name">kill</button>
 
@@ -70,8 +49,10 @@
 			index++;
 		}
 	</script>
+	<!--TODO: replace less to css-->
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/online_shell.less" %} ">
+
+	<script type="text/javascript" src="{% static 'assets/js/scrollable.termlib.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/reconnecting-websocket.min.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/interactive_shell_module.js' %}"></script>
 </div>
-
-</body>
-</html>

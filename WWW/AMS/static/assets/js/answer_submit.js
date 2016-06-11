@@ -25,7 +25,7 @@ var submit_res = document.getElementById('submit_res');
 submit_res.addEventListener('click', function (e) {
 	e.preventDefault();
 	var formdata_temp = new FormData();
-	var xhr = makeHttpObject();
+	var xhr = new XMLHttpRequest();
 	var checkedc = cCheckbox.checked;
 	var checkedcpp = cppCheckbox.checked;
 	var checkedjava = javaCheckbox.checked;
