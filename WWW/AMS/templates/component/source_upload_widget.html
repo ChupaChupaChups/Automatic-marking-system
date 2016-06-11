@@ -17,7 +17,7 @@ upload-widget.js
 {% endcomment %}
 
 {% block language_selector %}
-	<div class="segmented-control" style="width : 100%; color : #5FBAAC">
+	<div class="col-md-12 form-group segmented-control" style="color : #5FBAAC">
 		<input checked="checked" id="{{ id }}-language-0" name="language" type="radio" value="1">
 		<input id="{{ id }}-language-1" name="language" type="radio" value="2">
 		<input id="{{ id }}-language-2" name="language" type="radio" value="3">
@@ -32,10 +32,10 @@ upload-widget.js
 {% endblock %}
 {# upload panel will be place here #}
 {% block entry_point %}
-	<div id="{{ id }}-entry-point-selector">
+	<fieldset class="col-md-12 form-group" id="{{ id }}-entry-point-selector">
 		<label for="{{ id }}-entry-point">entry point :</label>
-		<select class="form-control" name="entry_point" id="{{ id }}-entry-point" size="8"></select>
-	</div>
+		<select class="form-control" name="entry_point" id="{{ id }}-entry-point"></select>
+	</fieldset>
 {% endblock %}
 
 

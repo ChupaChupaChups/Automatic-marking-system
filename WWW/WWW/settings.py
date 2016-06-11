@@ -46,7 +46,9 @@ INSTALLED_APPS = [
 	# for WebSocket service
 	'channels',
 	# for TinyMCE web editor
-	'tinymce'
+	'tinymce',
+	# for template tweak (https://github.com/kmike/django-widget-tweaks)
+	'widget_tweaks'
 ]
 
 MIDDLEWARE_CLASSES = [

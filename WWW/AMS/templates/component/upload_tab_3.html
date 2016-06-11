@@ -1,22 +1,24 @@
 {% with inputId='tab3Input' outputId='tab3Output' tab='tab3' %}
 
-	<h2>입력 파일</h2>
-	<div id="input_file_upload2">
-		{% include 'component/base_upload_widget.html' with id=inputId %}
+	<div class="row">
+		<div class="col-md-6 form-group">
+			<h3>입력 파일</h3>
+			{% include 'component/base_upload_widget.html' with id=inputId %}
+		</div>
+		<div class="col-md-6 form-group">
+			<h3>출력 파일</h3>
+			{% include 'component/base_upload_widget.html' with id=outputId %}
+		</div>
 	</div>
-	<h2>출력 파일</h2>
-	<div id="output_file_upload">
-		{% include 'component/base_upload_widget.html' with id=outputId %}
-	</div>
-	<div>
+	<div class="row">
 		<button type="button" class="btn btn-default" id="{{ tab }}-upload-btn">UPLOAD</button>
 	</div>
 
 	<script type="text/javascript">
 		{% block upload_handler %}
-			var Upload_files = document.getElementById('{{ tab }}-upload-btn');
+			var uploadBtn = document.getElementById('{{ tab }}-upload-btn');
 
-			Upload_files.addEventListener('click', function (event) {
+			uploadBtn.addEventListener('click', function (event) {
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();
 

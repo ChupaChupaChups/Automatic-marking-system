@@ -7,6 +7,7 @@ django-datetime-widget>=0.9.3
 django-multiupload>=0.5.1
 django-summernote>=0.8.5
 django-tinymce>=2.3.0
+django-widget-tweaks>=1.4.1
 docker-py>=1.8.1
 psutil>=4.2.0
 pytz>=2016.4

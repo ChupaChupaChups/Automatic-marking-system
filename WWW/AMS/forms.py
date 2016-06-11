@@ -18,38 +18,22 @@ class ProblemForm(forms.ModelForm):
 		model = Problem
 		widgets = {
 			'p_day_limit': DateTimeWidget(usel10n=True, bootstrap_version=3),
-			'p_content': TinyMCE(attrs={'cols': 80, 'rows': 30}),
+			'p_content': TinyMCE(),
 		}
 		fields = [
 			'p_day_limit', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
 			'p_name', 'p_content', 'p_pdffile', 'p_make_ok',
 		]
 
-	def __init__(self, *args, **kwargs):
-		super(ProblemForm, self).__init__(*args, **kwargs)
-		self.fields['p_c_ok'].widget.attrs.update({'class': 'switch-input'})
-		self.fields['p_cpp_ok'].widget.attrs.update({'class': 'switch-input'})
-		self.fields['p_java_ok'].widget.attrs.update({'class': 'switch-input'})
-		self.fields['p_py_ok'].widget.attrs.update({'class': 'switch-input'})
-		self.fields['p_make_ok'].widget.attrs.update({'class': 'switch-input'})
-		self.fields['p_name'].widget.attrs.update({
-			'class': 'form-control',
-			'placeholder': 'Problem Name'
-		})
-
 
 class SubmitForm(forms.ModelForm):
 	attachments_file = MultiFileField(
 			max_file_size=1024 * 1024 * 10,
-			widget=MultiFileInput(attrs={
-				'multiple': True,
-			})
+			widget=MultiFileInput()
 	)
 	attachments_folder = MultiFileField(
 			max_file_size=1024 * 1024 * 10,
-			widget=MultiFileInput(attrs={
-				'multiple': True, 'webkitdirectory': True,
-			})
+			widget=MultiFileInput()
 	)
 
 	class Meta:
@@ -57,9 +41,6 @@ class SubmitForm(forms.ModelForm):
 		fields = ['language']
 		widgets = {
 			'language': forms.RadioSelect(renderer=HorizonRadioRenderer),
-		}
-		labels = {
-			'language': '언어',
 		}
 
 	def __init__(self, user, problem_number, *args, **kwargs):
@@ -93,6 +74,3 @@ class SubmitForm(forms.ModelForm):
 
 		return instance
 
-
-class Test(forms.Form):
-	content = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))

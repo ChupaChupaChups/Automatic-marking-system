@@ -1,21 +1,89 @@
+{% load static %}
+
 {% with codeId='tab2Code' tab='tab2' %}
 
-	<h2>소스코드</h2>
-	<div class="source-code-uploader">
-		{% include 'component/source_upload_widget.html' with id=codeId %}
+	<div class="row">
+		<div class="row col-md-12">
+			<div class="col-md-12 form-group" id="source-code-panel">
+				<h3>소스코드</h3>
+				{% include 'component/source_upload_widget.html' with id=codeId %}
+
+				<div class="row">
+					<button type="button" class="btn btn-default" id="{{ tab }}-upload-btn">UPLOAD</button>
+				</div>
+			</div>
+
+			<div class="col-md-6" id="shell-content">
+				<div class="center-block" tabindex="0" id="screen-wrapper"></div>
+			</div>
+		</div>
+
+		<div class="row row-eq-height col-md-12" id="shell-result">
+			<div class="col-md-2 list-group" id="shell-result-btn">
+			</div>
+			<div class="col-md-10" id="shell-result-table">
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">입력</div>
+						<pre class="panel-body" id="input-content"></pre>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-default">
+						<div class="panel-heading">출력</div>
+						<pre class="panel-body" id="output-contend"></pre>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
-	{% include 'component/online_shell.html' %}
-
-	<div>
-		<button type="button" class="btn btn-default" id="{{ tab }}-upload-btn">UPLOAD</button>
+	<!-- TODO: 나중에 사용 결과 리스트로
+	<div class="row">
+		<div class="input-group">
+			<span class="input-group-addon">
+				<input type="checkbox" title="result-selector">
+			</span>
+			<button class="form-control list-group-item" ></button>
+		</div>
 	</div>
+	-->
+
+	<!--TODO: replace less to css-->
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/online_shell.less" %} ">
 
 	<script type="text/javascript">
-		(function () {
-			var Upload_files = document.getElementById('{{ tab }}-upload-btn');
+		var buttonList = document.getElementById('shell-result-btn');
+		var inputPanel = document.getElementById('input-content');
+		var outputPanel = document.getElementById('output-contend');
+		var index = 0;
 
-			Upload_files.addEventListener('click', function (event) {
+		function makeResult() {
+			var button = document.createElement('button');
+			button.setAttribute('class', 'list-group-item');
+			button.setAttribute('type', 'button');
+			button.setAttribute('value', String(index));
+			button.innerHTML = String(index + 1);
+			button.addEventListener('click', function (event) {
+				var clicked = event.target;
+				var result = shellResults[clicked.value];
+
+				inputPanel.innerHTML = result.input;
+				outputPanel.innerHTML = result.output;
+			});
+			buttonList.appendChild(button);
+			index++;
+		}
+	</script>
+	<script type="text/javascript" src="{% static 'assets/js/scrollable.termlib.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/reconnecting-websocket.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/interactive_shell_module.js' %}"></script>
+	<script type="text/javascript">
+		(function () {
+			var uploadBtn = document.getElementById('{{ tab }}-upload-btn');
+
+			uploadBtn.addEventListener('click', function (event) {
+				term.close();
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();
 
@@ -23,6 +91,25 @@
 
 				{{ codeId }}Object.appendLanguage(formData);
 				{{ codeId }}Object.appendFile(formData, 'code');
+
+				xhr.onreadystatechange = function () {
+					if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+						term.conf.id = term.id = xhr.getResponseHeader('X-ShellSession');
+
+						var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+						var ws_path = ws_scheme + '://' + window.location.host + "/ws";
+						socket = new ReconnectingWebSocket(ws_path);
+
+						socket.onopen = function () {
+							socket.send(JSON.stringify({
+								"command": CMD_INITIALIZE,
+								"session": term.id
+							}));
+						};
+
+						socket.onmessage = socketCallBack;
+					}
+				};
 
 				xhr.open('POST', '/problem/files');
 				xhr.setRequestHeader('X-CSRFToken', csrf_token[1]);

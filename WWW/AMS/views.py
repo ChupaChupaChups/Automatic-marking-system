@@ -65,7 +65,7 @@ def problem_add(req):
 	else:
 		form = ProblemForm()
 
-	return render(req, 'AMS/problem_add.html', {'create_form': form})
+	return render(req, 'AMS/problem_add.html', {'form': form})
 
 
 @login_required
@@ -86,7 +86,7 @@ def answer_submit(req, problem_number):
 	else:
 		form = SubmitForm(req.user, problem_number)
 
-	return render(req, 'AMS/answer_submit.html', {'create_form': form, 'p_number': problem_number})
+	return render(req, 'AMS/answer_submit.html', {'form': form, 'p_number': problem_number})
 
 
 @login_required
@@ -127,13 +127,6 @@ def submit_result(req, problem_number):
 @login_required
 def test(req):
 	return render(req, 'component/source_upload_widget.html', {'id': 'ic'})
-
-
-# TODO: replace to WebSocket
-def shell_begin(_):
-	response = HttpResponse()
-	response['X-ShellSession'] = onlineshellmanager.build_session()
-	return response
 
 
 def problem_files(req):
@@ -182,6 +175,10 @@ def problem_files(req):
 						'entry_point': entry_point
 					},
 					file, ensure_ascii=False)
+
+		response = HttpResponse()
+		response['X-ShellSession'] = onlineshellmanager.build_session()
+		return response
 
 	else:
 		inputfile = req.FILES.getlist('inputfile')

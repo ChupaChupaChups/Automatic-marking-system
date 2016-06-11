@@ -2,43 +2,11 @@
 	margin-left: 80%;
 }
 
-.fileUpload, .folderUpload {
-	position: relative;
-	overflow: hidden;
-	margin-bottom: 5px;
-}
-
 .pdfUpload {
 	width: 100%;
-	position: relative;
 	overflow: hidden;
 	margin-top: 10px;
 	margin-bottom: 10px;
-}
-
-.fileUpload input, .folderUpload input, .pdfUpload input {
-	position: absolute;
-	width: 100%;
-	top: 0;
-	right: 0;
-	left: 0;
-	bottom: 0;
-	padding: 0;
-	font-size: 20px;
-	cursor: pointer;
-	opacity: 0;
-	filter: alpha(opacity=0);
-}
-
-.p_name #id_p_name {
-	font-size: 15px;
-	padding: 7px;
-	border-radius: 5px;
-	color: #8a8a8a;
-	border: 2px solid #dbdbdb;
-	margin-top: 20px;
-	margin-bottom: 10px;
-	width: 100%;
 }
 
 .switch-slide {

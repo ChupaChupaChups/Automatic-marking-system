@@ -25,13 +25,13 @@ function UploadWidget() {
 UploadWidget.prototype.appendLanguage = function (formData) {
 	var language;
 
-	if (cCheckbox.checked) language = 1;
-	else if (cppCheckbox.checked) language = 2;
-	else if (javaCheckbox.checked) {
+	if (this.cRadio.checked) language = 1;
+	else if (this.cppRadio.checked) language = 2;
+	else if (this.javaRadio.checked) {
 		formData.append("entrypoint", this.entryList.options[this.entryList.selectedIndex].value);
 		language = 3;
 	}
-	else if (pythonCheckbox.checked) {
+	else if (this.pyRadio.checked) {
 		formData.append("entrypoint", this.entryList.options[this.entryList.selectedIndex].value);
 		language = 4;
 	}

@@ -15,21 +15,21 @@ upload-widget.js
 
 {% block language_selector %}{% endblock %}
 
-<div class="upload-panel">
-	<div class="fileUpload btn btn-primary">
-		<span>File upload</span>
-		<input type="file" id="{{ id }}-file-btn" multiple>
-	</div>
-	<div class="folderUpload btn btn-primary">
-		<span>Folder upload</span>
-		<input type="file" id="{{ id }}-folder-btn" webkitdirectory>
-	</div>
+<div class="col-md-12 form-group upload-panel">
+	<label class="btn btn-primary btn-file">
+		File upload
+		<input type="file" id="{{ id }}-file-btn" multiple style="display: none;">
+	</label>
+	<label class="btn btn-primary btn-file">
+		Folder upload
+		<input type="file" id="{{ id }}-folder-btn" webkitdirectory style="display: none;">
+	</label>
 	<button class="btn btn-danger dropdown-mycss" id="{{ id }}-delete-btn" type="button">All Delete</button>
-	<div>
-		<div class="drag-panel" id="{{ id }}-drop-panel">
+	<div class="col-md-12">
+		<div class="col-md-12 text-center drag-panel" id="{{ id }}-drop-panel">
 			<a>Drag and Drop here</a>
 		</div>
-		<ul id="{{ id }}-file-list">
+		<ul class="col-md-12" id="{{ id }}-file-list">
 			<!-- Upload file show here -->
 		</ul>
 	</div>

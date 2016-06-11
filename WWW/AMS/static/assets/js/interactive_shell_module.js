@@ -9,57 +9,22 @@ const CMD_KILL_PROCESS = 3;
 const CMD_PROCESS_ERROR = 4;
 const CMD_RESET_SESSION = 5;
 
-var term = null;
-
 var socket = null;
-var sessionId;
 var screen = document.getElementById('screen-wrapper');
-var request = new XMLHttpRequest();
-var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
-var runBtn = document.getElementById('btn-run');
-var killBtn = document.getElementById('btn-kill');
 var shell_content = document.getElementById('shell-content');
-
-killBtn.disabled = true;
-killBtn.addEventListener('click', sessionClose);
+var shell_result = document.getElementById('shell-result');
 
 window.addEventListener("beforeunload", sessionClose);
 
 
-runBtn.addEventListener('click', function () {
-	request.onreadystatechange = function () {
-		if (request.readyState == XMLHttpRequest.DONE && request.status == 200) {
-			sessionId = request.getResponseHeader('X-ShellSession');
-
-			var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
-			var ws_path = ws_scheme + '://' + window.location.host + "/ws";
-			socket = new ReconnectingWebSocket(ws_path);
-
-			socket.onopen = function () {
-				socket.send(JSON.stringify({
-					"command": CMD_INITIALIZE,
-					"session": sessionId
-				}));
-			};
-
-			socket.onmessage = socketCallBack;
-			killBtn.disabled = false;
-			runBtn.disabled = true;
-		}
-	};
-
-	request.open("POST", '/shell/begin', true);
-	request.setRequestHeader("X-CSRFToken", csrf_token[1]);
-	request.send();
-});
-
 // TODO: changing size feature
 // TODO: should handle special ``write`` parameter like ``%+r`` or ``%-r``
-term = new Terminal(
+var term = new Terminal(
 	{
 		greeting: '%+r Start program %-r',
 		termDiv: 'screen-wrapper',
 		bgColor: '#232e45',
+		cols: 65,
 		fontClass: 'Nanum Gothic Coding',
 		crsrBlinkMode: true,
 		ps: '>>>',
@@ -106,6 +71,7 @@ function termInitHandler() {
 	screen.addEventListener("paste", termPaste);
 
 	shell_content.style.display = 'block';
+	shell_result.style.display = 'block';
 
 	this.write(this.conf.greeting);
 	this.newLine();
@@ -121,6 +87,7 @@ function termExitHandler() {
 	tempResult = {input: '', output: ''};
 
 	shell_content.style.display = 'none';
+	shell_result.style.display = 'none';
 }
 
 var shellResults = [];
@@ -133,7 +100,7 @@ function termHandler() {
 	var line = this.lineBuffer;
 	socket.send(JSON.stringify({
 		'command': CMD_REQ_OUTPUT,
-		'session': sessionId,
+		'session': this.id,
 		'message': line
 	}));
 
@@ -145,9 +112,11 @@ function socketCallBack(message) {
 
 	switch (response.command) {
 		case CMD_RESET_SESSION:
-			sessionId = response.session;
+			term.conf.id = term.id = response.session;
 
 		case CMD_INITIALIZE:
+			var sourceUploadPanel = document.getElementById('source-code-panel');
+			sourceUploadPanel.className = sourceUploadPanel.className.replace('col-md-12', 'col-md-6');
 			term.open();
 			screen.style.maxHeight = screen.clientHeight + 'px';
 			break;
@@ -186,13 +155,10 @@ function sessionClose() {
 	if (socket) {
 		socket.send(JSON.stringify({
 			'command': CMD_KILL_PROCESS,
-			'session': sessionId
+			'session': term.id
 		}));
 
 		socket.close();
 		term.close();
 	}
-
-	killBtn.disabled = true;
-	runBtn.disabled = false;
 }
