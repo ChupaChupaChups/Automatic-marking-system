@@ -8,7 +8,6 @@ from django.http import HttpResponseNotFound, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from . import onlineshellmanager
 from .forms import ProblemForm, SubmitForm
-from .judge_server import judgeServer
 from .judge_server.config import Config
 from .models import Problem, SubmitRecord, SubmitResult
 
@@ -78,9 +77,9 @@ def answer_submit(req, problem_number):
 			save_metadata(instance)
 
 			# TODO: rename variable
-			media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-			inputfiles = os.path.dirname(instance.problem.p_infile.path)
-			judgeServer.start_judge(media_path, inputfiles)
+			# media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+			# inputfiles = os.path.dirname(instance.problem.p_infile.path)
+			# judgeServer.start_judge(media_path, inputfiles)
 
 			return redirect('/problem/list')
 	else:
@@ -101,6 +100,8 @@ def save_metadata(instance):
 	media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
 	json_path = os.path.join(media_path, Config["django"]["code_meta_file"])
 
+	if not os.path.exists(os.path.dirname(json_path)):
+		os.makedirs(os.path.dirname(json_path))
 	with open(json_path, "w") as file:
 		json.dump(
 				{
@@ -146,9 +147,9 @@ def problem_files(req):
 	print(web_tab_number)
 
 	if web_tab_number == "1":
-		language = req.POST.get('language')
-		print(language)
-		if language == 3 or language == 4:
+		language = int(req.POST.get('language'))
+		entry_point = ''
+		if language in (3, 4):
 			entry_point = req.POST.get('entrypoint')
 		codefile = req.FILES.getlist('codefile')
 		print(codefile)
@@ -161,9 +162,10 @@ def problem_files(req):
 		handle_upload_file(req, inputfile, inputfile_path, 1)
 		inputfolder = req.FILES.getlist('inputfolder')
 		handle_upload_file(req, inputfolder, inputfile_path, 2)
-	elif check == "2":
-		language = req.POST.get('language')
-		if language == 3 or language == 4:
+	elif web_tab_number == "2":
+		language = int(req.POST.get('language'))
+		entry_point = ''
+		if language in (3, 4):
 			entry_point = req.POST.get('entrypoint')
 		codefile = req.FILES.getlist('codefile')
 		handle_upload_file(req, codefile, codefile_path, 1)
@@ -197,20 +199,20 @@ def problem_files(req):
 	return HttpResponse()
 
 
-def handle_upload_file(req, files, Path, check):
+def handle_upload_file(req, files, path, check):
 	print(files)
 	media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
 	for each in files:
-		fileName = each
-		print(fileName)
+		file_name = each
+		print(file_name)
 		if check == 1:
-			filePath = os.path.join(Path, str(fileName))
+			filePath = os.path.join(path, str(file_name))
 		else:
-			tempfilePath = str(req.POST[str(fileName)])
+			tempfilePath = str(req.POST[str(file_name)])
 			if tempfilePath == "":
-				filePath = os.path.join(Path, str(fileName))
+				filePath = os.path.join(path, str(file_name))
 			else:
-				filePath = os.path.join(Path, str(req.POST[str(fileName)]), str(fileName))
+				filePath = os.path.join(path, str(req.POST[str(file_name)]), str(file_name))
 			print(filePath)
 		if not os.path.exists(os.path.dirname(filePath)):
 			os.makedirs(os.path.dirname(filePath))
