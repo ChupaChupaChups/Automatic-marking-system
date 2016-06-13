@@ -51,7 +51,7 @@ def problem_update(req, problem_number):
 			return redirect('/problem/list')
 	else:
 		form = ProblemForm(instance=problem)
-	return render(req, 'AMS/problem_add.html', {'create_form': form})
+	return render(req, 'AMS/problem_add.html', {'form': form})
 
 
 @login_required
