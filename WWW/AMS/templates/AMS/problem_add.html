@@ -11,11 +11,10 @@
 	<link rel="stylesheet" href="{% static "assets/css/problem_add.css" %}">
 	<link rel="stylesheet" href="{% static "assets/css/language_selector.css" %}">
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/upload_widget.less" %}">
+	<link rel="stylesheet" href="{% static "assets/css/bootstrap-slider.min.css" %}">
 	<!--CustomJS-->
 	{{ form.media.js }}
-	<script src="{% static "assets/js/classfinder.js" %}"></script>
-	<script src="{% static "assets/js/upload.js" %}"></script>
-	<script src="{% static "assets/js/upload-widget.js" %}"></script>
+	<script src="{% static 'assets/js/bootstrap-slider.min.js' %}"></script>
 	<script type="text/javascript">
 		/** prevent to open droped file **/
 		window.ondragover = function (e) {
@@ -26,19 +25,6 @@
 			e.preventDefault();
 			return false
 		};
-
-		document.addEventListener("DOMContentLoaded", function () {
-			document.getElementById('minus').addEventListener('click', function (event) {
-				document.getElementById("hintBar").value -= 5;
-				if (document.getElementById("hintBar").value == 0) document.getElementById("percent").innerHTML = "항상 힌트를 보여줍니다";
-				else document.getElementById("percent").innerHTML = document.getElementById("hintBar").value + "% 이상 맞으면 힌트보여주기";
-			});
-			document.getElementById('plus').addEventListener('click', function (event) {
-				document.getElementById("hintBar").value += 5;
-				if (document.getElementById("hintBar").value == 100) document.getElementById("percent").innerHTML = "힌트를 보여주지 않습니다";
-				else document.getElementById("percent").innerHTML = document.getElementById("hintBar").value + "% 이상 맞으면 힌트보여주기";
-			});
-		});
 	</script>
 {% endblock %}
 
@@ -46,57 +32,57 @@
 
 {% block content %}
 	<div class="content container">
-		<form enctype="multipart/form-data" method="post">
+		<form enctype="multipart/form-data" method="post" id="form-add">
 			{% csrf_token %}
 			<div class="col-md-5">
-				<div class="form-horizontal">
-					<fieldset class="form-group p_name">
-						<h2>문제 이름</h2>
-						{{ form.p_name|add_class:'form-control input-lg'|attr:'placeholder:Problem Name' }}
-					</fieldset>
+				<fieldset class="col-md-12 form-group p_name">
+					<h2>문제 이름</h2>
+					{{ form.p_name|add_class:'form-control input-lg'|attr:'placeholder:Problem Name' }}
+				</fieldset>
 
-					<fieldset class="form-group date_picker">
-						<h2>마감기한</h2>
-						{{ form.p_day_limit|add_class:'form-control' }}
-					</fieldset>
+				<fieldset class="col-md-12 form-group date_picker">
+					<h2>마감기한</h2>
+					{{ form.p_day_limit|add_class:'form-control' }}
+				</fieldset>
 
-					<fieldset class="form-group" id="language-wrapper">
-						<h2>허용되는 언어</h2>
-						<label class="switch-slide">
-							{{ form.p_c_ok|add_class:'switch-input' }}
-							<span class="switch-label" data-on="C on" data-off="C off"></span>
-						</label>
-						<label class="switch-slide">
-							{{ form.p_cpp_ok|add_class:'switch-input' }}
-							<span class="switch-label" data-on="CPP on" data-off="CPP off"></span>
-						</label>
-						<label class="switch-slide">
-							{{ form.p_java_ok|add_class:'switch-input' }}
-							<span class="switch-label" data-on="JAVA on" data-off="JAVA off"></span>
-						</label>
-						<label class="switch-slide">
-							{{ form.p_py_ok|add_class:'switch-input' }}
-							<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
-						</label>
-						<label class="switch-slide">
-							{{ form.p_make_ok|add_class:'switch-input' }}
-							<span class="switch-label" data-on="MAKEFILE on" data-off="MAKEFILE off"></span>
-						</label>
-					</fieldset>
+				<fieldset class="col-md-12 form-group" id="language-wrapper">
+					<h2>허용되는 언어</h2>
+					<label class="switch-slide">
+						{{ form.p_c_ok|add_class:'switch-input' }}
+						<span class="switch-label" data-on="C on" data-off="C off"></span>
+					</label>
+					<label class="switch-slide">
+						{{ form.p_cpp_ok|add_class:'switch-input' }}
+						<span class="switch-label" data-on="CPP on" data-off="CPP off"></span>
+					</label>
+					<label class="switch-slide">
+						{{ form.p_java_ok|add_class:'switch-input' }}
+						<span class="switch-label" data-on="JAVA on" data-off="JAVA off"></span>
+					</label>
+					<label class="switch-slide">
+						{{ form.p_py_ok|add_class:'switch-input' }}
+						<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
+					</label>
+					<label class="switch-slide">
+						{{ form.p_make_ok|add_class:'switch-input' }}
+						<span class="switch-label" data-on="MAKEFILE on" data-off="MAKEFILE off"></span>
+					</label>
+				</fieldset>
 
-					<fieldset class="form-group" id="hint-wrapper">
-						<h2>힌트여부</h2>
-						<div id="hintProgress">
-							<progress id="hintBar" value="100" max="100"
-									  style="width:70%">{{ form.p_hint_integer }}</progress>
-						</div>
-						<div class="btn-group">
-							<button type="button" class="btn" id="minus">-</button>
-							<button type="button" class="btn" id="plus">+</button>
-						</div>
-						<small id="percent">힌트를 보여주지 않습니다</small>
-					</fieldset>
-				</div>
+				<fieldset class="col-md-12 form-group" id="hint-wrapper">
+					<h2>힌트여부</h2>
+					<div class="col-md-12">
+						{% render_field form.p_hint_integer data-slider-id='ex1Slider' data-slider-min="0" data-slider-max="100" data-slider-step="5" data-slider-value="100" %}
+					</div>
+					<small id="percent">힌트를 보여주지 않습니다</small>
+					<script type="text/javascript">
+						var slider = new Slider('#id_p_hint_integer', {
+							formatter: function (value) {
+								return value + '%';
+							}
+						});
+					</script>
+				</fieldset>
 			</div>
 
 			<div class="col-md-7">
@@ -114,12 +100,15 @@
 					<div class="form-group tab-pane fade" id="pdf-upload">
 						<label class="pdfUpload btn btn-primary">
 							PDF FILE
-							{{ form.p_pdffile|attr:'style:display: none'|add_class:'form-control'}}
+							{{ form.p_pdffile|attr:'style:display: none'|add_class:'form-control' }}
 						</label>
 					</div>
 				</div>
 			</div>
 
+			<script src="{% static "assets/js/classfinder.js" %}"></script>
+			<script src="{% static "assets/js/upload.js" %}"></script>
+			<script src="{% static "assets/js/upload-widget.js" %}"></script>
 			<div class="col-md-12">
 				<h2>입/출력/코드 옵션</h2>
 				<ul class="nav nav-tabs">
@@ -140,11 +129,9 @@
 				</div>
 			</div>
 
-			<div class="row">
-				<div class="col-md-12 text-center">
-					<input class="btn btn-primary btn-lg" id="save_problem" type="submit" value="SAVE"/>
-					<input class="btn btn-default btn-lg" id="temp_saveproblem" type="submit" value="TEMPORARY SAVE"/>
-				</div>
+			<div class="col-md-12 text-center">
+				<input class="btn btn-primary btn-lg" id="save_problem" type="submit" value="SAVE"/>
+				<input class="btn btn-default btn-lg" id="temp_saveproblem" type="submit" value="TEMPORARY SAVE"/>
 			</div>
 		</form>
 	</div>
