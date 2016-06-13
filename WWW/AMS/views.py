@@ -74,9 +74,13 @@ def answer_submit(req, problem_number):
 		print(form.errors)
 		if form.is_valid():
 			instance = form.save()
+
+			# TODO: move temp directory to media/problem
+
 			save_metadata(instance)
 
 			# TODO: rename variable
+			# TODO: input, output path
 			# media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
 			# inputfiles = os.path.dirname(instance.problem.p_infile.path)
 			# judgeServer.start_judge(media_path, inputfiles)
