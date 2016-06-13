@@ -23,5 +23,6 @@ RUN mkdir compiler_and_judge
 #ADD ./*.sh /compiler_and_judge/
 
 RUN mkdir inputfiles
+RUN mkdir resultfiles
 
 RUN python3 -m pip install psutil

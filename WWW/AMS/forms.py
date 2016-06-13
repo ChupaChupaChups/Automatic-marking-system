@@ -25,6 +25,19 @@ class ProblemForm(forms.ModelForm):
 			'p_name', 'p_content', 'p_pdffile', 'p_make_ok',
 		]
 
+	def __init__(self, *args, **kwargs):
+		super(ProblemForm, self).__init__(*args, **kwargs)
+		self.fields['p_c_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_cpp_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_java_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_py_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_make_ok'].widget.attrs.update({'class': 'switch-input'})
+		self.fields['p_name'].widget.attrs.update({
+			'value': 'problemName',
+			'onfocus': "if (this.value == this.defaultValue) {this.value = '';}",
+			'onblur': "if (this.value == '') {this.value = this.defaultValue;}"
+		})
+
 
 class SubmitForm(forms.ModelForm):
 	attachments_file = MultiFileField(
@@ -73,4 +86,3 @@ class SubmitForm(forms.ModelForm):
 						SubmitFile.objects.create(record=instance, file=each, path="/" + filepath + "/")
 
 		return instance
-

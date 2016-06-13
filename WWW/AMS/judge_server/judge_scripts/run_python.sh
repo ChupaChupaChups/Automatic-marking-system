@@ -8,4 +8,4 @@
 
 entry=$(jq '.entry_point' /source_code/config.json)
 
-python3 /source_code/${entry} < /inputfiles/input.txt >> /source_code/result.txt
+(time python3 /source_code/$entry < /inputfiles/input.txt >> /source_code/result.txt) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/proctime.txt

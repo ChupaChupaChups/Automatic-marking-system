@@ -1,7 +1,7 @@
 import sys
 
-f1 = open(sys.argv[1],'r')	#student_answer
-f2 = open(sys.argv[2],'r')	#correct_answer
+f1 = open(sys.argv[1], 'r')  # student_answer
+f2 = open(sys.argv[2], 'r')  # correct_answer
 
 same = True
 
@@ -11,15 +11,15 @@ while same:
 	if not f1_line and not f2_line:
 		break
 	elif not f1_line:
-		same=False
+		same = False
 		break
 	elif not f2_line:
-		same=False
+		same = False
 		break
-	if f1_line!=f2_line:
-		same=False
+	if f1_line != f2_line:
+		same = False
 
-if same==False:
-	print "uncorrect Answer\n"
+if not same:
+	print("incorrect Answer")
 else:
-	 print "correct Answer\n"
+	print("correct Answer")

@@ -114,8 +114,14 @@ def save_metadata(instance):
 @login_required
 def submit_result(req, problem_number):
 	problem = Problem.objects.get(pk=problem_number)
-	get_record = SubmitRecord.objects.filter(user=req.user)
+	get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
 	get_result = SubmitResult.objects.filter(record=get_record)
+
+	print(req.user)
+	for e in get_record:
+		print(e.submit_time)
+	print(get_result)
+	print(get_record)
 
 	return render(
 			req,
@@ -155,11 +161,9 @@ def problem_files(req):
 		handle_upload_file(req, inputfile, inputfile_path, 1)
 		inputfolder = req.FILES.getlist('inputfolder')
 		handle_upload_file(req, inputfolder, inputfile_path, 2)
-
-	elif web_tab_number == "2":
-		language = int(req.POST.get('language'))
-		entry_point = ''
-		if language in (3, 4):
+	elif check == "2":
+		language = req.POST.get('language')
+		if language == 3 or language == 4:
 			entry_point = req.POST.get('entrypoint')
 		codefile = req.FILES.getlist('codefile')
 		handle_upload_file(req, codefile, codefile_path, 1)

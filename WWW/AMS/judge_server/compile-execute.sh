@@ -10,3 +10,5 @@ elif [ $lang == 3 ]; then
 elif [ $lang == 4 ]; then
 	/compiler_and_judge/run_python.sh
 fi
+
+# command에서 time ./a.out < input.txt이런식으로 real time을 알아냄. --> tail을 사용해서 real부분 가져오기

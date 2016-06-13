@@ -8,7 +8,7 @@
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
 {% endblock %}
 
-{% block problem_class %} active {% endblock %}
+{% block result_class %} active {% endblock %}
 
 {% block content2 %}
 	<div class="content container">
@@ -16,6 +16,7 @@
 			<thead>
 			<tr>
 				<th>User</th>
+				<th>SubmitTime</th>
 				<th>Result</th>
 				<th>Language</th>
 				<th>Percent</th>
@@ -25,14 +26,17 @@
 			</tr>
 			</thead>
 			<tbody>
+			{% for rcd in record %}
 			<tr>
-				<td>{{ record.user }}</td>
-				<td>{{ result.result }}</td>
+
+				<td>{{rcd.user}}</td>
+				<td>{{rcd.submit_time}}</td>
+				<td>{{result.result}}</td>
 				<td>
-					{% if record.language == 1 %}C {% endif %}
-					{% if record.language == 2 %}C++ {% endif %}
-					{% if record.language == 3 %}Java {% endif %}
-					{% if record.language == 4 %}Python {% endif %}
+					{% if rcd.language == 1 %} C {% endif %}
+					{% if rcd.language == 2 %} C++ {% endif %}
+					{% if rcd.language == 3 %} Java {% endif %}
+					{% if rcd.language == 4 %} Python {% endif %}
 				</td>
 				<td>{{ result.correct_percent }}</td>
 				<td>{{ result.process_time }}</td>
@@ -49,6 +53,7 @@
 				{% endif %}
 				<td></td>
 			</tr>
+			{% endfor %}
 			</tbody>
 		</table>
 		{% if problem.p_hint_integer <= result.correct_percent %}

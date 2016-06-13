@@ -70,3 +70,4 @@ class SubmitResult(models.Model):
 	result = models.BooleanField()
 	process_time = models.IntegerField()  # 소요 시간
 	correct_percent = models.IntegerField()
+
