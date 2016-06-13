@@ -18,11 +18,11 @@ upload-widget.js
 <div class="col-md-12 form-group upload-panel">
 	<label class="btn btn-primary btn-file">
 		File upload
-		<input type="file" id="{{ id }}-file-btn" multiple style="display: none;">
+		<input type="file" id="{{ id }}_attachments_file" multiple style="display: none;">
 	</label>
 	<label class="btn btn-primary btn-file">
 		Folder upload
-		<input type="file" id="{{ id }}-folder-btn" webkitdirectory style="display: none;">
+		<input type="file" id="{{ id }}_attachments_folder" webkitdirectory style="display: none;">
 	</label>
 	<button class="btn btn-danger dropdown-mycss" id="{{ id }}-delete-btn" type="button">All Delete</button>
 	<div class="col-md-12">
@@ -43,8 +43,8 @@ upload-widget.js
 	(function () {
 		var obj = {{ id }}Object;
 
-		obj.fileUploadBtn = document.getElementById("{{ id }}-file-btn");
-		obj.folderUploadBtn = document.getElementById("{{ id }}-folder-btn");
+		obj.fileUploadBtn = document.getElementById("{{ id }}_attachments_file");
+		obj.folderUploadBtn = document.getElementById("{{ id }}_attachments_folder");
 		obj.deleteBtn = document.getElementById("{{ id }}-delete-btn");
 		obj.folderDrop = document.getElementById("{{ id }}-drop-panel");
 		obj.fileUL = document.getElementById("{{ id }}-file-list");

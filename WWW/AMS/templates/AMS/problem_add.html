@@ -112,9 +112,9 @@
 			<div class="col-md-12">
 				<h2>입/출력/코드 옵션</h2>
 				<ul class="nav nav-tabs">
-					<li class="active"><a data-toggle="tab" href="#input_code">입력+코드</a></li>
-					<li><a data-toggle="tab" href="#only_code">코드</a></li>
-					<li><a data-toggle="tab" href="#input_output">입력+출력</a></li>
+					<li class="active"><a id="input-code-a"data-toggle="tab" href="#input_code">입력+코드</a></li>
+					<li><a id="only-code-a" data-toggle="tab" href="#only_code">코드</a></li>
+					<li><a id="input-output-a" data-toggle="tab" href="#input_output">입력+출력</a></li>
 				</ul>
 				<div class="tab-content">
 					<div id="input_code" class="tab-pane fade in active">
@@ -126,6 +126,20 @@
 					<div id="input_output" class="tab-pane fade">
 						{% include 'component/upload_tab_3.html' %}
 					</div>
+					<script>
+						var a = document.getElementById("input-code-a");
+						var b = document.getElementById("only-code-a");
+						var c = document.getElementById("tab1Code-language-0");
+						c.checked = true;
+						a.addEventListener("click", function(){
+							var c = document.getElementById("tab1Code-language-0");
+							c.checked = true;
+						});
+						b.addEventListener("click", function(){
+							var d = document.getElementById("tab2Code-language-0");
+							d.checked = true;
+						});
+					</script>
 				</div>
 			</div>
 

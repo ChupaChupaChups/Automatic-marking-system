@@ -18,17 +18,18 @@ upload-widget.js
 
 {% block language_selector %}
 	<div class="col-md-12 form-group segmented-control" style="color : #5FBAAC">
-		<input checked="checked" id="{{ id }}-language-0" name="language" type="radio" value="1">
-		<input id="{{ id }}-language-1" name="language" type="radio" value="2">
-		<input id="{{ id }}-language-2" name="language" type="radio" value="3">
-		<input id="{{ id }}-language-3" name="language" type="radio" value="4">
-		<input id="{{ id }}-language-4" name="language" type="radio" value="5">
-		<label for="{{ id }}-language-0" data-value="C">C</label>
-		<label for="{{ id }}-language-1" data-value="CPP">CPP</label>
-		<label for="{{ id }}-language-2" data-value="JAVA">JAVA</label>
-		<label for="{{ id }}-language-3" data-value="PYTHON">PYTHON</label>
-		<label for="{{ id }}-language-4" data-value="MakeFile">MAKEFILE</label>
+		<input id="{{ id }}_language_0" name="language" type="radio" value="1">
+		<input id="{{ id }}_language_1" name="language" type="radio" value="2">
+		<input id="{{ id }}_language_2" name="language" type="radio" value="3">
+		<input id="{{ id }}_language_3" name="language" type="radio" value="4">
+		<input id="{{ id }}_language_4" name="language" type="radio" value="5">
+		<label for="{{ id }}_language_0" data-value="C">C</label>
+		<label for="{{ id }}_language_1" data-value="CPP">CPP</label>
+		<label for="{{ id }}_language_2" data-value="JAVA">JAVA</label>
+		<label for="{{ id }}_language_3" data-value="PYTHON">PYTHON</label>
+		<label for="{{ id }}_language_4" data-value="MakeFile">MAKEFILE</label>
 	</div>
+	
 {% endblock %}
 {# upload panel will be place here #}
 {% block entry_point %}
@@ -47,14 +48,13 @@ upload-widget.js
 
 
 	{% block extended_javascript %}
-		obj.cRadio = document.getElementById('{{ id }}-language-0');
-		obj.cppRadio = document.getElementById('{{ id }}-language-1');
-		obj.javaRadio = document.getElementById('{{ id }}-language-2');
-		obj.pyRadio = document.getElementById('{{ id }}-language-3');
-		obj.mkRadio = document.getElementById('{{ id }}-language-4');
+		obj.cRadio = document.getElementById('{{ id }}_language_0');
+		obj.cppRadio = document.getElementById('{{ id }}_language_1');
+		obj.javaRadio = document.getElementById('{{ id }}_language_2');
+		obj.pyRadio = document.getElementById('{{ id }}_language_3');
+		obj.mkRadio = document.getElementById('{{ id }}_language_4');
 		obj.entryListDiv = document.getElementById('{{ id }}-entry-point-selector');
 		obj.entryList = document.getElementById('{{ id }}-entry-point');
-
 
 		if (obj.javaRadio.checked || obj.pyRadio.checked) {
 			obj.entryListDiv.style.display = 'block';

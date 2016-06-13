@@ -13,11 +13,9 @@
 	<div class="row">
 		<button type="button" class="btn btn-default" id="{{ tab }}-upload-btn">UPLOAD</button>
 	</div>
-
 	<script type="text/javascript">
 		(function () {
 			var uploadBtn = document.getElementById('{{ tab }}-upload-btn');
-
 			uploadBtn.addEventListener('click', function (event) {
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();

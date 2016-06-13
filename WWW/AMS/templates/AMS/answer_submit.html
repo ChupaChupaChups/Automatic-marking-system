@@ -10,50 +10,7 @@
 {% block content_header %}
 	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/upload.js' %}"></script>
-
-	<script type="text/javascript">
-		/**
-		 * invoked when whole document is ready
-		 */
-		document.addEventListener("DOMContentLoaded", function () {
-			var selector = document.getElementById("entry-point-selector");
-			var cSelector = document.getElementById("id_language_0");
-			var cppSelector = document.getElementById("id_language_1");
-			var javaSelector = document.getElementById("id_language_2");
-			var pySelector = document.getElementById("id_language_3");
-
-			/**
-			 * for initial value
-			 *
-			 * http://www.w3schools.com/jsref/prop_style_display.asp
-			 * visibility options reference
-			 */
-			if (javaSelector.checked || pySelector.checked) {
-				selector.style.display = "block";
-			} else {
-				selector.style.display = "none";
-			}
-
-			function showEntryPointSelector(event) {
-				if (event.target.checked) {
-					selector.style.display = "block";
-				} else {
-					selector.style.display = "none";
-				}
-			}
-
-			function blockEntryPointSelector(event) {
-				if (event.target.checked) {
-					selector.style.display = "none";
-				}
-			}
-
-			cSelector.addEventListener("click", blockEntryPointSelector);
-			cppSelector.addEventListener("click", blockEntryPointSelector);
-			javaSelector.addEventListener("click", showEntryPointSelector);
-			pySelector.addEventListener("click", showEntryPointSelector);
-		});
-	</script>
+	<script type="text/javascript" src="{% static 'assets/js/upload-widget.js' %}"></script>
 	<link rel="stylesheet" href="{% static "assets/css/language_selector.css" %}">
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/upload_widget.less" %}">
 {% endblock %}
@@ -62,39 +19,14 @@
 	<div class="content container">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
-			<div class="segmented-control" style="width : 100%; color : #5FBAAC">
-				{% for choice in form.language %}
-					{{ choice.tag }}
-				{% endfor %}
-				<label for="id_language_0" data-value="C">C</label>
-				<label for="id_language_1" data-value="CPP">CPP</label>
-				<label for="id_language_2" data-value="JAVA">JAVA</label>
-				<label for="id_language_3" data-value="PYTHON">PYTHON</label>
-				<label for="id_language_4" data-value="MakeFile">MAKEFILE</label>
-			</div>
-			<div class="upload-panel">
-				<div>
-					<div id="dropfile">
-						<a> Select FILE or DROP</a>
-						{{ form.attachments_file|attr:'multiple' }}
-					</div>
-					<div id="dropfolder">
-						<a> Select FOLDER or DROP</a>
-						{{ form.attachments_folder|attr:'multiple'|attr:'webkitdirectory' }}
-					</div>
-					<ul id="listFile">
-						<!-- Upload file show here -->
-					</ul>
-				</div>
-			</div>
-			<p id="entry-point-selector">
-				<label for="id_entry_point">entry point :</label>
-				<select name="entry_point" id="id_entry_point"></select>
-			</p>
+		
+			{% include 'component/source_upload_widget.html' with id="id" %}
+			<script>
+				document.getElementById("id_language_0").checked = true;
+			</script>
 			<div>
 				<input id="submit_res" type="submit" value="add"/>
 			</div>
 		</form>
 	</div>
-	<script type="text/javascript" src="{% static 'assets/js/answer_submit.js' %}"></script>
 {% endblock %}
