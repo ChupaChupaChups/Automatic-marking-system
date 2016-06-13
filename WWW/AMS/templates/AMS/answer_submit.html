@@ -19,13 +19,16 @@
 	<div class="content container">
 		<form enctype="multipart/form-data" method="post">
 			{% csrf_token %}
-		
-			{% include 'component/source_upload_widget.html' with id="id" %}
-			<script>
+
+			{% include 'component/source_upload_widget.html' with id='id' %}
+			<script type="text/javascript">
 				document.getElementById("id_language_0").checked = true;
 			</script>
-			<div>
-				<input id="submit_res" type="submit" value="add"/>
+			<div class="col-md-12 text-center">
+				<label class="btn btn-default btn-lg">
+					add
+					<input id="submit_res" type="submit" value="add" style="display: none;"/>
+				</label>
 			</div>
 		</form>
 	</div>
