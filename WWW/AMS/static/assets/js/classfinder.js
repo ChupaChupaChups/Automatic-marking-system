@@ -11,22 +11,21 @@ function extractClass(fileList, folderList, entryList) {
 	// 이전목록 지움
 	while (entryList.options.length) entryList.remove(0);
 
-	// 추가된 개별 파일과 폴더 하나로 합침
-	var printFileList = [], i;
+	// 폴더와 파일 각각 읽기 시작
+	var i;
 	for (i = 0; i < folderList.length; i++) {
-		if (/\.java$/i.test(folderList[i])) {
-			printFileList.push(folderList[i]);
+		if (/\.java/i.test(folderList[i].name)) {
+			findEntryPoint(folderList[i]);
 		}
 	}
 	for (i = 0; i < fileList.length; i++) {
-		if (/\.java$/i.test(folderList[i])) {
-			printFileList.push(fileList[i]);
+		if (/\.java/i.test(fileList[i].name)) {
+			findEntryPoint(fileList[i]);
 		}
 	}
 
-	// 파일 읽기 시작
-	for (i = 0; i < printFileList.length; i++) {
-		console.log('start\t' + printFileList[i].name);
+	// 실제 entry point 찾는 함수
+	function findEntryPoint(file) {
 		var reader = new FileReader();
 		/**
 		 * 파일 읽기가 완료된 경우 호출됨
@@ -37,18 +36,39 @@ function extractClass(fileList, folderList, entryList) {
 		 */
 		reader.onload = function (event) {
 			var contents = event.target.result;
-			var matches_package = /package\s+(\w+(\.\w+)*)/g.exec(contents);
-			var class_extractor = /class\s+(\w+)\s*\{((\s|.)*)}/g;
+			var matchesPackage = /package\s+(\w+(\s*\.\s*\w+)*)/g.exec(contents);
+			var classExtractor = /class\s+(\w+)/g;
 
-			var matches_class;
-			while (matches_class = class_extractor.exec(contents)) {
-				var main_tester = /public\s+static\s+void\s+main\s*\(\s*String(\s+)?(\[]|\.\.\.)\s*\w+\)/g;
-				if (main_tester.test(matches_class[2])) {
+			var matchesClass;
+			while (matchesClass = classExtractor.exec(contents)) {
+				var startPoint = matchesClass.index + matchesClass[0].length;
+
+				while (contents[startPoint] != '{') startPoint++;
+
+				var balance = 1, endPoint;
+				for (endPoint = startPoint; endPoint < contents.length; endPoint++) {
+					switch (contents[endPoint]) {
+						case '{':
+							balance++;
+							break;
+						case '}':
+							balance--;
+							if (balance == 0) {
+								break;
+							}
+					}
+				}
+
+				var mainTester = /public\s+static\s+void\s+main\s*\((final)?\s*String\s*(\[]|\.\.\.)\s*\w+\)/g;
+
+				var classContent = contents.slice(startPoint, endPoint);
+
+				if (mainTester.test(classContent)) {
 					var result = null;
-					if (matches_package) {
-						result = matches_package[1] + '.' + matches_class[1];
+					if (matchesPackage) {
+						result = matchesPackage[1] + '.' + matchesClass[1];
 					} else {
-						result = matches_class[1];
+						result = matchesClass[1];
 					}
 
 					var option = document.createElement('option');
@@ -63,12 +83,11 @@ function extractClass(fileList, folderList, entryList) {
 		 * 선택을 초기화하고, 메시지박스 띄움
 		 */
 		reader.onerror = function () {
-			fileUploadBtn.value = '';
 			alert('File could not be read!');
 		};
 
 		// 비동기로 파일읽기 시작
-		reader.readAsText(printFileList[i]);
+		reader.readAsText(file);
 	}
 }
 
@@ -92,6 +111,7 @@ function extractFiles(fileList, folderList, entryList) {
 			formData.append('attachments', currentValue);
 		}
 	}
+
 	folderList.forEach(tester);
 	fileList.forEach(tester);
 
