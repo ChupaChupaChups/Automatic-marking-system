@@ -1,6 +1,0 @@
-class f(){
-
-}
-class F(){
-
-}
