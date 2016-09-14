@@ -11,15 +11,13 @@
 	<script type="text/javascript" src="{% static 'assets/js/classfinder.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/upload.js' %}"></script>
 	<script type="text/javascript" src="{% static 'assets/js/upload-widget.js' %}"></script>
+
 	<link rel="stylesheet" href="{% static "assets/css/language_selector.css" %}">
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/upload_widget.less" %}">
 {% endblock %}
 
 {% block content2 %}
 	<div class="content container">
-		<form enctype="multipart/form-data" method="post">
-			{% csrf_token %}
-
 			{% include 'component/source_upload_widget.html' with id='id' %}
 			<script type="text/javascript">
 				document.getElementById("id_language_0").checked = true;
@@ -28,8 +26,27 @@
 				<label class="btn btn-default btn-lg">
 					add
 					<input id="submit_res" type="submit" value="add" style="display: none;"/>
+                    <script type="text/javascript">
+                        (function () {
+                            var uploadBtn = document.getElementById('submit_res');
+                            uploadBtn.addEventListener('click', function (event) {
+                                var xhr = new XMLHttpRequest();
+                                xhr.onreadystatechange = function(data){
+                                    if(xhr.readyState == 4)
+                                        location.href = '/problem/list'
+                                }
+                                var formData = new FormData();
+
+                                idObject.appendLanguage(formData);
+                                idObject.appendFile(formData, 'attachments_');
+
+                                xhr.open('POST', location.href);
+                                xhr.setRequestHeader('X-CSRFToken', csrf_token[1]);
+                                xhr.send(formData);
+                            });
+                        })();
+                    </script>
 				</label>
 			</div>
-		</form>
 	</div>
 {% endblock %}
