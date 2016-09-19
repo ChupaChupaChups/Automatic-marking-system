@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-lang=$(jq '.language' /source_code/config.json)
+lang=$(jq '.language' /json_file/config.json)
 
 if [ ${lang} == 1 ]; then
 	/compiler_and_judge/c_compile.sh

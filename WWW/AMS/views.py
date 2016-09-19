@@ -12,7 +12,7 @@ from . import onlineshellmanager
 from .forms import ProblemForm, SubmitForm
 from .judge_server.config import Config
 from .models import Problem, SubmitRecord, SubmitResult
-
+from .judge_server import judgeServer
 
 # Create your views here.
 
@@ -88,10 +88,11 @@ def answer_submit(req, problem_number):
 
             # TODO: rename variable
             # TODO: input, output path
-            # media_path = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
-            inputfiles = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'inputfiles')
-            # inputfiles = os.path.dirname(instance.problem.p_infile.path)
-            # judgeServer.start_judge(media_path, inputfiles)
+            outputfiles = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'outputfile')
+            media_path = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name,
+                                      'submit', str(req.user), str(instance.pk), 'code')
+            inputfiles = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'inputfile')
+            judgeServer.start_judge(media_path, inputfiles, outputfiles)
 
             return redirect('/problem/list')
     else:
@@ -109,7 +110,8 @@ def submit_py_path(req):
 
 
 def save_metadata(instance):
-    media_path = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'submit', str(instance.user), str(instance.pk))
+    media_path = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'submit',
+                              str(instance.user), str(instance.pk))
     json_path = os.path.join(media_path, Config["django"]["code_meta_file"])
 
     if not os.path.exists(os.path.dirname(json_path)):
