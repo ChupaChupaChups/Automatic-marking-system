@@ -31,7 +31,6 @@ def problem_list(req):
 def problem_read(req, problem_number):
     if req.method == 'DELETE':
         problem_to_delete = Problem.objects.get(pk=problem_number)
-
         if problem_to_delete is not None:
             problem_to_delete.delete()
             return HttpResponse()

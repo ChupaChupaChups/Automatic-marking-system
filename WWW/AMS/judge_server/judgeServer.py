@@ -63,7 +63,6 @@ def start_judge(media_path, inputfiles, outputfiles):
 
     current = os.path.join(os.path.dirname(__file__), 'judge_scripts')
     json_path = os.path.dirname(media_path)
-    print(json_path)
     resultfiles = os.path.dirname(media_path)
     resultfiles = os.path.join(resultfiles, 'resultfiles')
 
@@ -83,8 +82,13 @@ def start_judge(media_path, inputfiles, outputfiles):
     client.start(container)
     client.wait(container)
     print(client.logs(container))
+    if client.logs(container) is not None:
+        log_path = os.path.join(json_path, 'log.txt')
+        log = open(log_path, "wb")
+        log.write(client.logs(container))
+        log.close()
+
     client.remove_container(container)
-    # TODO: 결과는 json형식으로만 가지고 있고 실제 결과는 삭제
 
 # TODO: when debug is finished, must handle docker container exception at this point
 

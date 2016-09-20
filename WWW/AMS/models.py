@@ -58,12 +58,10 @@ class SubmitFile(models.Model):
     record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
     file = models.FileField(upload_to=_save_path)
 
-
 @receiver(models.signals.post_delete, sender=SubmitRecord)
 def delete_file(sender, instance, *args, **kwargs):
-    folder = os.path.join(settings.MEDIA_ROOT, 'answer', str(instance.pk))
+    folder = os.path.join(settings.MEDIA_ROOT, str(instance.problem.p_name))
     shutil.rmtree(folder)
-
 
 class SubmitResult(models.Model):
     record = models.ForeignKey(SubmitRecord, on_delete=models.CASCADE)
