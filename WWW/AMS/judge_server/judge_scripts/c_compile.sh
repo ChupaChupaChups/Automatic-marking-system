@@ -2,7 +2,6 @@
 
 # TODO: 최종적으론 makefile로 변경
 arg_obj=$(find /source_code -iname "*.c")
-answer_code = $(find /answercode -name "*.c")
 input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
 declare -i correct=0
@@ -31,5 +30,6 @@ done
 correct=$correct*100
 temp=$(($correct/$infilelen))
 python3 /compiler_and_judge/result_dump.py $temp $resulttime
-
+rm -rf /resultfiles
+rm /compiler_and_judge/a.out
 

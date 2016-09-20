@@ -29,3 +29,5 @@ done
 correct=$correct*100
 temp=$(($correct/$infilelen))
 python3 /compiler_and_judge/result_dump.py $temp $resulttime
+rm -rf /resultfiles
+rm /compiler_and_judge/a.out
