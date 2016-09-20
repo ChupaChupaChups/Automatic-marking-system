@@ -8,22 +8,26 @@ var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
  * TODO: main()이 하나인 경우 entry point 리스트를 끄도록 수정
  */
 function extractClass(fileList, folderList, entryList) {
+	console.log(entryList);
+	console.log(folderList);
+	console.log(fileList);
 	// 이전목록 지움
 	while (entryList.options.length) entryList.remove(0);
 
 	// 추가된 개별 파일과 폴더 하나로 합침
 	var printFileList = [], i;
 	for (i = 0; i < folderList.length; i++) {
-		if (/\.java$/i.test(folderList[i])) {
+		if (/\.java$/i.test(folderList[i].name)) {
 			printFileList.push(folderList[i]);
 		}
 	}
 	for (i = 0; i < fileList.length; i++) {
-		if (/\.java$/i.test(folderList[i])) {
+		console.log(fileList[i].name);
+		if (/\.java$/i.test(fileList[i].name)) {
 			printFileList.push(fileList[i]);
 		}
 	}
-
+	console.log(printFileList);
 	// 파일 읽기 시작
 	for (i = 0; i < printFileList.length; i++) {
 		console.log('start\t' + printFileList[i].name);
@@ -37,11 +41,14 @@ function extractClass(fileList, folderList, entryList) {
 		 */
 		reader.onload = function (event) {
 			var contents = event.target.result;
+			console.log(contents);
 			var matches_package = /package\s+(\w+(\.\w+)*)/g.exec(contents);
+			console.log(matches_package);
 			var class_extractor = /class\s+(\w+)\s*\{((\s|.)*)}/g;
-
+			console.log(class_extractor);
 			var matches_class;
 			while (matches_class = class_extractor.exec(contents)) {
+				console.log(matches_class);
 				var main_tester = /public\s+static\s+void\s+main\s*\(\s*String(\s+)?(\[]|\.\.\.)\s*\w+\)/g;
 				if (main_tester.test(matches_class[2])) {
 					var result = null;
@@ -51,6 +58,19 @@ function extractClass(fileList, folderList, entryList) {
 						result = matches_class[1];
 					}
 
+					var option = document.createElement('option');
+					option.value = option.text = result;
+					console.log(option);
+					entryList.add(option);
+				}
+				else{
+					var result = null;
+					if(matches_package){
+						result = matches_package[1] + '.' + matches_class[1];
+					}
+					else{
+						result = matches_class[1];
+					}
 					var option = document.createElement('option');
 					option.value = option.text = result;
 					entryList.add(option);
@@ -99,6 +119,7 @@ function extractFiles(fileList, folderList, entryList) {
 		case 1:
 			var option = document.createElement('option');
 			option.text = option.value = formData.get('attachments').name;
+			console.log(option);
 			entryList.add(option);
 
 		case 0:
