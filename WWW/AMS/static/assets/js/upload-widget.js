@@ -28,11 +28,11 @@ UploadWidget.prototype.appendLanguage = function (formData) {
 	if (this.cRadio.checked) language = 1;
 	else if (this.cppRadio.checked) language = 2;
 	else if (this.javaRadio.checked) {
-		formData.append("entrypoint", this.entryList.options[this.entryList.selectedIndex].value);
+		formData.append("entry_point", this.entryList.options[this.entryList.selectedIndex].value);
 		language = 3;
 	}
 	else if (this.pyRadio.checked) {
-		formData.append("entrypoint", this.entryList.options[this.entryList.selectedIndex].value);
+		formData.append("entry_point", this.entryList.options[this.entryList.selectedIndex].value);
 		language = 4;
 	}
 	else language = 5;
