@@ -2,6 +2,7 @@
 
 # TODO: 최종적으론 makefile로 변경
 arg_obj=$(find /source_code -iname "*.c")
+answer_code = $(find /answercode -name "*.c")
 input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
 declare -i correct=0
