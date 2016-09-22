@@ -29,6 +29,7 @@ def problem_list(req):
 
 @login_required
 def problem_read(req, problem_number):
+    problem_to_delete = Problem.objects.get(pk=problem_number)
     if req.method == 'DELETE':
         problem_to_delete = Problem.objects.get(pk=problem_number)
         if problem_to_delete is not None:
@@ -77,6 +78,7 @@ def problem_add(req):
 
 @login_required
 def answer_submit(req, problem_number):
+    problem = Problem.objects.get(pk=problem_number)
     if req.method == 'POST':
         form = SubmitForm(req.user, problem_number, req.POST, req.FILES)
         print(form.errors)
@@ -97,7 +99,7 @@ def answer_submit(req, problem_number):
     else:
         form = SubmitForm(req.user, problem_number)
 
-    return render(req, 'AMS/answer_submit.html', {'form': form, 'p_number': problem_number})
+    return render(req, 'AMS/answer_submit.html', {'form': form, 'p_number': problem_number, 'problem':problem})
 
 
 @login_required
