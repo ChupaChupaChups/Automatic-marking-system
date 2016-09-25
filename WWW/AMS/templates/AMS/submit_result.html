@@ -29,19 +29,20 @@
 			</thead>
 			<tbody>
 			{% for rcd in record %}
+				{% for rst in result %}
 			<tr>
 
 				<td>{{rcd.user}}</td>
 				<td>{{rcd.submit_time}}</td>
-				<td>{{result.result}}</td>
+				<td>{{rst.result}}</td>
 				<td>
 					{% if rcd.language == 1 %} C {% endif %}
 					{% if rcd.language == 2 %} C++ {% endif %}
 					{% if rcd.language == 3 %} Java {% endif %}
 					{% if rcd.language == 4 %} Python {% endif %}
 				</td>
-				<td>{{ result.correct_percent }}</td>
-				<td>{{ result.process_time }}</td>
+				<td>{{ rst.correct_percent }}</td>
+				<td>{{ rst.process_time }}</td>
 				{% if problem.p_hint_integer != 100 %}
 
 					{% if problem.p_hint_integer <= result.correct_percent %}
@@ -55,6 +56,7 @@
 				{% endif %}
 				<td></td>
 			</tr>
+				{% endfor %}
 			{% endfor %}
 			</tbody>
 		</table>

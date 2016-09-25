@@ -79,14 +79,14 @@ def problem_add(req):
 @login_required
 def answer_submit(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
+    #print(problem_number)
+    #get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     if req.method == 'POST':
         form = SubmitForm(req.user, problem_number, req.POST, req.FILES)
         print(form.errors)
         if form.is_valid():
             instance = form.save()
-
             save_metadata(instance)
-
             # TODO: rename variable
             # TODO: input, output path
             outputfiles = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'outputfile')
@@ -95,6 +95,13 @@ def answer_submit(req, problem_number):
             inputfiles = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'inputfile')
             judgeServer.start_judge(media_path, inputfiles, outputfiles)
 
+            # result store to database
+            test_path = os.path.join(settings.MEDIA_ROOT,instance.problem.p_name,
+                                     'submit',str(req.user),str(instance.pk),'config.json')
+            with open(test_path,"r") as file:
+                test = json.load(file) # after fix this, test_path will changed json_path
+            get_result = SubmitResult(record=instance, result=0, process_time=test["language"],correct_percent=problem_number)
+            get_result.save()
             return redirect('/problem/list')
     else:
         form = SubmitForm(req.user, problem_number)
@@ -134,18 +141,11 @@ def submit_result(req, problem_number):
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     get_result = SubmitResult.objects.filter(record=get_record)
 
-    print(req.user)
-    for e in get_record:
-        print(e.submit_time)
-    print(get_result)
-    print(get_record)
-
     return render(
         req,
         'AMS/submit_result.html',
         {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
     )
-
 
 @login_required
 def test(req):
@@ -189,7 +189,7 @@ def problem_files(req):
         handle_upload_file(req, codefolder, codefile_path, 2)
 
         json_path = os.path.join(codefile_path, Config["django"]["code_meta_file"])
-
+        print("program files json path : " + json_path)
         with open(json_path, "w") as file:
             json.dump(
                 {
