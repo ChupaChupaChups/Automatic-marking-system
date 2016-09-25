@@ -97,10 +97,12 @@ def answer_submit(req, problem_number):
 
             # result store to database
             test_path = os.path.join(settings.MEDIA_ROOT,instance.problem.p_name,
-                                     'submit',str(req.user),str(instance.pk),'config.json')
-            with open(test_path,"r") as file:
-                test = json.load(file) # after fix this, test_path will changed json_path
-            get_result = SubmitResult(record=instance, result=0, process_time=test["language"],correct_percent=problem_number)
+                                     'submit',str(req.user),str(instance.pk),'result.json')
+            f = open(test_path, 'r')
+            result = json.load(f)
+        #    with open(test_path,"r") as file:
+        #        test = json.load(file) # after fix this, test_path will changed json_path
+            get_result = SubmitResult(record=instance, result=result["answer"], process_time=result["time"], correct_percent=result["answer_percent"])
             get_result.save()
             return redirect('/problem/list')
     else:
