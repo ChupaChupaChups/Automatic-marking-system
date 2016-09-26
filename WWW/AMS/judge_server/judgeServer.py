@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import io
 import json
+import os
 import threading
 
 import docker
-import io
-import os
+
 from .config import Config
 
 __author__ = "isac322, nameuk"
@@ -68,7 +69,7 @@ def start_judge(media_path, inputfiles):
 	container = client.create_container(
 			image=image_tag,
 			command='/compiler_and_judge/compile_execute.sh',
-			volumes=['/source_code', '/compiler_and_judge', '/inputfiles','/resultfiles'],
+			volumes=['/source_code', '/compiler_and_judge', '/inputfiles', '/resultfiles'],
 			host_config=client.create_host_config(binds={
 				media_path: {'bind': '/source_code', 'mode': 'rw'},
 				current: {'bind': '/compiler_and_judge', 'mode': 'rw'},

@@ -3,8 +3,6 @@ var csrf_token = document.cookie.match(/csrftoken=([A-Za-z0-9]+);?/);
 /**
  * Java의 경우 사용, 클래스의 이름을 엔트리 포인트 설정을 위해 추출.
  *
- * TODO: main()이 있는 클래스만 엔트리 포인트 목록에 추가하도록 수정
- * TODO: main()이 하나인 경우 자동으로 그 클래스를 엔트리 포인트로 사용하는 기능 추가
  * TODO: main()이 하나인 경우 entry point 리스트를 끄도록 수정
  */
 function extractClass(fileList, folderList, entryList) {
@@ -29,9 +27,8 @@ function extractClass(fileList, folderList, entryList) {
 		var reader = new FileReader();
 		/**
 		 * 파일 읽기가 완료된 경우 호출됨
-		 * 정규표현식 객체 `regex`로 클래스 이름 걸러내고 선택지에 추가
+		 * 정규표현식 객체 `regexp`로 클래스 이름 걸러내고 선택지에 추가
 		 *
-		 * FIXME: 클래스와 main()가져오는 부분 수정 필요
 		 * @param event    이벤트 객체
 		 */
 		reader.onload = function (event) {
