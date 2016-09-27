@@ -102,7 +102,13 @@ def answer_submit(req, problem_number):
             result = json.load(f)
         #    with open(test_path,"r") as file:
         #        test = json.load(file) # after fix this, test_path will changed json_path
-            get_result = SubmitResult(record=instance, result=result["answer"], process_time=result["time"], correct_percent=result["answer_percent"])
+            print(result["answer"])
+            if result["answer"] == 0:
+                ret = False
+            else:
+                ret = True
+            print(ret)
+            get_result = SubmitResult(record=instance, result=ret, process_time=result["time"], correct_percent=result["answer_percent"])
             get_result.save()
             return redirect('/problem/list')
     else:
@@ -141,12 +147,13 @@ def save_metadata(instance):
 def submit_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
-    get_result = SubmitResult.objects.filter(record=get_record)
-
+    get_result = SubmitResult.objects.filter(record__in=get_record)
+    print(get_record)
+    print(get_result)
     return render(
         req,
         'AMS/submit_result.html',
-        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'user' : req.user}
     )
 
 @login_required
@@ -236,3 +243,12 @@ def handle_upload_file(req, files, path, check):
             os.makedirs(os.path.dirname(filePath))
         with open(filePath, 'wb+') as destination:
             destination.write(each.read())
+
+def errorlist(req, problem_number, rst_number):
+    problemname = Problem.objects.get(pk=problem_number).name
+    rstuser = SubmitResult.objects.get(pk=rst_number).record.user
+    errorlistpath = os.path.join(problemname, 'submit', rstuser, rst_number, 'log.txt')
+    with open(errorlistpath, 'r') as f:
+        content = f.read()
+
+    return render(req, 'AMS/errorlist.html', {'content' : content})

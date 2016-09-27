@@ -30,18 +30,22 @@
 			</tr>
 			</thead>
 			<tbody>
-			{% for rcd in record %}
 				{% for rst in result %}
 			<tr>
 
-				<td>{{rcd.user}}</td>
-				<td>{{rcd.submit_time}}</td>
-				<td>{{rst.result}}</td>
+				<td>{{rst.record.user}}</td>
+				<td>{{rst.record.submit_time}}</td>
+				<td>{% if rst.result == False %} <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"
+                    data-src="{% url 'errorlist' problem.pk rst.pk%}"
+                    data-target="#myModal" data-video-fullscreen=""> {{ rst.result }} </button>
+                    {% else %} {{ rst.result }}
+                    {% endif %}
+                </td>
 				<td>
-					{% if rcd.language == 1 %} C {% endif %}
-					{% if rcd.language == 2 %} C++ {% endif %}
-					{% if rcd.language == 3 %} Java {% endif %}
-					{% if rcd.language == 4 %} Python {% endif %}
+					{% if rst.record.language == 1 %} C {% endif %}
+					{% if rst.record.language == 2 %} C++ {% endif %}
+					{% if rst.record.language == 3 %} Java {% endif %}
+					{% if rst.record.language == 4 %} Python {% endif %}
 				</td>
 				<td>{{ rst.correct_percent }}</td>
 				<td>{{ rst.process_time }}</td>
@@ -58,7 +62,6 @@
 				{% endif %}
 				<td></td>
 			</tr>
-				{% endfor %}
 			{% endfor %}
 			</tbody>
 		</table>
@@ -78,5 +81,54 @@
 			} );
 		} );
 	</script>
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <iframe class="embed-responsive-item" allowtransparency="true" width="100%" height="500" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
 
+        </div>
+        <!--
+                <div class="modal-footer">
+                      <button type="submit" class="btn btn-default" id="submit">제출</button>
+                </div>
+-->
+    </div>
+
+    <script type="text/javascript">
+        function iframeModalOpen(){
+
+            $('.modalButton').on('click', function(e) {
+
+                var src = $(this).attr('data-src');
+                var pname = $(this).attr('data-p-name');
+                $("#pname").remove()
+                $(".modal-header").append('<h2 id="pname"></h2>');
+                $("#pname").append(pname);
+
+                $("#myModal iframe").attr({
+                    'src': src,
+                });
+            });
+
+            $('#myModal').on('hidden.bs.modal', function(){
+                $(this).find('iframe').html("");
+                $(this).find('iframe').attr("src", "");
+            });
+        }
+
+        $(document).ready(function(){
+            iframeModalOpen();
+            $('.modal-dialog').css('width', '800px');
+        });
+    </script>
 {% endblock %}
