@@ -36,7 +36,9 @@
 
 				<td>{{rcd.user}}</td>
 				<td>{{rcd.submit_time}}</td>
-				<td>{{rst.result}}</td>
+				<td>{% if rst.result == 1 %} True {% endif %}
+					{% if rst.result == 0 %} False {% endif %}
+				</td>
 				<td>
 					{% if rcd.language == 1 %} C {% endif %}
 					{% if rcd.language == 2 %} C++ {% endif %}
