@@ -2,6 +2,7 @@ import json
 
 import os
 import shutil
+from subprocess import call
 
 from django.conf import settings
 from django.contrib.auth import logout
@@ -184,7 +185,7 @@ def problem_files(req):
         language = int(req.POST.get('language'))
         entry_point = ''
         if language in (3, 4):
-            entry_point = req.POST.get('entrypoint')
+            entry_point = req.POST.get('entry_point')
         codefile = req.FILES.getlist('codefile')
         print(codefile)
         handle_upload_file(req, codefile, codefile_path, 1)
@@ -196,11 +197,15 @@ def problem_files(req):
         handle_upload_file(req, inputfile, inputfile_path, 1)
         inputfolder = req.FILES.getlist('inputfolder')
         handle_upload_file(req, inputfolder, inputfile_path, 2)
+
+        outputCreatorPath=os.path.join(os.path.dirname(__file__), 'outfileCreator', 'outFile.sh')
+        call([outputCreatorPath, str(language), codefile_path, inputfile_path, outputfile_path])
+
     elif web_tab_number == "2":
         language = int(req.POST.get('language'))
         entry_point = ''
         if language in (3, 4):
-            entry_point = req.POST.get('entrypoint')
+            entry_point = req.POST.get('entry_point')
         codefile = req.FILES.getlist('codefile')
         handle_upload_file(req, codefile, codefile_path, 1)
         codefolder = req.FILES.getlist('codefolder')

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: 최종적으론 makefile로 변경
 #find /source_code -iname "*.java" > /compiler_and_judge/source_list.txt
 arg_obj=$(find /source_code -iname "*.java" > /compiler_and_judge/source_list.txt)
 input_files=$(find /inputfiles -name "*.in")

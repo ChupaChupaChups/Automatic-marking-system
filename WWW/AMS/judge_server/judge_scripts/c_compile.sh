@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-# TODO: 최종적으론 makefile로 변경
 arg_obj=$(find /source_code -iname "*.c")
 input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
