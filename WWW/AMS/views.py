@@ -146,13 +146,23 @@ def save_metadata(instance):
 @login_required
 def submit_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
-    get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
+    get_record = SubmitRecord.objects.filter(user__in=req.user, problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record)
     print(get_record)
     print(get_result)
     return render(
         req,
         'AMS/submit_result.html',
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'user': req.user}
+    )
+@login_required
+def all_result(req, problem_number):
+    problem = Problem.objects.get(pk=problem_number)
+    get_result = SubmitResult.objects.filter(record__in=get_record)
+    print(get_result)
+    return render(
+        req,
+        'AMS/result_all.html',
         {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'user' : req.user}
     )
 

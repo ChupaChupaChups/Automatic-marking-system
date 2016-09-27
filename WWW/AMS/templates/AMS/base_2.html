@@ -12,7 +12,7 @@
 				<li class="{% block problem_class %}{% endblock %}"><a href="{% url "problem" p_number %}">Problem</a></li>
 				<li class="{% block submit_class %}{% endblock %}"><a href="{% url "submit" p_number %}">Submit</a></li>
 				<li class="{% block result_class %}{% endblock %}"><a href="{% url "result" p_number %}">Result</a></li>
-				<li class="{% block source_class %}{% endblock %}"><a href="{% url "result" p_number %}">My source</a></li>
+				<li class="{% block source_class %}{% endblock %}"><a href="{% url "all_result" p_number %}">All Result</a></li>
 			</ul>
 		</nav>
 	</div>
