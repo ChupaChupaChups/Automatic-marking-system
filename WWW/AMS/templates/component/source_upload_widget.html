@@ -19,27 +19,10 @@ upload-widget.js
 {% block language_selector %}
 	<div class="col-md-12 form-group segmented-control" style="color : #5FBAAC">
 
-        {% if problem.p_c_ok == True %}
-		    <input id="{{ id }}_language_0" name="language" type="radio" value="1">
-            {%  else %}
-            <input id="{{ id }}_language_0" name="language" type="radio" value="1" disabled>
-        {% endif %}
-        {% if problem.p_cpp_ok == True %}
-            <input id="{{ id }}_language_1" name="language" type="radio" value="2">
-        {%  else %}
-            <input id="{{ id }}_language_1" name="language" type="radio" value="2" disabled>
-        {% endif %}
-        {% if problem.p_java_ok == True %}
-            <input id="{{ id }}_language_2" name="language" type="radio" value="3">
-        {%  else %}
-            <input id="{{ id }}_language_2" name="language" type="radio" value="3" disabled>
-        {% endif %}
-        {% if problem.p_py_ok == True %}
-            <input id="{{ id }}_language_3" name="language" type="radio" value="4">
-        {%  else %}
-            <input id="{{ id }}_language_3" name="language" type="radio" value="4" disabled>
-        {% endif %}
-
+        <input id="{{ id }}_language_0" name="language" type="radio" value="1">
+        <input id="{{ id }}_language_1" name="language" type="radio" value="2">
+        <input id="{{ id }}_language_2" name="language" type="radio" value="3">
+        <input id="{{ id }}_language_3" name="language" type="radio" value="4">
 		<input id="{{ id }}_language_4" name="language" type="radio" value="5">
 		<label for="{{ id }}_language_0" data-value="C">C</label>
 		<label for="{{ id }}_language_1" data-value="CPP">CPP</label>

@@ -1,0 +1,140 @@
+{% extends 'component/base_upload_widget.html' %}
+
+{% comment %}
+Dependency:
+
+jquery-2.2.4.min.js
+bootstrap-theme.min.css
+bootstrap.min.css
+bootstrap.min.js
+
+problem_add.css
+language_selector.css
+upload_widget.less
+
+upload.js
+upload-widget.js
+{% endcomment %}
+
+{% block language_selector %}
+<div class="col-md-12 form-group segmented-control" style="color : #5FBAAC">
+
+    {% if problem.p_c_ok == True %}
+    <input id="{{ id }}_language_0" name="language" type="radio" value="1">
+    {%  else %}
+    <input id="{{ id }}_language_0" name="language" type="radio" value="1" disabled>
+    {% endif %}
+    {% if problem.p_cpp_ok == True %}
+    <input id="{{ id }}_language_1" name="language" type="radio" value="2">
+    {%  else %}
+    <input id="{{ id }}_language_1" name="language" type="radio" value="2" disabled>
+    {% endif %}
+    {% if problem.p_java_ok == True %}
+    <input id="{{ id }}_language_2" name="language" type="radio" value="3">
+    {%  else %}
+    <input id="{{ id }}_language_2" name="language" type="radio" value="3" disabled>
+    {% endif %}
+    {% if problem.p_py_ok == True %}
+    <input id="{{ id }}_language_3" name="language" type="radio" value="4">
+    {%  else %}
+    <input id="{{ id }}_language_3" name="language" type="radio" value="4" disabled>
+    {% endif %}
+
+    <input id="{{ id }}_language_4" name="language" type="radio" value="5">
+    <label for="{{ id }}_language_0" data-value="C">C</label>
+    <label for="{{ id }}_language_1" data-value="CPP">CPP</label>
+    <label for="{{ id }}_language_2" data-value="JAVA">JAVA</label>
+    <label for="{{ id }}_language_3" data-value="PYTHON">PYTHON</label>
+    <label for="{{ id }}_language_4" data-value="MakeFile">MAKEFILE</label>
+</div>
+
+{% endblock %}
+{# upload panel will be place here #}
+{% block entry_point %}
+<fieldset class="col-md-12 form-group" id="{{ id }}-entry-point-selector">
+    <label for="{{ id }}-entry-point">entry point :</label>
+    <select class="form-control" name="entry_point" id="{{ id }}-entry-point"></select>
+</fieldset>
+{% endblock %}
+
+
+<script type='text/javascript'>
+    /*
+     디버깅을 위함. 아무 block에도 속하지 않기때문에 extends시 사라짐
+     */
+    var obj = new UploadWidget();
+
+
+    {% block extended_javascript %}
+    obj.cRadio = document.getElementById('{{ id }}_language_0');
+    obj.cppRadio = document.getElementById('{{ id }}_language_1');
+    obj.javaRadio = document.getElementById('{{ id }}_language_2');
+    obj.pyRadio = document.getElementById('{{ id }}_language_3');
+    obj.mkRadio = document.getElementById('{{ id }}_language_4');
+    obj.entryListDiv = document.getElementById('{{ id }}-entry-point-selector');
+    obj.entryList = document.getElementById('{{ id }}-entry-point');
+
+    if (obj.javaRadio.checked || obj.pyRadio.checked) {
+        obj.entryListDiv.style.display = 'block';
+    } else {function showSelector(event) {
+        if (event.target.checked) {
+            obj.entryListDiv.style.display = 'block';
+        } else {
+            obj.entryListDiv.style.display = 'none';
+        }
+    }
+        obj.entryListDiv.style.display = 'none';
+    }
+
+    function showSelector(event) {
+        if (event.target.checked) {
+            obj.entryListDiv.style.display = 'block';
+        } else {
+            obj.entryListDiv.style.display = 'none';
+        }
+    }
+
+    function hideSelector(event) {
+        if (event.target.checked) {
+            obj.entryListDiv.style.display = 'none';
+        }
+    }
+
+    obj.cRadio.addEventListener('click', hideSelector);
+    obj.cppRadio.addEventListener('click', hideSelector);
+    obj.javaRadio.addEventListener('click', showSelector);
+    obj.pyRadio.addEventListener('click', showSelector);
+    obj.mkRadio.addEventListener('click', hideSelector);
+
+
+    obj.javaRadio.addEventListener('change', function (event) {
+        if (event.target.checked) {
+            extractClass(obj.fileList, obj.folderList, obj.entryList);
+            obj.fileUploadBtn.addEventListener('change', classCallBack);
+            obj.folderUploadBtn.addEventListener('change', classCallBack);
+        } else {
+            obj.fileUploadBtn.removeEventListener('change', classCallBack);
+            obj.folderUploadBtn.removeEventListener('change', classCallBack);
+        }
+    });
+
+    obj.pyRadio.addEventListener('change', function (event) {
+        if (event.target.checked) {
+            extractFiles(obj.fileList, obj.folderList, obj.entryList);
+            obj.fileUploadBtn.addEventListener('change', fileCallBack);
+            obj.folderUploadBtn.addEventListener('change', fileCallBack);
+        } else {
+            obj.fileUploadBtn.removeEventListener('change', fileCallBack);
+            obj.folderUploadBtn.removeEventListener('change', fileCallBack);
+        }
+    });
+
+    function classCallBack(event) {
+        extractClass(obj.fileList, obj.folderList, obj.entryList);
+    }
+    function fileCallBack(event) {
+        extractFiles(obj.fileList, obj.folderList, obj.entryList);
+    }
+    {% endblock %}
+
+</script>
