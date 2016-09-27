@@ -1,3 +1,14 @@
 #!/usr/bin/env bash
 
-# TODO: c_compile.sh를 보고 작성
+arg_obj=$(find $1 -iname "*.cpp")
+input_files=$(find $2 -name "*.in")
+
+mkdir media/temp/outputfile
+gcc -o AMS/outfileCreator/a.out ${arg_obj}
+
+for input_file in $input_files; do
+    filename=$(basename $input_file)
+    AMS/outfileCreator/a.out < $input_file > $3/${filename%.*}.out
+done
+
+rm AMS/outfileCreator/a.out
