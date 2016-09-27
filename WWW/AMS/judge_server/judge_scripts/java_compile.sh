@@ -37,6 +37,6 @@ if [ $(du -sb /compiler_and_judge/class | cut -f1) -ne '4096' ]; then
     rm -rf /compiler_and_judge/class
     rm /compiler_and_judge/source_list.txt
 else
-    python3 /compiler_and_judge/result_dump.py 0 error
+    python3 /compiler_and_judge/result_dump.py 0 0
 fi
 chmod -R 777 /json_file

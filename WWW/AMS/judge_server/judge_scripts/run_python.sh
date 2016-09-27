@@ -30,7 +30,11 @@ for input_file in $input_files; do
     done
 done
 correct=$correct*100
-temp=$(($correct/$infilelen))
+if [ $infilelen -eq 0 ]; then
+    temp=0
+else
+    temp=$(($correct/$infilelen))
+fi
 python3 /compiler_and_judge/result_dump.py $temp $resulttime
 
 chmod -R 777 /json_file
