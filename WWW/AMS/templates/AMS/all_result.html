@@ -1,0 +1,34 @@
+{% extends "AMS/base_2.html" %}
+
+{% load static %}
+
+{% block title %}{{ problem.p_name }}{% endblock %}
+
+{% block content_header %}
+	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
+	<link rel="stylesheet" href="{% static "assets/css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "assets/css/dataTables.bootstrap.min.css" %}">
+	<script type="text/javascript" src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/dataTables.bootstrap.min.js' %}"></script>
+{% endblock %}
+
+{% block source_class %} active {% endblock %}
+
+{% block content2 %}
+	<div class="content container">
+	<table id="problem-info">
+		<thead>
+		<tr>
+			<th>User</th>
+			<th>SubmitTime</th>
+			<th>Result</th>
+			<th>Language</th>
+			<th>Percent</th>
+			<th>RunnigTime</th>
+			<th>Hint</th>
+			<th>#Try</th>
+		</tr>
+		</thead>
+		<tbody>
+	</table>
+{% endblock %}

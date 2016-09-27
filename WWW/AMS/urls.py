@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^submit/(?P<problem_number>[0-9]+)$', views.answer_submit, name='submit'),
     url(r'^savefiles', views.submit_py_path, name='save_filepath'),
     url(r'^result/(?P<problem_number>[0-9]+)$', views.submit_result, name='result'),
+    url(r'^result/(?P<problem_number>[0-9]+)/all_result$', views.all_result, name='all_result'),
     url(r'^test', views.test, name='test'),
     url(r'^errorlist/(?P<problem_number>[0-9]+)/(?P<rst_number>[0-9]+)$', views.errorlist, name='errorlist'),
 ]

@@ -157,6 +157,18 @@ def submit_result(req, problem_number):
     )
 
 @login_required
+def all_result(req, problem_number):
+    problem = Problem.objects.get(pk=problem_number)
+    get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
+    get_result = SubmitResult.objects.filter(record__in=get_record)
+    print(get_result)
+    return render(
+        req,
+        'AMS/all_result.html',
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'user' : req.user}
+    )
+
+@login_required
 def test(req):
     return render(req, 'component/source_upload_widget.html', {'id': 'ic'})
 
