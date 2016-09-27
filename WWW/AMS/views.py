@@ -24,7 +24,7 @@ def web_logout(req):
 @login_required
 def problem_list(req):
     problems = Problem.objects.all()
-    return render(req, 'AMS/problem_list.html', {'problems': problems})
+    return render(req, 'AMS/problem_list.html', {'problems': problems, 'user': req.user})
 
 
 @login_required
@@ -148,24 +148,21 @@ def submit_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record)
-    print(get_record)
-    print(get_result)
     return render(
         req,
         'AMS/submit_result.html',
-        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'user' : req.user}
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
     )
 
 @login_required
 def all_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
-    get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
+    get_record = SubmitRecord.objects.filter(problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record)
-    print(get_result)
     return render(
         req,
-        'AMS/all_result.html',
-        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'user' : req.user}
+        'AMS/allresult.html',
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
     )
 
 @login_required

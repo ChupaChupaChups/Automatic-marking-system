@@ -1,0 +1,134 @@
+{% extends "AMS/base_2.html" %}
+
+{% load static %}
+
+{% block title %}{{ problem.p_name }}{% endblock %}
+
+{% block content_header %}
+    <link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
+    <link rel="stylesheet" href="{% static "assets/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/dataTables.bootstrap.min.css" %}">
+    <script type="text/javascript" src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'assets/js/dataTables.bootstrap.min.js' %}"></script>
+{% endblock %}
+
+{% block allresult_class %} active {% endblock %}
+
+{% block content2 %}
+    <div class="content container">
+        <table id="problem-info">
+            <thead>
+            <tr>
+                <th>User</th>
+                <th>SubmitTime</th>
+                <th>Result</th>
+                <th>Language</th>
+                <th>Percent</th>
+                <th>RunnigTime</th>
+                <th>Hint</th>
+                <th>#Try</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rst in result %}
+                <tr>
+
+                    <td>{{rst.record.user}}</td>
+                    <td>{{rst.record.submit_time}}</td>
+                    <td>{% if rst.result == False %} <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"
+                                                             data-src="{% url 'errorlist' problem.pk rst.pk%}"
+                                                             data-target="#myModal" data-video-fullscreen=""> {{ rst.result }} </button>
+                    {% else %} {{ rst.result }}
+                    {% endif %}
+                    </td>
+                    <td>
+                        {% if rst.record.language == 1 %} C {% endif %}
+                        {% if rst.record.language == 2 %} C++ {% endif %}
+                        {% if rst.record.language == 3 %} Java {% endif %}
+                        {% if rst.record.language == 4 %} Python {% endif %}
+                    </td>
+                    <td>{{ rst.correct_percent }}</td>
+                    <td>{{ rst.process_time }}</td>
+                    {% if problem.p_hint_integer != 100 %}
+
+                        {% if problem.p_hint_integer <= result.correct_percent %}
+                            <td>Satisfy</td>
+                        {% else %}
+                            <td>Below</td>
+                        {% endif %}
+
+                    {% else %}
+                        <td>false</td>
+                    {% endif %}
+                    <td></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        {% if problem.p_hint_integer <= result.correct_percent %}
+            <div class="problem-header">
+                <h2 class="header in">HINT</h2>
+                <p class="value in">input: {{ problem.p_inputex }}</p>
+                <p class="value in">output: {{ problem.p_outputex }}</p>
+            </div>
+        {% endif %}
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#problem-info').DataTable( {
+                "pagingType": "full_numbers"
+            } );
+        } );
+    </script>
+    <div id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <iframe class="embed-responsive-item" allowtransparency="true" width="100%" height="500" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--
+                <div class="modal-footer">
+                      <button type="submit" class="btn btn-default" id="submit">제출</button>
+                </div>
+-->
+    </div>
+
+    <script type="text/javascript">
+        function iframeModalOpen(){
+
+            $('.modalButton').on('click', function(e) {
+
+                var src = $(this).attr('data-src');
+                var pname = $(this).attr('data-p-name');
+                $("#pname").remove()
+                $(".modal-header").append('<h2 id="pname"></h2>');
+                $("#pname").append(pname);
+
+                $("#myModal iframe").attr({
+                    'src': src,
+                });
+            });
+
+            $('#myModal').on('hidden.bs.modal', function(){
+                $(this).find('iframe').html("");
+                $(this).find('iframe').attr("src", "");
+            });
+        }
+
+        $(document).ready(function(){
+            iframeModalOpen();
+            $('.modal-dialog').css('width', '800px');
+        });
+    </script>
+{% endblock %}

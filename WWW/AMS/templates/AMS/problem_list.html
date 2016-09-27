@@ -45,11 +45,17 @@
 								<a href="{% url 'problem' problem.pk %}" class="name">{{ problem.p_name }}</a>
 							</div>
 							<!-- The Modal -->
+                            {% if user.is_staff == False %}
                             <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"data-src="{% url 'submit' problem.pk %}" data-target="#myModal" data-video-fullscreen=""> 답안제출 </button>
 
 							<div class="cell">
-								<a href="#" class="name"> 채점결과</a>
-							</div>
+                                <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"data-src="{% url 'result' problem.pk %}" data-target="#myModal" data-video-fullscreen=""> 내 채점결과 </button>
+                            </div>
+                            {% endif %}
+                            {% if user.is_staff %}
+                            <div class="cell">
+                                <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"data-src="{% url 'all_result' problem.pk %}" data-target="#myModal" data-video-fullscreen=""> 전체 채점결과 </button>
+                            </div>
 							<div class="cell">
 								<button type="button" class="name"
 										onclick="btn_delete('{% url 'problem' problem.pk %}');">삭제
@@ -58,6 +64,7 @@
 							<div>
 								<a href="{% url 'problem/update' problem.pk %}" class="name">수정</a>
 							</div>
+                            {% endif %}
 						</div>
 						<div class="row">
 							<div class="cell"></div>
