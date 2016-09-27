@@ -245,9 +245,9 @@ def handle_upload_file(req, files, path, check):
             destination.write(each.read())
 
 def errorlist(req, problem_number, rst_number):
-    problemname = Problem.objects.get(pk=problem_number).name
+    problemname = Problem.objects.get(pk=problem_number).p_name
     rstuser = SubmitResult.objects.get(pk=rst_number).record.user
-    errorlistpath = os.path.join(problemname, 'submit', rstuser, rst_number, 'log.txt')
+    errorlistpath = os.path.join(settings.MEDIA_ROOT, problemname, 'submit', str(rstuser), rst_number, 'log.txt')
     with open(errorlistpath, 'r') as f:
         content = f.read()
 
