@@ -31,7 +31,7 @@ if [ -f /compiler_and_judge/a.out ]; then
 
     rm /compiler_and_judge/a.out
 else
-    python3 /compiler_and_judge/result_dump.py 0 error
+    python3 /compiler_and_judge/result_dump.py 0 0
 fi
 
 chmod -R 777 /json_file
