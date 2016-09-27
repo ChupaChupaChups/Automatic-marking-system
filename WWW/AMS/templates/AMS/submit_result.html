@@ -6,8 +6,10 @@
 
 {% block content_header %}
 	<link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
-    <script src="{% static "assets/js/jquery.dataTables.min.js" %}"></script>
-    <!--<script src="{% static "assets/js/jquery-1.12.3.js" %}"></script>-->
+	<link rel="stylesheet" href="{% static "assets/css/bootstrap.min.css" %}">
+	<link rel="stylesheet" href="{% static "assets/css/dataTables.bootstrap.min.css" %}">
+    <script type="text/javascript" src="{% static 'assets/js/jquery.dataTables.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'assets/js/dataTables.bootstrap.min.js' %}"></script>
 {% endblock %}
 
 {% block result_class %} active {% endblock %}
@@ -60,21 +62,7 @@
 			{% endfor %}
 			</tbody>
 		</table>
-    <div class="center">
-        <ul class="pagination">
-            <li><a class="paginate_button first disabled" aria-controls="problem-info" data-dt-idx="0" tabindex="0" id="problem-info_first">First</a></li>
-            <li><a>«</a></li>
-            <li><a class="active" href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li><a href="#">6</a></li>
-            <li><a href="#">7</a></li>
-            <li><a href="#">»</a></li>
-            <li><a class="paginate_button last" aria-controls="problem-info" data-dt-idx="5" tabindex="0" id="problem-info_last">Last</a></li>
-        </ul>
-    </div>
+
 		{% if problem.p_hint_integer <= result.correct_percent %}
 			<div class="problem-header">
 				<h2 class="header in">HINT</h2>
@@ -83,10 +71,12 @@
 			</div>
 		{% endif %}
 	</div>
-    <script>$(document).ready(function() {
-        $('#problem-info').DataTable( {
-            "pagingType": "full_numbers"
-        } );
-    } );
-    </script>
+	<script>
+		$(document).ready(function() {
+			$('#problem-info').DataTable( {
+				"pagingType": "full_numbers"
+			} );
+		} );
+	</script>
+
 {% endblock %}
