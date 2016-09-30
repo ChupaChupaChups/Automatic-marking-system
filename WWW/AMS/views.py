@@ -265,4 +265,5 @@ def errorlist(req, problem_number, rst_number):
     with open(errorlistpath, 'r') as f:
         content = f.read()
 
+    print(content)
     return render(req, 'AMS/errorlist.html', {'content' : content})

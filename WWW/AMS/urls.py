@@ -10,10 +10,15 @@ from . import views
 
 def logout_required(view):
     def f(request, *args, **kwargs):
-        if request.user.is_anonymous():
+        if request.user.is_anonymous() and request.POST.get('action') == "Sign up":
             try:
                 User.objects.create_user(username=request.POST['username'], password=request.POST['password'])
+                return HttpResponseRedirect(request.GET['next'])
+            except:
                 return view(request, *args, **kwargs)
+        elif request.user.is_anonymous():
+            try:
+                return HttpResponseRedirect(request.GET['next'])
             except:
                 return view(request, *args, **kwargs)
         return redirect(settings.LOGIN_REDIRECT_URL)

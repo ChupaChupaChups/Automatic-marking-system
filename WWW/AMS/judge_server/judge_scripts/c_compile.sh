@@ -17,12 +17,19 @@ if [ -f /compiler_and_judge/a.out ]; then
         then
             resulttime=$temp
         fi
-        for output_file in $output_files; do
-            if (cmp $output_file /resultfiles/${filename%.*}.out) 2>&1 >/dev/null ;
-            then
+        if (cmp /outputfiles/${filename%.*}.out /resultfiles/${filename%.*}.out)  2>&1 >/dev/null ;
+        then
                 correct=$correct+1
-            fi
-        done
+        else
+                echo "Expected Output : "
+                temp=$(head -n 1 /outputfiles/${filename%.*}.out)
+                echo $temp
+                temp=$(head -n 1 /resultfiles/${filename%.*}.out)
+                echo ''
+                echo "Your Output : "
+                echo $temp
+                break
+        fi
     done
     correct=$correct*100
     temp=$(($correct/$infilelen))
