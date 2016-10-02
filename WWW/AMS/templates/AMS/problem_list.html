@@ -36,107 +36,127 @@
 
 {% block content %}
 	<div class="container content">
-		<section class="list-wrapper" role="main">
+		<section class="list-wrapper col-md-12" role="main">
 			{% if problems %}
 				{% for problem in problems %}
-					<article class="problem-table">
+					<div class="packer col-md-5">
 						<div class="row header">
-							<div class="cell">
-								<a href="{% url 'problem' problem.pk %}" class="name">{{ problem.p_name }}</a>
+							<div id="problemtitle">
+								<div class="cell">
+									<a href="{% url 'problem' problem.pk %}"
+									   class="name">{{ problem.p_name }}</a>
+								</div>
 							</div>
-							<!-- The Modal -->
-                            {% if user.is_staff == False %}
-                            <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"data-src="{% url 'submit' problem.pk %}" data-target="#myModal" data-video-fullscreen=""> 답안제출 </button>
+						</div>
+						<div class="row col-md-12" >
+							<h3>제한 시간</h3>
+							<!--
+							<div class="cell">제한 시간</div>
+							<div class="cell">{{ problem.p_day_limit }}</div>
+							-->
+							<h4>{{ problem.p_day_limit }}</h4>
+						</div>
+						<div class="row col-md-12" style="padding-bottom: 10px;">
+							<h3>문제 언어</h3>
+							<h4>
+								{% if problem.p_c_ok == True %} C  {% endif %}
+								{% if problem.p_cpp_ok == True %} C++  {% endif %}
+								{% if problem.p_java_ok == True %} Java  {% endif %}
+								{% if problem.p_python_ok == True %} Python  {% endif %}
+							</h4>
+						</div>
+						<table>
+							<tr>
+								<!-- The Modal -->
+								{% if user.is_staff == False %}
 
-							<div class="cell">
-                                <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"data-src="{% url 'result' problem.pk %}" data-target="#myModal" data-video-fullscreen=""> 내 채점결과 </button>
-                            </div>
-                            {% endif %}
-                            {% if user.is_staff %}
-                            <div class="cell">
-                                <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"data-src="{% url 'all_result' problem.pk %}" data-target="#myModal" data-video-fullscreen=""> 전체 채점결과 </button>
-                            </div>
-							<div class="cell">
-								<button type="button" class="name"
-										onclick="btn_delete('{% url 'problem' problem.pk %}');">삭제
-								</button>
-							</div>
-							<div>
-								<a href="{% url 'problem/update' problem.pk %}" class="name">수정</a>
-							</div>
-                            {% endif %}
-						</div>
-						<div class="row">
-							<div class="cell"></div>
-							<div class="cell"></div>
-							<div class="cell">#</div>
-							<div class="cell"></div>
-						</div>
-						<div class="row">
-							<div class="cell"></div>
-							<div class="cell"></div>
-							<div class="cell">#</div>
-							<div class="cell"></div>
-						</div>
-						<div class="row">
-							<div class="cell"></div>
-							<div class="cell"></div>
-							<div class="cell">#</div>
-							<div class="cell"></div>
-						</div>
-					</article>
+									<button type="button" class="modalButton" data-toggle="modal"
+											data-p-name="{{ problem.p_name }}"
+											data-src="{% url 'submit' problem.pk %}"
+											data-target="#myModal" data-video-fullscreen=""> 답안제출
+									</button>
+
+									<div class="cell col-md-2">
+										<button type="button" class="modalButton" data-toggle="modal"
+												data-p-name="{{ problem.p_name }}"
+												data-src="{% url 'result' problem.pk %}"
+												data-target="#myModal" data-video-fullscreen=""> 내 채점결과
+										</button>
+									</div>
+
+								{% endif %}
+								{% if user.is_staff %}
+									<button type="button" class="modalButton button_link" data-toggle="modal"
+											data-p-name="{{ problem.p_name }}"
+											data-src="{% url 'all_result' problem.pk %}"
+											data-target="#myModal"
+											data-video-fullscreen=""> 전체 채점결과
+									</button>
+
+									<button type="button" class="button_link" id="delete"
+											onclick="btn_delete('{% url 'problem' problem.pk %}');">삭제
+									</button>
+									<button type="button" class="button_link"
+											onclick="location.href = '{% url 'problem/update' problem.pk %}';">수정
+									</button>
+								{% endif %}
+							</tr>
+						</table>
+					</div>
+
 				{% endfor %}
 			{% endif %}
-            <div id="myModal" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                &times;
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div>
-                                <iframe class="embed-responsive-item" allowtransparency="true" width="100%" height="500" frameborder="0"></iframe>
-                            </div>
-                        </div>
-                    </div>
+			<div id="myModal" class="modal fade">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								&times;
+							</button>
+						</div>
+						<div class="modal-body">
+							<div>
+								<iframe class="embed-responsive-item" allowtransparency="true" width="100%" height="500"
+										frameborder="0"></iframe>
+							</div>
+						</div>
+					</div>
 
-                </div>
-                <!--
-                        <div class="modal-footer">
-                              <button type="submit" class="btn btn-default" id="submit">제출</button>
-                        </div>
+				</div>
+				<!--
+						<div class="modal-footer">
+							  <button type="submit" class="btn btn-default" id="submit">제출</button>
+						</div>
 -->
-            </div>
+			</div>
 		</section>
 
 	</div>
-    <script type="text/javascript">
-        function iframeModalOpen(){
+	<script type="text/javascript">
+		function iframeModalOpen() {
 
-            $('.modalButton').on('click', function(e) {
+			$('.modalButton').on('click', function (e) {
 
-                var src = $(this).attr('data-src');
-                var pname = $(this).attr('data-p-name');
-                $("#pname").remove()
-                $(".modal-header").append('<h2 id="pname"></h2>');
-                $("#pname").append(pname);
+				var src = $(this).attr('data-src');
+				var pname = $(this).attr('data-p-name');
+				$("#pname").remove()
+				$(".modal-header").append('<h2 id="pname"></h2>');
+				$("#pname").append(pname);
 
-                $("#myModal iframe").attr({
-                    'src': src,
-                });
-            });
+				$("#myModal iframe").attr({
+					'src': src,
+				});
+			});
 
-            $('#myModal').on('hidden.bs.modal', function(){
-                $(this).find('iframe').html("");
-                $(this).find('iframe').attr("src", "");
-            });
-        }
+			$('#myModal').on('hidden.bs.modal', function () {
+				$(this).find('iframe').html("");
+				$(this).find('iframe').attr("src", "");
+			});
+		}
 
-        $(document).ready(function(){
-            iframeModalOpen();
-            $('.modal-dialog').css('width', '800px');
-        });
-    </script>
+		$(document).ready(function () {
+			iframeModalOpen();
+			$('.modal-dialog').css('width', '800px');
+		});
+	</script>
 {% endblock %}

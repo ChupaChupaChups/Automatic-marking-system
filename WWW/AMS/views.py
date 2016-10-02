@@ -25,7 +25,11 @@ def web_logout(req):
 @login_required
 def problem_list(req):
     problems = Problem.objects.all()
-    return render(req, 'AMS/problem_list.html', {'problems': problems, 'user': req.user})
+    for e in problems:
+        print(e.p_day_limit, e.p_content,e.p_c_ok)
+    return render(req,
+                  'AMS/problem_list.html',
+                  {'problems': problems, 'user': req.user})
 
 
 @login_required
@@ -169,7 +173,6 @@ def all_result(req, problem_number):
 @login_required
 def test(req):
     return render(req, 'component/source_upload_widget.html', {'id': 'ic'})
-
 
 def problem_files(req):
     media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
