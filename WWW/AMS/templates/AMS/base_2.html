@@ -9,11 +9,15 @@
 	<div class="nav2-wrapper" role="navigation">
 		<nav class="secondMenu">
 			<ul>
-				<li class="{% block problem_class %}{% endblock %}"><a href="{% url "problem" p_number %}">Problem</a></li>
-				<li class="{% block submit_class %}{% endblock %}"><a href="{% url "submit" p_number %}">Submit</a></li>
-				<li class="{% block result_class %}{% endblock %}"><a href="{% url "result" p_number %}">Result</a></li>
-				<li class="{% block allresult_class %}{% endblock %}"><a href="{% url "all_result" p_number %}">All Result</a></li>
-			</ul>
+				<li class="{% block problem_class %}{% endblock %}"><a href="{% url "problem" p_number %}">문제 내용</a></li>
+				<li class="{% block submit_class %}{% endblock %}"><a href="{% url "submit" p_number %}">답안 제출</a></li>
+                {% if user.is_staff %}
+                    <li class="{% block allresult_class %}{% endblock %}"><a href="{% url "all_result" p_number %}">전체 결과</a></li>
+                {% else %}
+                    <li class="{% block aftersubmit_class %}{% endblock %}"><a href="{% url "after_submit" p_number %}">최근 결과</a></li>
+                    <li class="{% block result_class %}{% endblock %}"><a href="{% url "result" p_number %}">내 결과</a></li>
+			    {% endif %}
+            </ul>
 		</nav>
 	</div>
 

@@ -1,0 +1,67 @@
+{% extends "AMS/base_2.html" %}
+
+{% load static %}
+
+{% block title %}{{ problem.p_name }}{% endblock %}
+
+{% block content_header %}
+    <link rel="stylesheet/less" type="text/css" href="{% static "assets/less/Read.less" %} ">
+    <link rel="stylesheet" href="{% static "assets/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="{% static "assets/css/dataTables.bootstrap.min.css" %}">
+    <script type="text/javascript" src="{% static 'assets/js/dataTables.bootstrap.min.js' %}"></script>
+{% endblock %}
+
+{% block aftersubmit_class %} active {% endblock %}
+
+{% block content2 %}
+    <div class="content container">
+        <table id="problem-info">
+            <thead>
+            <tr>
+                <th>학번</th>
+                <th>제출시간</th>
+                <th>결과</th>
+                <th>언어</th>
+                <th>맞은퍼센트</th>
+                <th>실행시간</th>
+                <th>힌트여부</th>
+                <th>시도횟수</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if result %}
+                <tr>
+
+                    <td>{{result.record.user}}</td>
+                    <td>{{result.record.submit_time}}</td>
+                    <td>{% if result.result == False %} <font color="red">틀렸습니다</font>
+                    {% else %} <font color="#228b22"> 맞았습니다!!</font>
+                    {% endif %}
+                    </td>
+                    <td>
+                        {% if result.record.language == 1 %} C {% endif %}
+                        {% if result.record.language == 2 %} C++ {% endif %}
+                        {% if result.record.language == 3 %} Java {% endif %}
+                        {% if result.record.language == 4 %} Python {% endif %}
+                    </td>
+                    <td>{{ result.correct_percent }}</td>
+                    <td>{{ result.process_time }}</td>
+                    {% if problem.p_hint_integer != 100 %}
+
+                        {% if problem.p_hint_integer <= result.correct_percent %}
+                            <td>Satisfy</td>
+                        {% else %}
+                            <td>Below</td>
+                        {% endif %}
+
+                    {% else %}
+                        <td>false</td>
+                    {% endif %}
+                    <td></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        {{ content|linebreaks }}
+    </div>
+{% endblock %}

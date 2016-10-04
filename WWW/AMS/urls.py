@@ -41,5 +41,6 @@ urlpatterns = [
     url(r'^result/(?P<problem_number>[0-9]+)$', views.submit_result, name='result'),
     url(r'^allresult/(?P<problem_number>[0-9]+)$', views.all_result, name='all_result'),
     url(r'^test', views.test, name='test'),
+    url(r'^aftersubmit/(?P<problem_number>[0-9]+)$', views.after_submit, name='after_submit'),
     url(r'^errorlist/(?P<problem_number>[0-9]+)/(?P<rst_number>[0-9]+)$', views.errorlist, name='errorlist'),
 ]

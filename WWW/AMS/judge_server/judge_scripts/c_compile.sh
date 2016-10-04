@@ -21,12 +21,16 @@ if [ -f /compiler_and_judge/a.out ]; then
         then
                 correct=$correct+1
         else
-                echo "Expected Output : "
+                echo "들어오는 입력 :"
+                temp=$(head -n 1 /inputfiles/${filename%.*}.in)
+                echo $temp
+                echo ''
+                echo "예상 답안 : "
                 temp=$(head -n 1 /outputfiles/${filename%.*}.out)
                 echo $temp
                 temp=$(head -n 1 /resultfiles/${filename%.*}.out)
                 echo ''
-                echo "Your Output : "
+                echo "제출자 답안 : "
                 echo $temp
                 break
         fi

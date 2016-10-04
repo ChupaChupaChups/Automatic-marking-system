@@ -19,14 +19,14 @@
         <table id="problem-info">
             <thead>
             <tr>
-                <th>User</th>
-                <th>SubmitTime</th>
-                <th>Result</th>
-                <th>Language</th>
-                <th>Percent</th>
-                <th>RunnigTime</th>
-                <th>Hint</th>
-                <th>#Try</th>
+                <th>학번</th>
+                <th>제출시간</th>
+                <th>결과</th>
+                <th>언어</th>
+                <th>맞은퍼센트</th>
+                <th>실행시간</th>
+                <th>힌트여부</th>
+                <th>시도횟수</th>
             </tr>
             </thead>
             <tbody>
@@ -35,10 +35,10 @@
 
                     <td>{{rst.record.user}}</td>
                     <td>{{rst.record.submit_time}}</td>
-                    <td>{% if rst.result == False %} <button type="button" class="modalButton" data-toggle="modal" data-p-name="{{ problem.p_name }}"
+                    <td>{% if rst.result == False %} <button type="button" class="modalButton btn-link" data-toggle="modal" data-p-name="{{ problem.p_name }}"
                                                              data-src="{% url 'errorlist' problem.pk rst.pk%}"
-                                                             data-target="#myModal" data-video-fullscreen=""> {{ rst.result }} </button>
-                    {% else %} {{ rst.result }}
+                                                             data-target="#myModal" data-video-fullscreen=""> <font color="red">틀렸습니다</font></button>
+                    {% else %} <font color="#228b22"> 맞았습니다!!</font>
                     {% endif %}
                     </td>
                     <td>

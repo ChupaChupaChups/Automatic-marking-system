@@ -44,7 +44,7 @@ def problem_read(req, problem_number):
 
     else:
         problem = get_object_or_404(Problem, pk=problem_number)
-        return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number})
+        return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number, 'user': req.user})
 
 
 @login_required
@@ -270,3 +270,14 @@ def errorlist(req, problem_number, rst_number):
 
     print(content)
     return render(req, 'AMS/errorlist.html', {'content' : content})
+
+def after_submit(req, problem_number):
+    problem = Problem.objects.get(pk=problem_number)
+    get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
+    get_result = SubmitResult.objects.filter(record__in=get_record).latest('record')
+    if get_result.result == False:
+        errorlistpath = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'submit', str(get_result.record.user), str(get_result.pk), 'log.txt' )
+        with open(errorlistpath, 'r') as f:
+            content = f.read()
+        return render(req, 'AMS/after_submit.html', {'content' : content, 'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result})
+    return render(req, 'AMS/after_submit.html', {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result})

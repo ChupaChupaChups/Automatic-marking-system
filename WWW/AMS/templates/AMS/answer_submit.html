@@ -33,7 +33,7 @@
                                 var xhr = new XMLHttpRequest();
                                 xhr.onreadystatechange = function(data){
                                     if(xhr.readyState == 4)
-                                        location.href = '/result/{{ problem.pk }}'
+                                        location.href = '/aftersubmit/{{ problem.pk }}'
                                 }
                                 var formData = new FormData();
 
