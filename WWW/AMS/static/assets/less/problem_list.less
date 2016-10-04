@@ -13,7 +13,6 @@ body{
 		}
 		.packer:hover {
 			box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
 		}
 	}
 	@media screen {
@@ -21,21 +20,6 @@ body{
 			margin:0;
 			background-color: white;
 			width:100%;
-			transition-duration: 300ms;
-			&.header {
-				padding-top:20%;
-				width:100%;
-				font-family: sans-serif;
-				font-weight: bold;
-				background: #5fbaac;
-				a {
-					text-decoration: none;
-					color: #ffffff;
-				}
-			}
-			&.header:hover {
-				background-color: #009688;
-			}
 		}
 
 		@media (max-width: 580px) {
@@ -47,10 +31,25 @@ body{
 	}
 	@media screen {
 		#problemtitle {
+			text-align: left;
+			padding-top:20%;
+			padding-left:20px;
+			width:100%;
+			color:white;
+			font-family: sans-serif;
+			font-weight: bold;
+			background: #5fbaac;
+			border-style:none;
+			transition-duration: 0.3s;
 			overflow: auto;
 			font-size: 30px;
-			padding: 10px;
-
+			a {
+				text-decoration: none;
+				color: #ffffff;
+			}
+		}
+		#problemtitle:hover {
+			background-color: #009688;
 		}
 	}
 

@@ -40,14 +40,9 @@
 			{% if problems %}
 				{% for problem in problems %}
 					<div class="packer col-md-5">
-						<div class="row header">
-							<div id="problemtitle">
-								<div class="cell">
-									<a href="{% url 'problem' problem.pk %}"
-									   class="name">{{ problem.p_name }}</a>
-								</div>
-							</div>
-						</div>
+							<button type="button" id="problemtitle"
+									onclick="location.href = '{% url 'problem' problem.pk %}';">{{ problem.p_name }}
+							</button>
 						<div class="row col-md-12" >
 							<h3>제한 시간</h3>
 							<!--
@@ -70,14 +65,14 @@
 								<!-- The Modal -->
 								{% if user.is_staff == False %}
 
-									<button type="button" class="modalButton" data-toggle="modal"
+									<button type="button" class="modalButton button_link" data-toggle="modal"
 											data-p-name="{{ problem.p_name }}"
 											data-src="{% url 'submit' problem.pk %}"
 											data-target="#myModal" data-video-fullscreen=""> 답안제출
 									</button>
 
 									<div class="cell col-md-2">
-										<button type="button" class="modalButton" data-toggle="modal"
+										<button type="button" class="modalButton button_link" data-toggle="modal"
 												data-p-name="{{ problem.p_name }}"
 												data-src="{% url 'result' problem.pk %}"
 												data-target="#myModal" data-video-fullscreen=""> 내 채점결과
