@@ -65,19 +65,17 @@
 								<!-- The Modal -->
 								{% if user.is_staff == False %}
 
-									<button type="button" class="modalButton button_link" data-toggle="modal"
+									<button type="button" class="modalButton button_link_2" data-toggle="modal"
 											data-p-name="{{ problem.p_name }}"
 											data-src="{% url 'submit' problem.pk %}"
 											data-target="#myModal" data-video-fullscreen=""> 답안제출
 									</button>
 
-									<div class="cell col-md-2">
-										<button type="button" class="modalButton button_link" data-toggle="modal"
+									<button type="button" class="modalButton button_link_2" data-toggle="modal"
 												data-p-name="{{ problem.p_name }}"
 												data-src="{% url 'result' problem.pk %}"
 												data-target="#myModal" data-video-fullscreen=""> 내 채점결과
-										</button>
-									</div>
+									</button>
 
 								{% endif %}
 								{% if user.is_staff %}
