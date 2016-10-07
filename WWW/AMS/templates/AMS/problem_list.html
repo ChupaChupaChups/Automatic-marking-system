@@ -38,7 +38,8 @@
 		<section class="list-wrapper col-md-12" role="main">
 			{% if problems %}
 				{% for problem in problems %}
-					<div class="packer col-md-5">
+					<div class="packer col-md-6">
+						<div class="blank">
 							<button type="button" id="problemtitle"
 									onclick="location.href = '{% url 'problem' problem.pk %}';">{{ problem.p_name }}
 							</button>
@@ -56,7 +57,7 @@
 								{% if problem.p_c_ok == True %} C  {% endif %}
 								{% if problem.p_cpp_ok == True %} C++  {% endif %}
 								{% if problem.p_java_ok == True %} Java  {% endif %}
-								{% if problem.p_python_ok == True %} Python  {% endif %}
+								{% if problem.p_py_ok == True %} Python  {% endif %}
 							</h4>
 						</div>
 						<table>
@@ -95,7 +96,7 @@
 							</tr>
 						</table>
 					</div>
-
+				</div>
 				{% endfor %}
 			{% endif %}
 		</div>
