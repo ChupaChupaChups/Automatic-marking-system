@@ -10,28 +10,5 @@
 			{% include 'component/base_upload_widget.html' with id=outputId %}
 		</div>
 	</div>
-	<div class="row">
-		<button type="button" class="btn btn-default" id="{{ tab }}-upload-btn">UPLOAD</button>
-	</div>
-
-	<script type="text/javascript">
-		{% block upload_handler %}
-			var uploadBtn = document.getElementById('{{ tab }}-upload-btn');
-
-			uploadBtn.addEventListener('click', function (event) {
-				var xhr = new XMLHttpRequest();
-				var formData = new FormData();
-
-				formData.append('tabnum', 3);
-
-				{{ inputId }}Object.appendFile(formData, 'input');
-				{{ outputId }}Object.appendFile(formData, 'output');
-
-				xhr.open('POST', '/problem/files');
-				xhr.setRequestHeader('X-CSRFToken', csrf_token[1]);
-				xhr.send(formData);
-			});
-		{% endblock %}
-	</script>
 
 {% endwith %}
