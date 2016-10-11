@@ -17,7 +17,9 @@ if [ -f /compiler_and_judge/a.out ]; then
         then
             resulttime=$temp
         fi
-        if (cmp /outputfiles/${filename%.*}.out /resultfiles/${filename%.*}.out)  2>&1 >/dev/null ;
+        (cat /resultfiles/${filename%.*}.out | sed 's/ //g') > /resultfiles/temp,out
+        (cat /outputfiles/${filename%.*}.out | sed 's/ //g') > /outputfiles/temp,out
+        if (cmp /outputfiles/temp.out /resultfiles/temp.out)  2>&1 >/dev/null ;
         then
                 correct=$correct+1
         else
@@ -34,6 +36,8 @@ if [ -f /compiler_and_judge/a.out ]; then
                 echo $temp
                 break
         fi
+        rm /resultfiles/temp.out
+        rm /outputfiles/temp.out
     done
     correct=$correct*100
     temp=$(($correct/$infilelen))
