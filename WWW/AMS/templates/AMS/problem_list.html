@@ -37,7 +37,8 @@
 	<div class="container content">
 		<section class="list-wrapper col-md-12" role="main">
 			{% if problems %}
-				{% for problem in problems %}
+
+				{% for problem in problems reversed %}
 					<div class="packer col-md-6">
 						<div class="blank">
 							<button type="button" id="problemtitle"
