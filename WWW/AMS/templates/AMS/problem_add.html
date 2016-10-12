@@ -168,7 +168,7 @@
 				tab1CodeObject.appendFile(formData, 'code');
 				tab1InputObject.appendFile(formData, 'input');
 
-				xhr.open('POST', '/problem/files');
+				xhr.open('POST', '/problem/files', false);
 				xhr.setRequestHeader('X-CSRFToken', csrf_token[1]);
 				xhr.send(formData);
 
@@ -185,7 +185,7 @@
 				tab3InputObject.appendFile(formData, 'input');
 				tab3OutputObject.appendFile(formData, 'output');
 
-				xhr.open('POST', '/problem/files');
+				xhr.open('POST', '/problem/files', false);
 				xhr.setRequestHeader('X-CSRFToken', csrf_token[1]);
 				xhr.send(formData);
 

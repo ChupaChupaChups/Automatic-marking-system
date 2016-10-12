@@ -4,7 +4,7 @@ arg_obj=$(find $1 -iname "*.cpp")
 input_files=$(find $2 -name "*.in")
 
 mkdir media/temp/outputfile
-gcc -o AMS/outfileCreator/a.out ${arg_obj}
+g++ -o AMS/outfileCreator/a.out ${arg_obj}
 
 for input_file in $input_files; do
     filename=$(basename $input_file)

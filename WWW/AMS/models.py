@@ -8,7 +8,7 @@ from django.dispatch import receiver
 
 
 class Problem(models.Model):
-    upload_to_pdf = 'problem/{0}/{1}'
+    upload_to_pdf = 'pdfs/{0}/{1}'
 
     def _get_upload_to_pdf(self, filename):
         return self.upload_to_pdf.format(self.p_name, filename)
