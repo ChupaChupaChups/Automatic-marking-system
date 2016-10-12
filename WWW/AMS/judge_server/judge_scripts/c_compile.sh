@@ -6,6 +6,7 @@ output_files=$(find /outputfiles -name "*.out")
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
+declare -i check=0
 gcc -o /compiler_and_judge/a.out ${arg_obj}
 if [ -f /compiler_and_judge/a.out ]; then
     for input_file in $input_files; do
@@ -17,27 +18,43 @@ if [ -f /compiler_and_judge/a.out ]; then
         then
             resulttime=$temp
         fi
-        (cat /resultfiles/${filename%.*}.out | sed 's/ //g') > /resultfiles/temp,out
-        (cat /outputfiles/${filename%.*}.out | sed 's/ //g') > /outputfiles/temp,out
-        if (cmp /outputfiles/temp.out /resultfiles/temp.out)  2>&1 >/dev/null ;
+        (cat /resultfiles/${filename%.*}.out | sed 's/ //g') > /resultfiles/temp.out
+        (cat /outputfiles/${filename%.*}.out | sed 's/ //g') > /compiler_and_judge/temp.out
+        if (cmp /compiler_and_judge/temp.out /resultfiles/temp.out)  2>&1 >/dev/null ;
         then
                 correct=$correct+1
+                check=$check+1
+                rm /resultfiles/temp.out
+                rm /compiler_and_judge/temp.out
         else
-                echo "들어오는 입력 :"
-                temp=$(head -n 1 /inputfiles/${filename%.*}.in)
-                echo $temp
-                echo ''
-                echo "예상 답안 : "
-                temp=$(head -n 1 /outputfiles/${filename%.*}.out)
-                echo $temp
-                temp=$(head -n 1 /resultfiles/${filename%.*}.out)
-                echo ''
-                echo "제출자 답안 : "
-                echo $temp
-                break
+                if [ $check -eq 0 ]; then
+                    echo "들어오는 입력 :"
+                    while read temp
+                    do
+                        echo $temp
+                    done < /inputfiles/${filename%.*}.in
+                    echo ''
+                    echo "예상 답안 : "
+                    while read temp
+                    do
+                        echo $temp
+                    done < /outputfiles/${filename%.*}.out
+                    temp=$(head -n 1 /resultfiles/${filename%.*}.out)
+                    echo ''
+                    echo "제출자 답안 : "
+                    while read temp
+                    do
+                        echo $temp
+                    done < /resultfiles/${filename%.*}.out
+                    rm /resultfiles/temp.out
+                    rm /compiler_and_judge/temp.out
+                    break
+                else
+                    rm /resultfiles/temp.out
+                    rm /compiler_and_judge/temp.out
+                    break
+                fi
         fi
-        rm /resultfiles/temp.out
-        rm /outputfiles/temp.out
     done
     correct=$correct*100
     temp=$(($correct/$infilelen))
