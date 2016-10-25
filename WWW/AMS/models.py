@@ -23,7 +23,7 @@ class Problem(models.Model):
     # Problem options
     p_hint_integer = models.IntegerField(default=100)
     p_day_limit = models.DateTimeField()
-
+    p_day_not_over = models.BooleanField(default=True)
     # Problem content
     p_content = models.TextField(null=True, blank=True)  # 문제 내용
     p_pdffile = models.FileField(upload_to=_get_upload_to_pdf, null=True, blank=True)

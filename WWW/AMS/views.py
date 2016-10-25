@@ -1,9 +1,9 @@
 import json
-
 import os
 import shutil
 from subprocess import call
 
+from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -25,8 +25,12 @@ def web_logout(req):
 @login_required
 def problem_list(req):
     problems = Problem.objects.all()
-    for e in problems:
-        print(e.p_day_limit, e.p_content,e.p_c_ok)
+    now = timezone.now()
+    for problem in problems:
+        if problem.p_day_limit < now:
+            problem.p_day_not_over=False
+#    for e in problems:
+#        print(e.p_day_limit, e.p_content,e.p_c_ok)
     return render(req,
                   'AMS/problem_list.html',
                   {'problems': problems, 'user': req.user})

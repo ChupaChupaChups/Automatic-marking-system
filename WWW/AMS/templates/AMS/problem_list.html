@@ -37,8 +37,8 @@
 	<div class="container content">
 		<section class="list-wrapper col-md-12" role="main">
 			{% if problems %}
-
 				{% for problem in problems reversed %}
+                    {% if problem.p_day_not_over or user.is_staff %}
 					<div class="packer col-md-6">
 						<div class="blank">
 							<button type="button" id="problemtitle"
@@ -98,6 +98,7 @@
 						</table>
 					</div>
 				</div>
+                    {% endif %}
 				{% endfor %}
 			{% endif %}
 		</div>
