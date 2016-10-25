@@ -34,11 +34,14 @@ def problem_list(req):
 
 @login_required
 def problem_read(req, problem_number):
-    problem_to_delete = Problem.objects.get(pk=problem_number)
     if req.method == 'DELETE':
+        print("delete")
         problem_to_delete = Problem.objects.get(pk=problem_number)
+        print(problem_to_delete)
         if problem_to_delete is not None:
+            folder = os.path.join(settings.MEDIA_ROOT, str(problem_to_delete))
             problem_to_delete.delete()
+            shutil.rmtree(folder)
             return HttpResponse()
         return HttpResponseNotFound()
 
