@@ -63,28 +63,38 @@ function fileUpBtn(fileBtn, fileList, Ul) {
 	var data = fileBtn.files;
 	if (fileList != null) {
 		for (i = 0; i < data.length; i++) {
-			fileList.push(data[i]);
+			var isExistFile=false;
+			for(var j=fileList.length-1;j>=0;j--) {
+				if(data[i].name==fileList[j].name) { isExistFile=true; break;}
+			}
+			if(isExistFile==true) continue;
 			tempList1.push(data[i]);
 		}
 	}
 	else {
 		fileList = data;
 	}
-	for (var i = 0; i < data.length; i++) {
+
+	for (var i = fileList.length; i < tempList1.length; i++) {
+		fileList.push(tempList1[i]);
+		console.log(i,':pushing file is ',tempList1[i].name);
 		var tpl = $('<li class="working"><p></p><span></span></li>');
-		tpl.find('p').text(data[i].name).append('<button class="btn btn-danger myleft" id="file' + fileindex++ + '">delete');
+		tpl.find('p').text(fileList[i].name).append('<button class="btn btn-danger myleft" id="file' + fileindex++ + '">delete');
 		var a = tpl.find('button');
 		a.bind('click', function (e) {
 			e.preventDefault();
 			$(this).parent().parent().remove();
 			var index = $(this).attr('id').replace(/[^0-9]/g, "");
 			var removeindex = fileList.indexOf(tempList1[index]);
+			console.log('remove index : ',removeindex);
 			fileList.splice(removeindex, 1);
-			console.log('on file delete', fileList);
+			tempList1.splice(removeindex, 1);
+			i--; fileindex--;
+			console.log("after delete, click file:", fileList);
 		});
 		tpl.appendTo(Ul);
 	}
-	console.log("click file:", fileList);
+	console.log('click file:',fileList);
 	return fileList;
 }
 
@@ -118,8 +128,9 @@ function folderUpBtn(folderBtn, folderList, map, Ul) {
 		});
 		tpl.appendTo(Ul);
 	}
+	console.log("click folder:", folderList);
 	return folderList;
-	//console.log("click folder:", folderList);
+
 }
 
 function delete_all(ul) {

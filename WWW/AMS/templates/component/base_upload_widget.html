@@ -42,19 +42,30 @@ upload-widget.js
 
 	(function () {
 		var obj = {{ id }}Object;
+		var deletedFile = [];
 
 		obj.fileUploadBtn = document.getElementById("{{ id }}_attachments_file");
 		obj.folderUploadBtn = document.getElementById("{{ id }}_attachments_folder");
 		obj.deleteBtn = document.getElementById("{{ id }}-delete-btn");
 		obj.folderDrop = document.getElementById("{{ id }}-drop-panel");
 		obj.fileUL = document.getElementById("{{ id }}-file-list");
-
+/*
+		$(obj.fileUploadBtn).on("click focus blur change load",function(e){
+			console.log(e);
+		});
+*/
 		obj.fileUploadBtn.addEventListener('change', function () {
 			fileUpBtn(obj.fileUploadBtn, obj.fileList, obj.fileUL);
+		});
+		obj.fileUploadBtn.addEventListener('click', function () {
+			this.value = null;
 		});
 		obj.folderUploadBtn.addEventListener('change', function () {
 			folderUpBtn(obj.folderUploadBtn, obj.folderList, obj.mapPath, obj.fileUL);
 		});
+        obj.folderUploadBtn.addEventListener('change', function () {
+            this.value = null;
+        });
 		obj.deleteBtn.addEventListener('click', function () {
 			obj.fileList = [];
 			obj.folderList = [];
