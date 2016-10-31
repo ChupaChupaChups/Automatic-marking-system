@@ -3,6 +3,8 @@
 arg_obj=$(find /source_code -iname "*.c")
 input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
+blank=$(jq '.problem_blank' /json_file/config.json)
+
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
@@ -18,15 +20,16 @@ if [ -f /compiler_and_judge/a.out ]; then
         then
             resulttime=$temp
         fi
-        (cat /resultfiles/${filename%.*}.out | sed 's/ //g') > /resultfiles/temp.out
-        (cat /outputfiles/${filename%.*}.out | sed 's/ //g') > /compiler_and_judge/temp.out
-        if (cmp /compiler_and_judge/temp.out /resultfiles/temp.out)  2>&1 >/dev/null ;
-        then
+        if [ $blank == "false" ]; then
+            (cat /resultfiles/${filename%.*}.out | sed 's/ //g') > /resultfiles/temp.out
+            (cat /outputfiles/${filename%.*}.out | sed 's/ //g') > /compiler_and_judge/temp.out
+            if (cmp /compiler_and_judge/temp.out /resultfiles/temp.out)  2>&1 >/dev/null ;
+            then
                 correct=$correct+1
                 check=$check+1
                 rm /resultfiles/temp.out
                 rm /compiler_and_judge/temp.out
-        else
+            else
                 if [ $check -eq 0 ]; then
                     echo "들어오는 입력 :"
                     while read temp
@@ -39,7 +42,6 @@ if [ -f /compiler_and_judge/a.out ]; then
                     do
                         echo $temp
                     done < /outputfiles/${filename%.*}.out
-                    temp=$(head -n 1 /resultfiles/${filename%.*}.out)
                     echo ''
                     echo "제출자 답안 : "
                     while read temp
@@ -54,6 +56,34 @@ if [ -f /compiler_and_judge/a.out ]; then
                     rm /compiler_and_judge/temp.out
                     break
                 fi
+            fi
+        else
+            if (cmp /outputfiles/${filename%.*}.out /resultfiles/${filename%.*}.out)  2>&1 >/dev/null ;
+            then
+                correct=$correct+1
+                check=$check+1
+            else
+                if [ $check -eq 0 ]; then
+                    echo "들어오는 입력 :"
+                    while read temp
+                    do
+                        echo $temp
+                    done < /inputfiles/${filename%.*}.in
+                    echo ''
+                    echo "예상 답안 : "
+                    while read temp
+                    do
+                        echo $temp
+                    done < /outputfiles/${filename%.*}.out
+                    echo ''
+                    echo "제출자 답안 : "
+                    while read temp
+                    do
+                        echo $temp
+                    done < /resultfiles/${filename%.*}.out
+                    break
+                fi
+            fi
         fi
     done
     correct=$correct*100

@@ -91,16 +91,12 @@ def problem_add(req):
 @login_required
 def answer_submit(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
-    #print(problem_number)
-    #get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     if req.method == 'POST':
         form = SubmitForm(req.user, problem_number, req.POST, req.FILES)
         print(form.errors)
         if form.is_valid():
             instance = form.save()
             save_metadata(instance)
-            # TODO: rename variable
-            # TODO: input, output path
             outputfiles = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'outputfile')
             media_path = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name,
                                       'submit', str(req.user), str(instance.pk), 'code')
@@ -150,7 +146,8 @@ def save_metadata(instance):
                 'language': instance.language,
                 'entry_point': instance.entry_point,
                 'problem_number': instance.problem.pk,
-                'problem_name': instance.problem.p_name
+                'problem_name': instance.problem.p_name,
+                'problem_blank': instance.problem.p_blank_accpet
             },
             file, ensure_ascii=False)
 
