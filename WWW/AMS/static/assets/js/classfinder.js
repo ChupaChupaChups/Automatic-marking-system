@@ -95,7 +95,6 @@ function extractClass(fileList, folderList, entryList) {
 /**
  * Python의 경우 사용, 파일들의 이름을 엔트리 포인트 설정을 위해 추출.
  *
- * FIXME: 폴더를 올린 상태에서 그중에 하나만 삭제하고 다시 같은 폴더를 올리면 추가가 안됨
  * FIXME: 파일을 삭제했을때 entryList 에서는 안지워짐
  * TODO: FormData()는 ie, safari, chrome(<50v)등에서 지원이 안됨. JQuery를 찾아봐야할듯. (http://malsup.com/jquery/form)
  */

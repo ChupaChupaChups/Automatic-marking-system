@@ -1,6 +1,7 @@
 /** recursive search in uploaded folder **/
 var tempList1 = [];
 var tempList2 = [];
+var before_id = "";
 var fileindex = 0;
 var folderindex = 0;
 function traverseFileTree(item, folderList, map, Ul, path) {
@@ -59,7 +60,8 @@ function folderDrag(dataTransfer, folderList, map, Ul) {
 }
 
 
-function fileUpBtn(fileBtn, fileList, Ul) {
+function fileUpBtn(fileBtn, fileList, Ul, id) {
+	if(id!=before_id) {tempList1 = fileList.slice(); id = before_id;}
 	var data = fileBtn.files;
 	if (fileList != null) {
 		for (i = 0; i < data.length; i++) {

@@ -50,7 +50,7 @@ upload-widget.js
 		obj.fileUL = document.getElementById("{{ id }}-file-list");
 
 		obj.fileUploadBtn.addEventListener('change', function () {
-			fileUpBtn(obj.fileUploadBtn, obj.fileList, obj.fileUL);
+			fileUpBtn(obj.fileUploadBtn, obj.fileList, obj.fileUL, $(obj.fileUploadBtn).attr('id'));
 		});
 		obj.fileUploadBtn.addEventListener('click', function () {
 			this.value = null;
