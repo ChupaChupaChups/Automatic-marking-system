@@ -14,9 +14,9 @@ def result_dump():
                 'time': sys.argv[2],
                 'answer': answer,
                 'answer_percent': sys.argv[1],
+                'timeout': False,
             },
             file, ensure_ascii=False)
-
 
 if __name__ == "__main__":
     result_dump()

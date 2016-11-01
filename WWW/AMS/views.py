@@ -116,7 +116,7 @@ def answer_submit(req, problem_number):
             else:
                 ret = True
             print(ret)
-            get_result = SubmitResult(record=instance, result=ret, process_time=result["time"], correct_percent=result["answer_percent"])
+            get_result = SubmitResult(record=instance, result=ret, process_time=result["time"], correct_percent=result["answer_percent"], timeout=result["timeout"])
             get_result.save()
             return redirect('/problem/list')
     else:

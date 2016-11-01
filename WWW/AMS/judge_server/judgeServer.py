@@ -3,16 +3,18 @@
 
 import json
 import threading
-
+import subprocess
 import docker
 import io
 import os
+from collections import deque
 from .config import Config
-
+from requests.packages import urllib3
+from requests import exceptions
 __author__ = "isac322, nameuk"
 
 _docker_client = None
-
+_docker_queue = deque()
 
 def _get_client():
     """
@@ -79,16 +81,38 @@ def start_judge(media_path, inputfiles, outputfiles):
             outputfiles: {'bind': '/outputfiles', 'mode': 'ro'},
         })
     )
-    client.start(container)
-    client.wait(container)
-    print(client.logs(container))
-    if client.logs(container) is not None:
-        log_path = os.path.join(json_path, 'log.txt')
-        log = open(log_path, "wb")
-        log.write(client.logs(container))
-        log.close()
+    global _docker_queue
+    _docker_queue.append(container)
+    while True:
+        print(len(_docker_queue))
+        if len(_docker_queue) <= 5:
+            client.start(container)
+            try:
+                print("try")
+                client.wait(container=container, timeout=5)
+                client.remove_container(container)
+            except:
+                result_path = os.path.join(json_path, "result.json")
+                with open(result_path, "w") as file:
+                    json.dump(
+                    {
+                        'time': 0,
+                        'answer': 0,
+                        'answer_percent': 0,
+                        'timeout': True,
+                    },
+                    file, ensure_ascii=False)
 
-    client.remove_container(container)
+                _docker_queue.popleft()
+                print(client.logs(container))
+                subprocess.call(['chmod', '777', json_path])
+                if client.logs(container) is not None:
+                    log_path = os.path.join(json_path, 'log.txt')
+                    log = open(log_path, "wb")
+                    log.write(client.logs(container))
+                    log.close()
+
+            break
 
 # TODO: when debug is finished, must handle docker container exception at this point
 
