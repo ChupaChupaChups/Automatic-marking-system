@@ -14,7 +14,7 @@ if [ -f /compiler_and_judge/a.out ]; then
     for input_file in $input_files; do
         infilelen=$infilelen+1
         filename=$(basename $input_file)
-        (time /compiler_and_judge/a.out < $input_file > /resultfiles/${filename%.*}.out) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/${filename%.*}.time
+        (time timeout 50s /compiler_and_judge/a.out < $input_file > /resultfiles/${filename%.*}.out) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/${filename%.*}.time
         temp=$(</resultfiles/${filename%.*}.time)
         if [ $temp -gt $resulttime ];
         then

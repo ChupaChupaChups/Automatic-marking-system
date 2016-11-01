@@ -12,7 +12,7 @@ entry=$(jq '.entry_point' /json_file/config.json | cut -d "\"" -f 2)
 for input_file in $input_files; do
     infilelen=$infilelen+1
     filename=$(basename $input_file)
-    (time python3 /source_code/$entry < $input_file > /resultfiles/${filename%.*}.out) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/${filename%.*}.time
+    (time timeout 10s python3 /source_code/$entry < $input_file > /resultfiles/${filename%.*}.out) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/${filename%.*}.time
     if [ $(du /resultfiles/${filename%.*}.out | cut -f1) -eq "0" ]; then
         python3 /source_code/$entry < $input_file
         break
