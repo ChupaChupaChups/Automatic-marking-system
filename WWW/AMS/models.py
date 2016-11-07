@@ -19,7 +19,7 @@ class Problem(models.Model):
     p_java_ok = models.BooleanField()
     p_py_ok = models.BooleanField()
     p_make_ok = models.BooleanField()
-
+    p_markdown_ok = models.BooleanField(default=False)
     # Problem options
     p_hint_integer = models.IntegerField(default=100)
     p_day_limit = models.DateTimeField()

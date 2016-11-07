@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block problem_class %} active {% endblock %}
-
+{% load markdown_deux_tags %}
 {% block content2 %}
 	<div class="content container">
 		<h1 id="problem-name">{{ problem.p_name }}</h1>
@@ -44,7 +44,11 @@
 			</tbody>
 		</table>
 		<div class="problem-header" id="problem-content">
-			{% if problem.p_content %} {{ problem.p_content|safe }} {% endif %}
+			{% if problem.p_content and problem.p_markdown_ok %}
+                    {{ content | markdown }}
+                {% else %}
+                {{ problem.p_content | safe }}
+            {% endif %}
 			{% if problem.p_pdffile %}
 				<div id="test"></div>
 				<style>

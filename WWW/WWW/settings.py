@@ -48,7 +48,9 @@ INSTALLED_APPS = [
 	# for TinyMCE web editor
 	'tinymce',
 	# for template tweak (https://github.com/kmike/django-widget-tweaks)
-	'widget_tweaks'
+	'widget_tweaks',
+	# markdown
+	'markdown_deux',
 ]
 
 MIDDLEWARE_CLASSES = [
