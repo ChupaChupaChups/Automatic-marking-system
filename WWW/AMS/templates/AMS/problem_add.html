@@ -167,7 +167,7 @@
 	<script>
 		function checkUpload() {
 			var incode = document.getElementById('incode');
-			//var oncode = document.getElementById('oncode');
+			var oncode = document.getElementById('oncode');
 			var inout = document.getElementById('inout');
 
 			if (incode.getAttribute('class') == "active") {
@@ -175,6 +175,18 @@
 				var formData = new FormData();
 
 				formData.append('tabnum', 1);
+
+				if(tab1CodeObject.fileList.length == 0 || tab1InputObject.fileList.length == 0){
+					if(tab1CodeObject.fileList.length > 0){
+						alert("입력파일을 업로드 하세요");
+					}
+					else if(tab1InputObject.fileList.length > 0){
+						alert("소스코드파일을 업로드 하세요");
+					}else{
+						alert("입력파일과 소스코드파일을 업로드 하세요");
+					}
+					return false;
+				}
 
 				tab1CodeObject.appendLanguage(formData);
 				tab1CodeObject.appendFile(formData, 'code');
@@ -187,12 +199,23 @@
 				return true;
 			}
 			if (inout.getAttribute('class') == "active") {
-				alert("3");
 
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();
 
 				formData.append('tabnum', 3);
+
+				if(tab3InputObject.fileList.length == 0 || tab3OutputObject.fileList.length == 0){
+					if(tab3InputObject.fileList.length > 0){
+						alert("출력파일을 업로드 하세요");
+					}
+					else if(tab3OutputObject.fileList.length > 0){
+						alert("입력파일을 업로드 하세요");
+					}else{
+						alert("입력파일과 출력파일을 업로드 하세요");
+					}
+					return false;
+				}
 
 				tab3InputObject.appendFile(formData, 'input');
 				tab3OutputObject.appendFile(formData, 'output');
