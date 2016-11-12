@@ -169,25 +169,40 @@
 			var incode = document.getElementById('incode');
 			var oncode = document.getElementById('oncode');
 			var inout = document.getElementById('inout');
-            var p_name= document.getElementById('id_p_name').value;
+            var p_name = document.getElementById('id_p_name').value;
+            var p_content = $('[data-id="id_p_content"]').children;
+            var p_pdf = document.getElementById("id_p_pdffile").value;
+            var p_number = {{ p_number }};
+            console.log(p_pdf);
+            console.log(p_content);
             if (incode.getAttribute('class') == "active") {
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();
 
 				formData.append('tabnum', 1);
                 formData.append('p_name', p_name);
-
-				if(tab1CodeObject.fileList.length == 0 || tab1InputObject.fileList.length == 0){
-					if(tab1CodeObject.fileList.length > 0){
-						alert("입력파일을 업로드 하세요");
-					}
-					else if(tab1InputObject.fileList.length > 0){
-						alert("소스코드파일을 업로드 하세요");
-					}else{
-						alert("입력파일과 소스코드파일을 업로드 하세요");
-					}
-					return false;
-				}
+                if(p_number != -1){
+                    formData.append('p_number', p_number);
+                }
+                if(p_content == "" && p_pdf == ""){
+                    alert("문제 내용을 입력하세요");
+                }
+                if(p_name == ""){
+                    alert("문제 이름을 입력하세요");
+                }
+                if({{ update }}) {
+                    if (tab1CodeObject.fileList.length + tab1CodeObject.folderList.length == 0 || tab1InputObject.fileList.length + tab1InputObject.folderList.length == 0) {
+                        if (tab1CodeObject.fileList.length || tab1CodeObject.folderList.length) {
+                            alert("입력파일을 업로드 하세요");
+                        }
+                        else if (tab1InputObject.fileList.length || tab1InputObject.folderList.length) {
+                            alert("소스코드파일을 업로드 하세요");
+                        } else {
+                            alert("입력파일과 소스코드파일을 업로드 하세요");
+                        }
+                        return false;
+                    }
+                }
 				tab1CodeObject.appendLanguage(formData);
 				tab1CodeObject.appendFile(formData, 'code');
 				tab1InputObject.appendFile(formData, 'input');
@@ -204,18 +219,19 @@
 				var formData = new FormData();
 
 				formData.append('tabnum', 3);
-
-				if(tab3InputObject.fileList.length == 0 || tab3OutputObject.fileList.length == 0){
-					if(tab3InputObject.fileList.length > 0){
-						alert("출력파일을 업로드 하세요");
-					}
-					else if(tab3OutputObject.fileList.length > 0){
-						alert("입력파일을 업로드 하세요");
-					}else{
-						alert("입력파일과 출력파일을 업로드 하세요");
-					}
-					return false;
-				}
+                if({{ update }}) {
+                    if (tab3InputObject.fileList.length == 0 || tab3OutputObject.fileList.length == 0) {
+                        if (tab3InputObject.fileList.length > 0) {
+                            alert("출력파일을 업로드 하세요");
+                        }
+                        else if (tab3OutputObject.fileList.length > 0) {
+                            alert("입력파일을 업로드 하세요");
+                        } else {
+                            alert("입력파일과 출력파일을 업로드 하세요");
+                        }
+                        return false;
+                    }
+                }
 
 				tab3InputObject.appendFile(formData, 'input');
 				tab3OutputObject.appendFile(formData, 'output');

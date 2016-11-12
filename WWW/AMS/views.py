@@ -66,21 +66,18 @@ def problem_read(req, problem_number):
 @login_required
 def problem_update(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
-    infile = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'inputfile')
-    outfile = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'outputfile')
-    answerfile = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'answercode')
 
     if req.method == 'POST':
-        prev_folder_name = os.path.join(settings.MEDIA_ROOT, problem.p_name)
-        next_folder_name = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
+        #prev_folder_name = os.path.join(settings.MEDIA_ROOT, problem.p_name)
+        #next_folder_name = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
         form = ProblemForm(req.POST, req.FILES, instance=problem)
         if form.is_valid():
-            shutil.move(prev_folder_name, next_folder_name)
+            #shutil.move(prev_folder_name, next_folder_name)
             form.save()
             return redirect('/problem/list')
     else:
         form = ProblemForm(instance=problem)
-    return render(req, 'AMS/problem_add.html', {'form': form})
+    return render(req, 'AMS/problem_add.html', {'form': form, 'update': 0, 'p_number': problem_number})
 
 
 @login_required
@@ -95,7 +92,7 @@ def problem_add(req):
     else:
         form = ProblemForm()
 
-    return render(req, 'AMS/problem_add.html', {'form': form})
+    return render(req, 'AMS/problem_add.html', {'form': form, 'update': 1, 'p_number': -1})
 
 
 @login_required
@@ -121,6 +118,7 @@ def answer_submit(req, problem_number):
         #    with open(test_path,"r") as file:
         #        test = json.load(file) # after fix this, test_path will changed json_path
             print(result["answer"])
+
             if result["answer"] == 0:
                 ret = False
             else:
@@ -190,7 +188,13 @@ def test(req):
 
 def problem_files(req):
     #print(req.POST['p_name'])
+    print(req.POST.get('p_number'))
     media_path = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
+    if req.POST.get('p_number') is not None:
+        print("1")
+        problem = Problem.objects.get(pk=int(req.POST['p_number']))
+        real_path = os.path.join(settings.MEDIA_ROOT, problem.p_name)
+        shutil.move(real_path, media_path)
     print(media_path)
     codefile_path = os.path.join(media_path, 'answercode')
 
@@ -208,20 +212,25 @@ def problem_files(req):
             entry_point = req.POST.get('entry_point')
         codefile = req.FILES.getlist('codefile')
         codefolder = req.FILES.getlist('codefolder')
-        if codefile or codefolder is None:
+        inputfile = req.FILES.getlist('inputfile')
+        inputfolder = req.FILES.getlist('inputfolder')
+        print(len(codefile))
+        print(len(codefolder))
+        if codefile or codefolder:
             if os.path.exists(codefile_path):
                 print("delete")
-            shutil.rmtree(codefile_path)
-            print(codefile)
-            handle_upload_file(req, codefile, codefile_path, 1)
-            print(codefolder)
-            handle_upload_file(req, codefolder, codefile_path, 2)
-
-        inputfile = req.FILES.getlist('inputfile')
-        print(inputfile)
-        handle_upload_file(req, inputfile, inputfile_path, 1)
-        inputfolder = req.FILES.getlist('inputfolder')
-        handle_upload_file(req, inputfolder, inputfile_path, 2)
+                shutil.rmtree(codefile_path)
+            if codefile:
+                print(codefile)
+                handle_upload_file(req, codefile, codefile_path, 1)
+            if codefolder:
+                print(codefolder)
+                handle_upload_file(req, codefolder, codefile_path, 2)
+        if inputfile:
+            print(inputfile)
+            handle_upload_file(req, inputfile, inputfile_path, 1)
+        if inputfolder:
+            handle_upload_file(req, inputfolder, inputfile_path, 2)
 
         outputCreatorPath=os.path.join(os.path.dirname(__file__), 'outfileCreator', 'outFile.sh')
         call([outputCreatorPath, str(language), codefile_path, inputfile_path, outputfile_path, entry_point])
@@ -255,10 +264,14 @@ def problem_files(req):
         inputfolder = req.FILES.getlist('inputfolder')
         outputfile = req.FILES.getlist('outputfile')
         outputfolder = req.FILES.getlist('outputfolder')
-        handle_upload_file(req, inputfile, inputfile_path, 1)
-        handle_upload_file(req, inputfolder, inputfile_path, 2)
-        handle_upload_file(req, outputfile, outputfile_path, 1)
-        handle_upload_file(req, outputfolder, outputfile_path, 2)
+        if inputfile is not None:
+            handle_upload_file(req, inputfile, inputfile_path, 1)
+        if inputfolder is not None:
+            handle_upload_file(req, inputfolder, inputfile_path, 2)
+        if outputfile is not None:
+            handle_upload_file(req, outputfile, outputfile_path, 1)
+        if outputfolder is not None:
+            handle_upload_file(req, outputfolder, outputfile_path, 2)
 
     return HttpResponse()
 
