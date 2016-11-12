@@ -165,13 +165,13 @@
 			var incode = document.getElementById('incode');
 			//var oncode = document.getElementById('oncode');
 			var inout = document.getElementById('inout');
-
-			if (incode.getAttribute('class') == "active") {
+            var p_name= document.getElementById('id_p_name').value;
+            if (incode.getAttribute('class') == "active") {
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();
 
 				formData.append('tabnum', 1);
-
+                formData.append('p_name', p_name);
 				tab1CodeObject.appendLanguage(formData);
 				tab1CodeObject.appendFile(formData, 'code');
 				tab1InputObject.appendFile(formData, 'input');

@@ -10,8 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
-import os
-
+import os, re
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -48,7 +47,9 @@ INSTALLED_APPS = [
 	# for TinyMCE web editor
 	'tinymce',
 	# for template tweak (https://github.com/kmike/django-widget-tweaks)
-	'widget_tweaks'
+	'widget_tweaks',
+	# markdown
+	'markdown_deux'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -165,4 +166,46 @@ TINYMCE_DEFAULT_CONFIG = {
 		'media', 'nonbreaking', 'save', 'table', 'contextmenu', 'directionality', 'emoticons', 'template', 'paste',
 		'textcolor', 'colorpicker', 'textpattern', 'imagetools'
 	]
+
+}
+#markdown settings
+MARKDOWN_DEUX_STYLES = {
+	"default": {
+		"extras": {
+			"code-friendly": None,
+		},
+		"safe_mode": "escape",
+	},
+	"trusted": {
+		"extras": {
+			"code-friendly": None,
+			"markdown" : 1,
+		},
+		"safe_mode": "escape",
+	},
+	"recipe": {
+		"extras": {
+			"code-friendly": None,
+		},
+		"safe_mode": "escape",
+		"link_patterns": [
+			# Transform "Recipe 123" in a link.
+			(re.compile(r"recipe\s+#?(\d+)\b", re.I),
+			 r"http://code.activestate.com/recipes/\1/"),
+		],
+		"extras": {
+			"code-friendly": None,
+			"pyshell": None,
+			"demote-headers": 3,
+			"link-patterns": None,
+			# `class` attribute put on `pre` tags to enable using
+			# <http://code.google.com/p/google-code-prettify/> for syntax
+			# highlighting.
+			"html-classes": {"pre": "markdown='1'"},
+			"cuddled-lists": None,
+			"footnotes": None,
+			"header-ids": None,
+		},
+		"safe_mode": "escape",
+	}
 }

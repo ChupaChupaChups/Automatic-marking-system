@@ -3,7 +3,7 @@
 arg_obj=$(find $1 -iname "*.c")
 input_files=$(find $2 -name "*.in")
 
-mkdir media/temp/outputfile
+mkdir $3
 gcc -o AMS/outfileCreator/a.out ${arg_obj}
 
 for input_file in $input_files; do

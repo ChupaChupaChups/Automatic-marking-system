@@ -5,12 +5,11 @@ import json
 import threading
 import subprocess
 import docker
+import shutil
 import io
 import os
 from collections import deque
 from .config import Config
-from requests.packages import urllib3
-from requests import exceptions
 __author__ = "isac322, nameuk"
 
 _docker_client = None
@@ -113,6 +112,7 @@ def start_judge(media_path, inputfiles, outputfiles):
                     log.close()
 
             break
+    os.remove(current+"/a.out")
 
 # TODO: when debug is finished, must handle docker container exception at this point
 

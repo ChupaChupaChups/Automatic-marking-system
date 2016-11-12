@@ -57,9 +57,16 @@ def problem_read(req, problem_number):
 @login_required
 def problem_update(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
+    infile = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'inputfile')
+    outfile = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'outputfile')
+    answerfile = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'answercode')
+
     if req.method == 'POST':
+        prev_folder_name = os.path.join(settings.MEDIA_ROOT, problem.p_name)
+        next_folder_name = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
         form = ProblemForm(req.POST, req.FILES, instance=problem)
         if form.is_valid():
+            shutil.move(prev_folder_name, next_folder_name)
             form.save()
             return redirect('/problem/list')
     else:
@@ -74,12 +81,6 @@ def problem_add(req):
         form = ProblemForm(req.POST, req.FILES)
         if form.is_valid():
             form.save()
-            #문제 추가하기 전에 테스트 입력 파일들을 임시로 저장한 것을 /media/'p_name' 폴더로 옮김
-            fake_path = os.path.join(settings.MEDIA_ROOT, 'temp')
-            real_path = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
-            if not os.path.exists(os.path.dirname(real_path)):
-                os.makedirs(os.path.dirname(real_path))
-            shutil.move(fake_path, real_path)
             print(req.POST['p_name'])
             return redirect('/problem/list')
     else:
@@ -179,8 +180,11 @@ def test(req):
     return render(req, 'component/source_upload_widget.html', {'id': 'ic'})
 
 def problem_files(req):
-    media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
+    #print(req.POST['p_name'])
+    media_path = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
+    print(media_path)
     codefile_path = os.path.join(media_path, 'answercode')
+
     inputfile_path = os.path.join(media_path, 'inputfile')
     outputfile_path = os.path.join(media_path, 'outputfile')
     web_tab_number = req.POST['tabnum']
@@ -194,11 +198,16 @@ def problem_files(req):
         if language in (3, 4):
             entry_point = req.POST.get('entry_point')
         codefile = req.FILES.getlist('codefile')
-        print(codefile)
-        handle_upload_file(req, codefile, codefile_path, 1)
         codefolder = req.FILES.getlist('codefolder')
-        print(codefolder)
-        handle_upload_file(req, codefolder, codefile_path, 2)
+        if codefile or codefolder is None:
+            if os.path.exists(codefile_path):
+                print("delete")
+            shutil.rmtree(codefile_path)
+            print(codefile)
+            handle_upload_file(req, codefile, codefile_path, 1)
+            print(codefolder)
+            handle_upload_file(req, codefolder, codefile_path, 2)
+
         inputfile = req.FILES.getlist('inputfile')
         print(inputfile)
         handle_upload_file(req, inputfile, inputfile_path, 1)
@@ -247,7 +256,6 @@ def problem_files(req):
 
 def handle_upload_file(req, files, path, check):
     print(files)
-    media_path = os.path.join(settings.MEDIA_ROOT, 'temp')
     for each in files:
         file_name = each
         print(file_name)
