@@ -44,10 +44,10 @@
 			</tbody>
 		</table>
 		<div class="problem-header" id="problem-content">
-			{% if problem.p_content %}
-                {% markdown trusted %}
-                {{ problem.p_content }}
-                {% endmarkdown %}
+			{% if problem.p_content and problem.p_markdown_ok %}
+                    {{ content | markdown }}
+                {% else %}
+                {{ problem.p_content | safe }}
             {% endif %}
 			{% if problem.p_pdffile %}
 				<div id="test"></div>

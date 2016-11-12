@@ -99,6 +99,10 @@
 			<div class="col-md-7">
 				<h2>문제 내용</h2>
 				<ul class="nav nav-tabs" role="tablist">
+                    <label class="switch-slide">
+                        {{ form.p_markdown_ok|add_class:'switch-input' }}
+                        <span class="switch-label" data-on="Markdown 사용" data-off="Markdown 사용안함"></span>
+                    </label>
 					<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
 					<li><a data-toggle="tab" href="#pdf-upload">PDF 업로드</a></li>
 				</ul>
@@ -163,7 +167,7 @@
 	<script>
 		function checkUpload() {
 			var incode = document.getElementById('incode');
-			//var oncode = document.getElementById('oncode');
+			var oncode = document.getElementById('oncode');
 			var inout = document.getElementById('inout');
             var p_name= document.getElementById('id_p_name').value;
             if (incode.getAttribute('class') == "active") {
@@ -172,6 +176,18 @@
 
 				formData.append('tabnum', 1);
                 formData.append('p_name', p_name);
+
+				if(tab1CodeObject.fileList.length == 0 || tab1InputObject.fileList.length == 0){
+					if(tab1CodeObject.fileList.length > 0){
+						alert("입력파일을 업로드 하세요");
+					}
+					else if(tab1InputObject.fileList.length > 0){
+						alert("소스코드파일을 업로드 하세요");
+					}else{
+						alert("입력파일과 소스코드파일을 업로드 하세요");
+					}
+					return false;
+				}
 				tab1CodeObject.appendLanguage(formData);
 				tab1CodeObject.appendFile(formData, 'code');
 				tab1InputObject.appendFile(formData, 'input');
@@ -183,12 +199,23 @@
 				return true;
 			}
 			if (inout.getAttribute('class') == "active") {
-				alert("3");
 
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();
 
 				formData.append('tabnum', 3);
+
+				if(tab3InputObject.fileList.length == 0 || tab3OutputObject.fileList.length == 0){
+					if(tab3InputObject.fileList.length > 0){
+						alert("출력파일을 업로드 하세요");
+					}
+					else if(tab3OutputObject.fileList.length > 0){
+						alert("입력파일을 업로드 하세요");
+					}else{
+						alert("입력파일과 출력파일을 업로드 하세요");
+					}
+					return false;
+				}
 
 				tab3InputObject.appendFile(formData, 'input');
 				tab3OutputObject.appendFile(formData, 'output');

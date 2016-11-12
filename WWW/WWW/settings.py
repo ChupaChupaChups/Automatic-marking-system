@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 	# for template tweak (https://github.com/kmike/django-widget-tweaks)
 	'widget_tweaks',
 	# markdown
-	'markdown_deux'
+	'markdown_deux',
 ]
 
 MIDDLEWARE_CLASSES = [
