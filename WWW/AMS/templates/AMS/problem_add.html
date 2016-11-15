@@ -25,7 +25,7 @@
 			e.preventDefault();
 			return false
 		};
-		var inputFiles = 0 ;
+		var inputFiles = 0;
 		var codeFiles = 0;
 		var outputFiles = 0;
 	</script>
@@ -72,6 +72,13 @@
 					</label>
 				</fieldset>
 
+				<fieldset class="col-md-12 form-group ">
+					<h2>컴파일 플래그</h2>
+					<div id="flagContent">
+						{{ form.p_flagContent|add_class:'form-control input-lg' }}
+					</div>
+				</fieldset>
+
 				<fieldset class="col-md-12 form-group" id="hint-wrapper">
 					<h2>힌트여부</h2>
 					<div class="col-md-12">
@@ -87,22 +94,22 @@
 					</script>
 				</fieldset>
 
-                <fieldset class="col-md-12 form-group" id="language-wrapper">
-                    <h2>채점시 공백 확인</h2>
-                    <label class="switch-slide">
-                        {{ form.p_blank_accpet|add_class:'switch-input' }}
-                        <span class="switch-label" data-on="공백 검사" data-off="공백 검사 안함"></span>
-                    </label>
-                </fieldset>
+				<fieldset class="col-md-12 form-group" id="language-wrapper">
+					<h2>채점시 공백 확인</h2>
+					<label class="switch-slide">
+						{{ form.p_blank_accpet|add_class:'switch-input' }}
+						<span class="switch-label" data-on="공백 검사" data-off="공백 검사 안함"></span>
+					</label>
+				</fieldset>
 			</div>
 
 			<div class="col-md-7">
 				<h2>문제 내용</h2>
 				<ul class="nav nav-tabs" role="tablist">
-                    <label class="switch-slide">
-                        {{ form.p_markdown_ok|add_class:'switch-input' }}
-                        <span class="switch-label" data-on="Markdown 사용" data-off="Markdown 사용안함"></span>
-                    </label>
+					<label class="switch-slide">
+						{{ form.p_markdown_ok|add_class:'switch-input' }}
+						<span class="switch-label" data-on="Markdown 사용" data-off="Markdown 사용안함"></span>
+					</label>
 					<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
 					<li><a data-toggle="tab" href="#pdf-upload">PDF 업로드</a></li>
 				</ul>
@@ -127,7 +134,8 @@
 			<div class="col-md-12">
 				<h2>입/출력/코드 옵션</h2>
 				<ul class="nav nav-tabs">
-					<li class="active" id="incode"><a id="input-code-a" data-toggle="tab" href="#input_code">입력+코드</a></li>
+					<li class="active" id="incode"><a id="input-code-a" data-toggle="tab" href="#input_code">입력+코드</a>
+					</li>
 					<li id="oncode"><a id="only-code-a" data-toggle="tab" href="#only_code">코드</a></li>
 					<li id="inout"><a id="input-output-a" data-toggle="tab" href="#input_output">입력+출력</a></li>
 				</ul>
@@ -169,40 +177,40 @@
 			var incode = document.getElementById('incode');
 			var oncode = document.getElementById('oncode');
 			var inout = document.getElementById('inout');
-            var p_name = document.getElementById('id_p_name').value;
-            var p_content = $('[data-id="id_p_content"]').children;
-            var p_pdf = document.getElementById("id_p_pdffile").value;
-            var p_number = {{ p_number }};
-            console.log(p_pdf);
-            console.log(p_content);
-            if (incode.getAttribute('class') == "active") {
+			var p_name = document.getElementById('id_p_name').value;
+			var p_content = $('[data-id="id_p_content"]').children;
+			var p_pdf = document.getElementById("id_p_pdffile").value;
+			var p_number = {{ p_number }};
+			console.log(p_pdf);
+			console.log(p_content);
+			if (incode.getAttribute('class') == "active") {
 				var xhr = new XMLHttpRequest();
 				var formData = new FormData();
 
 				formData.append('tabnum', 1);
-                formData.append('p_name', p_name);
-                if(p_number != -1){
-                    formData.append('p_number', p_number);
-                }
-                if(p_content == "" && p_pdf == ""){
-                    alert("문제 내용을 입력하세요");
-                }
-                if(p_name == ""){
-                    alert("문제 이름을 입력하세요");
-                }
-                if({{ update }}) {
-                    if (tab1CodeObject.fileList.length + tab1CodeObject.folderList.length == 0 || tab1InputObject.fileList.length + tab1InputObject.folderList.length == 0) {
-                        if (tab1CodeObject.fileList.length || tab1CodeObject.folderList.length) {
-                            alert("입력파일을 업로드 하세요");
-                        }
-                        else if (tab1InputObject.fileList.length || tab1InputObject.folderList.length) {
-                            alert("소스코드파일을 업로드 하세요");
-                        } else {
-                            alert("입력파일과 소스코드파일을 업로드 하세요");
-                        }
-                        return false;
-                    }
-                }
+				formData.append('p_name', p_name);
+				if (p_number != -1) {
+					formData.append('p_number', p_number);
+				}
+				if (p_content == "" && p_pdf == "") {
+					alert("문제 내용을 입력하세요");
+				}
+				if (p_name == "") {
+					alert("문제 이름을 입력하세요");
+				}
+				if ({{ update }}) {
+					if (tab1CodeObject.fileList.length + tab1CodeObject.folderList.length == 0 || tab1InputObject.fileList.length + tab1InputObject.folderList.length == 0) {
+						if (tab1CodeObject.fileList.length || tab1CodeObject.folderList.length) {
+							alert("입력파일을 업로드 하세요");
+						}
+						else if (tab1InputObject.fileList.length || tab1InputObject.folderList.length) {
+							alert("소스코드파일을 업로드 하세요");
+						} else {
+							alert("입력파일과 소스코드파일을 업로드 하세요");
+						}
+						return false;
+					}
+				}
 				tab1CodeObject.appendLanguage(formData);
 				tab1CodeObject.appendFile(formData, 'code');
 				tab1InputObject.appendFile(formData, 'input');
@@ -219,19 +227,19 @@
 				var formData = new FormData();
 
 				formData.append('tabnum', 3);
-                if({{ update }}) {
-                    if (tab3InputObject.fileList.length == 0 || tab3OutputObject.fileList.length == 0) {
-                        if (tab3InputObject.fileList.length > 0) {
-                            alert("출력파일을 업로드 하세요");
-                        }
-                        else if (tab3OutputObject.fileList.length > 0) {
-                            alert("입력파일을 업로드 하세요");
-                        } else {
-                            alert("입력파일과 출력파일을 업로드 하세요");
-                        }
-                        return false;
-                    }
-                }
+				if ({{ update }}) {
+					if (tab3InputObject.fileList.length == 0 || tab3OutputObject.fileList.length == 0) {
+						if (tab3InputObject.fileList.length > 0) {
+							alert("출력파일을 업로드 하세요");
+						}
+						else if (tab3OutputObject.fileList.length > 0) {
+							alert("입력파일을 업로드 하세요");
+						} else {
+							alert("입력파일과 출력파일을 업로드 하세요");
+						}
+						return false;
+					}
+				}
 
 				tab3InputObject.appendFile(formData, 'input');
 				tab3OutputObject.appendFile(formData, 'output');

@@ -4,12 +4,13 @@ arg_obj=$(find /source_code -iname "*.c")
 input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
 blank=$(jq '.problem_blank' /json_file/config.json)
+flagContent=$(jq '.flagContent' /json_file/flag.json | cut -d "\"" -f 2)
 
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
 declare -i check=0
-gcc -o /compiler_and_judge/a.out ${arg_obj}
+gcc $flagContent -o /compiler_and_judge/a.out ${arg_obj}
 if [ -f /compiler_and_judge/a.out ]; then
     for input_file in $input_files; do
         infilelen=$infilelen+1

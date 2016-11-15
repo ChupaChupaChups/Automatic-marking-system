@@ -25,12 +25,12 @@ def _get_client():
 	:return docker-py's docker client handle
 	"""
     global _docker_client
-
     if _docker_client is None:
         #: docker daemon address
         docker_daemon = Config["Docker"]["daemon_address"]
         #: python interface of docker's client handler
         _docker_client = docker.Client(base_url=docker_daemon, version="auto")
+        print("docker client : ", _docker_client)
     return _docker_client
 
 
@@ -57,13 +57,16 @@ def build_image():
 
 
 def start_judge(media_path, inputfiles, outputfiles):
+    print("1")
     client = _get_client()
+    print("2")
     image_tag = Config["Docker"]["tag"]
-
+    print("3")
     build_image()
-
+    print("build image ok.")
     current = os.path.join(os.path.dirname(__file__), 'judge_scripts')
     json_path = os.path.dirname(media_path)
+    print("json location : ",json_path)
     resultfiles = os.path.dirname(media_path)
     resultfiles = os.path.join(resultfiles, 'resultfiles')
 
