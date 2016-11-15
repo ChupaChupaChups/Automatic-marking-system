@@ -112,7 +112,6 @@ def start_judge(media_path, inputfiles, outputfiles):
                     log.close()
 
             break
-    os.remove(current+"/a.out")
 
 # TODO: when debug is finished, must handle docker container exception at this point
 
