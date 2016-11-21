@@ -13,6 +13,7 @@
 				<li class="{% block submit_class %}{% endblock %}"><a href="{% url "submit" p_number %}">답안 제출</a></li>
                 {% if user.is_staff %}
                     <li class="{% block allresult_class %}{% endblock %}"><a href="{% url "all_result" p_number %}">전체 결과</a></li>
+                    <li class="{% block change_class %}{% endblock %}"><a href="{% url "problem/update" p_number %}">문제 수정</a></li>
                 {% else %}
                     <li class="{% block aftersubmit_class %}{% endblock %}"><a href="{% url "after_submit" p_number %}">최근 결과</a></li>
                     <li class="{% block result_class %}{% endblock %}"><a href="{% url "result" p_number %}">내 결과</a></li>
