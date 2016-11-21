@@ -3,7 +3,7 @@
 arg_obj=$(find $1 -iname "*.java" > AMS/outfileCreator/source_list.txt)
 input_files=$(find $2 -name "*.in")
 
-mkdir media/temp/outputfile
+mkdir $3
 
 javac -cp $1 $1/*.java -d AMS/outfileCreator/class
 
