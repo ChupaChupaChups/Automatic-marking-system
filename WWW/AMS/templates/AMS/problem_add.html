@@ -71,6 +71,12 @@
 						<span class="switch-label" data-on="MAKEFILE on" data-off="MAKEFILE off"></span>
 					</label>
 				</fieldset>
+				<fieldset class="col-md-12 form-group ">
+					<h2>컴파일 플래그</h2>
+					<div id="flagContent">
+						{{ form.p_flagContent|add_class:'form-control input-lg' }}
+					</div>
+				</fieldset>
 
 				<fieldset class="col-md-12 form-group" id="hint-wrapper">
 					<h2>힌트여부</h2>

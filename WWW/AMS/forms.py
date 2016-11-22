@@ -24,7 +24,7 @@ class ProblemForm(forms.ModelForm):
         }
         fields = [
             'p_day_limit', 'p_c_ok', 'p_cpp_ok', 'p_java_ok', 'p_py_ok', 'p_hint_integer',
-            'p_name', 'p_content', 'p_pdffile', 'p_make_ok', 'p_blank_accpet', 'p_markdown_ok',
+            'p_name', 'p_content', 'p_pdffile', 'p_make_ok', 'p_blank_accpet', 'p_markdown_ok', 'p_flagContent',
         ]
 
 

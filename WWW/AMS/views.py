@@ -15,6 +15,8 @@ from .judge_server.config import Config
 from .models import Problem, SubmitRecord, SubmitResult
 from .judge_server import judgeServer
 from bs4 import BeautifulSoup
+
+
 # Create your views here.
 
 def web_logout(req):
@@ -28,9 +30,9 @@ def problem_list(req):
     now = timezone.now()
     for problem in problems:
         if problem.p_day_limit < now:
-            problem.p_day_not_over=False
-#    for e in problems:
-#        print(e.p_day_limit, e.p_content,e.p_c_ok)
+            problem.p_day_not_over = False
+        #    for e in problems:
+        #        print(e.p_day_limit, e.p_content,e.p_c_ok)
     return render(req,
                   'AMS/problem_list.html',
                   {'problems': problems, 'user': req.user})
@@ -58,7 +60,8 @@ def problem_read(req, problem_number):
             for string in soup.strings:
                 text.append(string)
             ret = "\n".join(text)
-            return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number, 'user': req.user, 'content': ret})
+            return render(req, 'AMS/Read.html',
+                          {'problem': problem, 'p_number': problem_number, 'user': req.user, 'content': ret})
 
         return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number, 'user': req.user})
 
@@ -68,11 +71,11 @@ def problem_update(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
 
     if req.method == 'POST':
-        #prev_folder_name = os.path.join(settings.MEDIA_ROOT, problem.p_name)
-        #next_folder_name = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
+        # prev_folder_name = os.path.join(settings.MEDIA_ROOT, problem.p_name)
+        # next_folder_name = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
         form = ProblemForm(req.POST, req.FILES, instance=problem)
         if form.is_valid():
-            #shutil.move(prev_folder_name, next_folder_name)
+            # shutil.move(prev_folder_name, next_folder_name)
             form.save()
             return redirect('/problem/list')
     else:
@@ -87,12 +90,23 @@ def problem_add(req):
         form = ProblemForm(req.POST, req.FILES)
         if form.is_valid():
             form.save()
-            print(req.POST['p_name'])
+            save_flagContent(req.POST)
             return redirect('/problem/list')
     else:
         form = ProblemForm()
-
     return render(req, 'AMS/problem_add.html', {'form': form, 'update': 1, 'p_number': -1})
+
+
+def save_flagContent(req):
+    json_path = os.path.join(settings.MEDIA_ROOT, req['p_name'], 'flag.json')
+    if not os.path.exists(os.path.dirname(json_path)):
+        os.makedirs(os.path.dirname(json_path))
+    with open(json_path, "w") as file:
+        json.dump(
+            {
+                'flagContent': req['p_flagContent']
+            },
+            file, ensure_ascii=False)
 
 
 @login_required
@@ -111,12 +125,12 @@ def answer_submit(req, problem_number):
             judgeServer.start_judge(media_path, inputfiles, outputfiles)
 
             # result store to database
-            test_path = os.path.join(settings.MEDIA_ROOT,instance.problem.p_name,
-                                     'submit',str(req.user),str(instance.pk),'result.json')
+            test_path = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name,
+                                     'submit', str(req.user), str(instance.pk), 'result.json')
             f = open(test_path, 'r')
             result = json.load(f)
-        #    with open(test_path,"r") as file:
-        #        test = json.load(file) # after fix this, test_path will changed json_path
+            #    with open(test_path,"r") as file:
+            #        test = json.load(file) # after fix this, test_path will changed json_path
             print(result["answer"])
 
             if result["answer"] == 0:
@@ -124,13 +138,14 @@ def answer_submit(req, problem_number):
             else:
                 ret = True
             print(ret)
-            get_result = SubmitResult(record=instance, result=ret, process_time=result["time"], correct_percent=result["answer_percent"], timeout=result["timeout"])
+            get_result = SubmitResult(record=instance, result=ret, process_time=result["time"],
+                                      correct_percent=result["answer_percent"], timeout=result["timeout"])
             get_result.save()
             return redirect('/problem/list')
     else:
         form = SubmitForm(req.user, problem_number)
 
-    return render(req, 'AMS/answer_submit.html', {'form': form, 'p_number': problem_number, 'problem':problem})
+    return render(req, 'AMS/answer_submit.html', {'form': form, 'p_number': problem_number, 'problem': problem})
 
 
 @login_required
@@ -171,6 +186,7 @@ def submit_result(req, problem_number):
         {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
     )
 
+
 @login_required
 def all_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
@@ -182,12 +198,14 @@ def all_result(req, problem_number):
         {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
     )
 
+
 @login_required
 def test(req):
     return render(req, 'component/source_upload_widget.html', {'id': 'ic'})
 
+
 def problem_files(req):
-    #print(req.POST['p_name'])
+    # print(req.POST['p_name'])
     print(req.POST.get('p_number'))
     media_path = os.path.join(settings.MEDIA_ROOT, req.POST['p_name'])
     if req.POST.get('p_number') is not None:
@@ -232,7 +250,7 @@ def problem_files(req):
         if inputfolder:
             handle_upload_file(req, inputfolder, inputfile_path, 2)
 
-        outputCreatorPath=os.path.join(os.path.dirname(__file__), 'outfileCreator', 'outFile.sh')
+        outputCreatorPath = os.path.join(os.path.dirname(__file__), 'outfileCreator', 'outFile.sh')
         call([outputCreatorPath, str(language), codefile_path, inputfile_path, outputfile_path, entry_point])
 
     elif web_tab_number == "2":
@@ -295,6 +313,7 @@ def handle_upload_file(req, files, path, check):
         with open(filePath, 'wb+') as destination:
             destination.write(each.read())
 
+
 def errorlist(req, problem_number, rst_number):
     problemname = Problem.objects.get(pk=problem_number).p_name
     rstuser = SubmitResult.objects.get(pk=rst_number).record.user
@@ -303,15 +322,20 @@ def errorlist(req, problem_number, rst_number):
         content = f.read()
 
     print(content)
-    return render(req, 'AMS/errorlist.html', {'content' : content})
+    return render(req, 'AMS/errorlist.html', {'content': content})
+
 
 def after_submit(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record).latest('record')
     if get_result.result == False:
-        errorlistpath = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'submit', str(get_result.record.user), str(get_result.pk), 'log.txt' )
+        errorlistpath = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'submit', str(get_result.record.user),
+                                     str(get_result.pk), 'log.txt')
         with open(errorlistpath, 'r') as f:
             content = f.read()
-        return render(req, 'AMS/after_submit.html', {'content' : content, 'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result})
-    return render(req, 'AMS/after_submit.html', {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result})
+        return render(req, 'AMS/after_submit.html',
+                      {'content': content, 'problem': problem, 'p_number': problem_number, 'record': get_record,
+                       'result': get_result})
+    return render(req, 'AMS/after_submit.html',
+                  {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result})

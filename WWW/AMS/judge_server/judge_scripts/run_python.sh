@@ -2,6 +2,7 @@
 
 input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
+flagContent=$(jq '.flagContent' /json_file/flag.json | cut -d "\"" -f 2)
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
@@ -14,7 +15,7 @@ for input_file in $input_files; do
     filename=$(basename $input_file)
     (time timeout 10s python3 /source_code/$entry < $input_file > /resultfiles/${filename%.*}.out) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/${filename%.*}.time
     if [ $(du /resultfiles/${filename%.*}.out | cut -f1) -eq "0" ]; then
-        python3 /source_code/$entry < $input_file
+        python3 $flagContent /source_code/$entry < $input_file
         break
     fi
     temp=$(</resultfiles/${filename%.*}.time)

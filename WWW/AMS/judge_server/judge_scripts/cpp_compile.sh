@@ -2,10 +2,11 @@
 arg_obj=$(find /source_code -iname "*.cpp")
 input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
+flagContent=$(jq '.flagContent' /json_file/flag.json | cut -d "\"" -f 2)
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
-g++ -o /compiler_and_judge/a.out ${arg_obj}
+g++ $flagContent -o /compiler_and_judge/a.out ${arg_obj}
 
 if [ -f /compiler_and_judge/a.out ];
 then
