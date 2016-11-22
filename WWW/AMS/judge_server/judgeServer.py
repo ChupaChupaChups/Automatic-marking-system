@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import io
 import json
+import os
 import threading
 import subprocess
 import docker
@@ -10,6 +12,7 @@ import io
 import os
 from collections import deque
 from .config import Config
+
 __author__ = "isac322, nameuk"
 
 _docker_client = None
@@ -17,13 +20,13 @@ _docker_queue = deque()
 
 def _get_client():
     """
-	Return global variable ``_docker_client``
-	if ``_docker_client`` doesn't exist make it and return
+    Return global variable ``_docker_client``
+    if ``_docker_client`` doesn't exist make it and return
 
-	Rather than make client handle every time needed, using this method are reduce duplicate client object
+    Rather than make client handle every time needed, using this method are reduce duplicate client object
 
-	:return docker-py's docker client handle
-	"""
+    :return docker-py's docker client handle
+    """
     global _docker_client
     if _docker_client is None:
         #: docker daemon address
@@ -115,6 +118,7 @@ def start_judge(media_path, inputfiles, outputfiles):
                     log.close()
 
             break
+
 
 # TODO: when debug is finished, must handle docker container exception at this point
 
