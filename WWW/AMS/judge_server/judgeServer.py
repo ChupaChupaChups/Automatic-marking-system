@@ -90,6 +90,9 @@ def start_judge(media_path, inputfiles, outputfiles):
                 print("try")
                 client.wait(container=container, timeout=5)
                 client.remove_container(container)
+                log_path = os.path.join(json_path, 'log.txt')
+                log = open(log_path, "wb")
+                log.close()
             except:
                 result_path = os.path.join(json_path, "result.json")
                 with open(result_path, "w") as file:
@@ -110,6 +113,7 @@ def start_judge(media_path, inputfiles, outputfiles):
                     log = open(log_path, "wb")
                     log.write(client.logs(container))
                     log.close()
+
 
             break
 
