@@ -81,9 +81,14 @@
 					<script type="text/javascript">
 						var slider = new Slider('#id_p_hint_integer', {
 							formatter: function (value) {
+                                var str = "전체 테스트케이스 중 " + value + "% 이상 정답 시, 힌트를 보여줍니다.";
+                                if(value == 100) str = "힌트를 보여주지 않습니다.";
+                                else if (value == 0) str = "항상 힌트를 보여줍니다.";
+                                document.getElementById("percent").innerHTML = str;
 								return value + '%';
 							}
 						});
+
 					</script>
 				</fieldset>
 
