@@ -83,16 +83,13 @@ def start_judge(media_path, inputfiles, outputfiles):
     global _docker_queue
     _docker_queue.append(container)
     while True:
-        print(len(_docker_queue))
+        #print(len(_docker_queue))
         if len(_docker_queue) <= 5:
             client.start(container)
             try:
-                print("try")
+                #print("try")
                 client.wait(container=container, timeout=5)
                 client.remove_container(container)
-                log_path = os.path.join(json_path, 'log.txt')
-                log = open(log_path, "wb")
-                log.close()
             except:
                 result_path = os.path.join(json_path, "result.json")
                 with open(result_path, "w") as file:
@@ -106,14 +103,12 @@ def start_judge(media_path, inputfiles, outputfiles):
                     file, ensure_ascii=False)
 
                 _docker_queue.popleft()
-                print(client.logs(container))
+                #print(client.logs(container))
                 subprocess.call(['chmod', '777', json_path])
-                if client.logs(container) is not None:
-                    log_path = os.path.join(json_path, 'log.txt')
-                    log = open(log_path, "wb")
-                    log.write(client.logs(container))
-                    log.close()
-
+                log_path = os.path.join(json_path, 'log.txt')
+                log = open(log_path, "wb")
+                log.write(client.logs(container))
+                log.close()
 
             break
 

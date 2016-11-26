@@ -2,8 +2,8 @@ import os, sys
 import json
 
 
-def result_dump():
-    if sys.argv[1] == "100":
+def result_dump(correct, time):
+    if correct == "100":
         answer = 1;
     else:
         answer = 0;
@@ -11,12 +11,12 @@ def result_dump():
     with open(result_path, "w") as file:
         json.dump(
             {
-                'time': sys.argv[2],
+                'time': time,
                 'answer': answer,
-                'answer_percent': sys.argv[1],
+                'answer_percent': correct,
                 'timeout': False,
             },
             file, ensure_ascii=False)
 
 if __name__ == "__main__":
-    result_dump()
+    result_dump(sys.argv[1], sys.argv[2])
