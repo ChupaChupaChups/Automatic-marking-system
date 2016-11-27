@@ -340,3 +340,11 @@ def after_submit(req, problem_number):
                        'result': get_result, 'trycount': submit_try})
     return render(req, 'AMS/after_submit.html',
                   {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'trycount': submit_try})
+def hint(req, problem_number, rst_number):
+    problemname = Problem.objects.get(pk=problem_number).p_name
+    rstuser = SubmitResult.objects.get(pk=rst_number).record.user
+    hintpath = os.path.join(settings.MEDIA_ROOT, problemname, 'submit', str(rstuser), rst_number, 'hint.txt')
+    with open(hintpath, 'r') as f:
+        content = f.read()
+
+    return render(req, 'AMS/hint.html', {'content': content})

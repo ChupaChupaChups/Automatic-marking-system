@@ -49,14 +49,16 @@
                     <td>{{ result.process_time }}ms</td>
                     {% if problem.p_hint_integer != 100 %}
 
-                        {% if problem.p_hint_integer <= result.correct_percent %}
-                            <td>Satisfy</td>
-                        {% else %}
-                            <td>Below</td>
-                        {% endif %}
+                    {% if problem.p_hint_integer <= result.correct_percent %}
+                    <td><button type="button" class="modalButton btn-link" data-toggle="modal" data-p-name="{{ problem.p_name }}"
+                                data-src="{% url 'hint' problem.pk result.pk %}"
+                                data-target="#myModal" data-video-fullscreen=""> <font color="#191970">힌트</font></button></td>
+                    {% else %}
+                    <td>힌트없음</td>
+                    {% endif %}
 
                     {% else %}
-                        <td>false</td>
+                    <td>false</td>
                     {% endif %}
                     <td>
                         {% if trycount %}
@@ -69,4 +71,55 @@
         </table>
         {{ content|linebreaks }}
     </div>
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    &times;
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <iframe class="embed-responsive-item" allowtransparency="true" width="100%" height="500" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!--
+            <div class="modal-footer">
+                  <button type="submit" class="btn btn-default" id="submit">제출</button>
+            </div>
+-->
+</div>
+
+<script type="text/javascript">
+    function iframeModalOpen(){
+
+        $('.modalButton').on('click', function(e) {
+
+            var src = $(this).attr('data-src');
+            var pname = $(this).attr('data-p-name');
+            $("#pname").remove()
+            $(".modal-header").append('<h2 id="pname"></h2>');
+            $("#pname").append(pname);
+
+            $("#myModal iframe").attr({
+                'src': src,
+            });
+        });
+
+        $('#myModal').on('hidden.bs.modal', function(){
+            $(this).find('iframe').html("");
+            $(this).find('iframe').attr("src", "");
+        });
+    }
+
+    $(document).ready(function(){
+        iframeModalOpen();
+        $('.modal-dialog').css('width', '800px');
+    });
+</script>
 {% endblock %}

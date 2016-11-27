@@ -50,17 +50,19 @@
 				</td>
 				<td>{{ rst.correct_percent }}</td>
 				<td>{{ rst.process_time }}</td>
-				{% if problem.p_hint_integer != 100 %}
+                    {% if problem.p_hint_integer != 100 %}
 
-					{% if problem.p_hint_integer <= result.correct_percent %}
-						<td>Satisfy</td>
-					{% else %}
-						<td>Below</td>
-					{% endif %}
+                    {% if problem.p_hint_integer <= rst.correct_percent %}
+                    <td><button type="button" class="modalButton btn-link" data-toggle="modal" data-p-name="{{ problem.p_name }}"
+                                data-src="{% url 'hint' problem.pk rst.pk%}"
+                                data-target="#myModal" data-video-fullscreen=""> <font color="#191970">힌트</font></button></td>
+                    {% else %}
+                    <td>힌트없음</td>
+                    {% endif %}
 
-				{% else %}
-					<td>false</td>
-				{% endif %}
+                    {% else %}
+                    <td>false</td>
+                    {% endif %}
 				<td>
                     {% for try in trycount %}
                         {% if try.userpk == rst.record.user.pk %}

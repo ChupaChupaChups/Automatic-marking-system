@@ -8,8 +8,7 @@ flagContent=$(jq '.flagContent' /flagfiles/flag.json | cut -d "\"" -f 2)
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
-declare -i check=0
-cc=false
+declare -i cc=0
 
 gcc $flagContent -o /compiler_and_judge/a.out ${arg_obj}
 if [ -f /compiler_and_judge/a.out ]; then
@@ -31,6 +30,9 @@ if [ -f /compiler_and_judge/a.out ]; then
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1
+            elif [ $cc == 0 ]; then
+                python3 /compiler_and_judge/makeHint.py $input_file /outputfiles/${filename%.*}.out /json_file
+                cc=$cc+1
             fi
         else
             if [ $infilelen == 1 ]; then
@@ -41,6 +43,9 @@ if [ -f /compiler_and_judge/a.out ]; then
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1
+            elif [ $cc == 0 ]; then
+                python3 /compiler_and_judge/makeHint.py $input_file /outputfiles/${filename%.*}.out /json_file
+                cc=$cc+1
             fi
         fi
     done

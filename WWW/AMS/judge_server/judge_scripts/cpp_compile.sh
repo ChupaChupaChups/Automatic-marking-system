@@ -24,16 +24,30 @@ if [ -f /compiler_and_judge/a.out ]; then
             resulttime=$temp
         fi
         if [ $blank == "false" ]; then
-            python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0
+            if [ $infilelen == 1 ]; then
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0 0
+            else
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0 1
+            fi
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1
+            elif [ $cc == 0 ]; then
+                python3 /compiler_and_judge/makeHint.py $input_file /outputfiles/${filename%.*}.out /json_file
+                cc=$cc+1
             fi
         else
-            python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1
+            if [ $infilelen == 1 ]; then
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1 0
+            else
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1 1
+            fi
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1
+            elif [ $cc == 0 ]; then
+                python3 /compiler_and_judge/makeHint.py $input_file /outputfiles/${filename%.*}.out /json_file
+                cc=$cc+1
             fi
         fi
     done

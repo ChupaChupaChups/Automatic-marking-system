@@ -47,4 +47,5 @@ urlpatterns = [
     url(r'^test', views.test, name='test'),
     url(r'^aftersubmit/(?P<problem_number>[0-9]+)$', views.after_submit, name='after_submit'),
     url(r'^errorlist/(?P<problem_number>[0-9]+)/(?P<rst_number>[0-9]+)$', views.errorlist, name='errorlist'),
+    url(r'^problem/(?P<problem_number>[0-9]+)/(?P<rst_number>[0-9]+)$', views.hint, name='hint'),
 ]
