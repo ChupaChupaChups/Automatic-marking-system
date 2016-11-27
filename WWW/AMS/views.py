@@ -53,15 +53,6 @@ def problem_read(req, problem_number):
 
     else:
         problem = get_object_or_404(Problem, pk=problem_number)
-        if problem.p_markdown_ok == True:
-            html = problem.p_content
-            soup = BeautifulSoup(html)
-            text = []
-            for string in soup.strings:
-                text.append(string)
-            ret = "\n".join(text)
-            return render(req, 'AMS/Read.html',
-                          {'problem': problem, 'p_number': problem_number, 'user': req.user, 'content': ret})
 
         return render(req, 'AMS/Read.html', {'problem': problem, 'p_number': problem_number, 'user': req.user})
 

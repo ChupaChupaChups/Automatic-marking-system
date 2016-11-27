@@ -66,10 +66,6 @@
 						{{ form.p_py_ok|add_class:'switch-input' }}
 						<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
 					</label>
-					<label class="switch-slide">
-						{{ form.p_make_ok|add_class:'switch-input' }}
-						<span class="switch-label" data-on="MAKEFILE on" data-off="MAKEFILE off"></span>
-					</label>
 				</fieldset>
 				<fieldset class="col-md-12 form-group ">
 					<h2>컴파일 플래그</h2>
@@ -110,10 +106,6 @@
 			<div class="col-md-7">
 				<h2>문제 내용</h2>
 				<ul class="nav nav-tabs" role="tablist">
-                    <label class="switch-slide">
-                        {{ form.p_markdown_ok|add_class:'switch-input' }}
-                        <span class="switch-label" data-on="Markdown 사용" data-off="Markdown 사용안함"></span>
-                    </label>
 					<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
 					<li><a data-toggle="tab" href="#pdf-upload">PDF 업로드</a></li>
 				</ul>

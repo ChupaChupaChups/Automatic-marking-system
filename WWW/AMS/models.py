@@ -14,8 +14,6 @@ class Problem(models.Model):
     p_cpp_ok = models.BooleanField()
     p_java_ok = models.BooleanField()
     p_py_ok = models.BooleanField()
-    p_make_ok = models.BooleanField()
-    p_markdown_ok = models.BooleanField(default=False)
     # Problem options
     p_hint_integer = models.IntegerField(default=100)
     p_day_limit = models.DateTimeField()
@@ -31,7 +29,7 @@ class Problem(models.Model):
         return self.p_name
 
 
-LANGUAGE_CHOICES = ((1, 'c'), (2, 'cpp'), (3, 'java'), (4, 'py'), (5, 'makefile'),)
+LANGUAGE_CHOICES = ((1, 'c'), (2, 'cpp'), (3, 'java'), (4, 'py'),)
 
 
 class SubmitRecord(models.Model):

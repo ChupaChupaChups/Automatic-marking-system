@@ -66,11 +66,11 @@ def start_judge(media_path, inputfiles, outputfiles):
     json_path = os.path.dirname(media_path)
     resultfiles = os.path.dirname(media_path)
     resultfiles = os.path.join(resultfiles, 'resultfiles')
-
+    flag_path = os.path.dirname(inputfiles)
     container = client.create_container(
         image=image_tag,
         command='/compiler_and_judge/compile_execute.sh',
-        volumes=['/source_code', '/compiler_and_judge', '/inputfiles', '/resultfiles', '/jsonpath', '/outputfiles'],
+        volumes=['/source_code', '/compiler_and_judge', '/inputfiles', '/resultfiles', '/jsonpath', '/outputfiles', '/flagfiles'],
         host_config=client.create_host_config(binds={
             json_path: {'bind': '/json_file', 'mode': 'rw'},
             media_path: {'bind': '/source_code', 'mode': 'rw'},
@@ -78,18 +78,21 @@ def start_judge(media_path, inputfiles, outputfiles):
             inputfiles: {'bind': '/inputfiles', 'mode': 'ro'},
             resultfiles: {'bind': '/resultfiles', 'mode': 'rw'},
             outputfiles: {'bind': '/outputfiles', 'mode': 'ro'},
+            flag_path: {'bind': '/flagfiles', 'mode': 'ro'},
         })
     )
     global _docker_queue
     _docker_queue.append(container)
     while True:
-        #print(len(_docker_queue))
+        print(len(_docker_queue))
         if len(_docker_queue) <= 5:
             client.start(container)
             try:
-                #print("try")
-                client.wait(container=container, timeout=5)
-                client.remove_container(container)
+                print("try")
+                item = _docker_queue.popleft()
+                client.wait(container=item, timeout=5)
+                message = client.logs(item)
+                client.remove_container(item)
             except:
                 result_path = os.path.join(json_path, "result.json")
                 with open(result_path, "w") as file:
@@ -102,13 +105,13 @@ def start_judge(media_path, inputfiles, outputfiles):
                     },
                     file, ensure_ascii=False)
 
-                _docker_queue.popleft()
-                #print(client.logs(container))
-                subprocess.call(['chmod', '777', json_path])
-                log_path = os.path.join(json_path, 'log.txt')
-                log = open(log_path, "wb")
-                log.write(client.logs(container))
-                log.close()
+                #print(client.logs(item))
+
+            subprocess.call(['chmod', '777', json_path])
+            log_path = os.path.join(json_path, 'log.txt')
+            log = open(log_path, "wb")
+            log.write(message)
+            log.close()
 
             break
 

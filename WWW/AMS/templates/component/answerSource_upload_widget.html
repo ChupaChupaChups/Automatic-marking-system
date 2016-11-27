@@ -40,12 +40,10 @@ upload-widget.js
     <input id="{{ id }}_language_3" name="language" type="radio" value="4" disabled>
     {% endif %}
 
-    <input id="{{ id }}_language_4" name="language" type="radio" value="5">
     <label for="{{ id }}_language_0" data-value="C">C</label>
     <label for="{{ id }}_language_1" data-value="CPP">CPP</label>
     <label for="{{ id }}_language_2" data-value="JAVA">JAVA</label>
     <label for="{{ id }}_language_3" data-value="PYTHON">PYTHON</label>
-    <label for="{{ id }}_language_4" data-value="MakeFile">MAKEFILE</label>
 </div>
 
 {% endblock %}
@@ -70,7 +68,6 @@ upload-widget.js
     obj.cppRadio = document.getElementById('{{ id }}_language_1');
     obj.javaRadio = document.getElementById('{{ id }}_language_2');
     obj.pyRadio = document.getElementById('{{ id }}_language_3');
-    obj.mkRadio = document.getElementById('{{ id }}_language_4');
     obj.entryListDiv = document.getElementById('{{ id }}-entry-point-selector');
     obj.entryList = document.getElementById('{{ id }}-entry-point');
 
@@ -104,7 +101,6 @@ upload-widget.js
     obj.cppRadio.addEventListener('click', hideSelector);
     obj.javaRadio.addEventListener('click', showSelector);
     obj.pyRadio.addEventListener('click', showSelector);
-    obj.mkRadio.addEventListener('click', hideSelector);
 
 
     obj.javaRadio.addEventListener('change', function (event) {

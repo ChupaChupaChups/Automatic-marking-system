@@ -44,9 +44,7 @@
 			</tbody>
 		</table>
 		<div class="problem-header" id="problem-content">
-			{% if problem.p_content and problem.p_markdown_ok %}
-                    {{ content | markdown }}
-                {% else %}
+			{% if problem.p_content %}
                 {{ problem.p_content | safe }}
             {% endif %}
 			{% if problem.p_pdffile %}
@@ -62,11 +60,6 @@
 				</style>
 				<script> PDFObject.embed("/media/{{problem.p_pdffile}}", "#test");</script>
 			{% endif %}
-		</div>
-		<div align="center">
-			<button type="button" class="button_link"
-				onclick="location.href = '{% url 'problem/update' problem.pk %}';">수정
-			</button>
 		</div>
 	</div>
 {% endblock %}

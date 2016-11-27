@@ -2,9 +2,8 @@
 
 arg_obj=$(find /source_code -iname "*.c")
 input_files=$(find /inputfiles -name "*.in")
-output_files=$(find /outputfiles -name "*.out")
 blank=$(jq '.problem_blank' /json_file/config.json)
-flagContent=$(jq '.flagContent' /json_file/flag.json | cut -d "\"" -f 2)
+flagContent=$(jq '.flagContent' /flagfiles/flag.json | cut -d "\"" -f 2)
 
 declare -i correct=0
 declare -i infilelen=0
@@ -25,13 +24,13 @@ if [ -f /compiler_and_judge/a.out ]; then
             resulttime=$temp
         fi
         if [ $blank == "false" ]; then
-            python3 correctCheck /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0
+            python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1
             fi
         else
-            python3 correctCheck /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1
+            python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1
