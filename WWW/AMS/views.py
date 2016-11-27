@@ -12,7 +12,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from . import onlineshellmanager
 from .forms import ProblemForm, SubmitForm
 from .judge_server.config import Config
-from .models import Problem, SubmitRecord, SubmitResult
+from .models import Problem, SubmitRecord, SubmitResult, SubmitTry
+from django.contrib.auth.models import User
 from .judge_server import judgeServer
 from bs4 import BeautifulSoup
 
@@ -80,7 +81,10 @@ def problem_add(req):
         print(req.FILES)
         form = ProblemForm(req.POST, req.FILES)
         if form.is_valid():
-            form.save()
+            problem_id = form.save()
+            users = User.objects.all()
+            for user in users:
+                temp = SubmitTry.objects.create(userpk=user.pk, problempk=problem_id.pk)
             save_flagContent(req.POST)
             return redirect('/problem/list')
     else:
@@ -129,6 +133,9 @@ def answer_submit(req, problem_number):
             else:
                 ret = True
             print(ret)
+            submit_try = SubmitTry.objects.get(userpk=req.user.pk, problempk=problem.pk)
+            submit_try.submit_try = submit_try.submit_try+1
+            submit_try.save()
             get_result = SubmitResult(record=instance, result=ret, process_time=result["time"],
                                       correct_percent=result["answer_percent"], timeout=result["timeout"])
             get_result.save()
@@ -169,24 +176,26 @@ def save_metadata(instance):
 @login_required
 def submit_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
+    submit_try = SubmitTry(userpk=req.user.pk, problempk=problem.pk)
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record)
     return render(
         req,
         'AMS/submit_result.html',
-        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'trycount' : submit_try}
     )
 
 
 @login_required
 def all_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
+    submit_try = SubmitTry.objects.filter(problempk=problem.pk)
     get_record = SubmitRecord.objects.filter(problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record)
     return render(
         req,
         'AMS/allresult.html',
-        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result}
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'trycount': submit_try}
     )
 
 
@@ -318,6 +327,7 @@ def errorlist(req, problem_number, rst_number):
 
 def after_submit(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
+    submit_try = SubmitTry.objects.get(userpk=req.user.pk, problempk=problem_number)
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record).latest('record')
     if get_result.result == False:
@@ -327,6 +337,6 @@ def after_submit(req, problem_number):
             content = f.read()
         return render(req, 'AMS/after_submit.html',
                       {'content': content, 'problem': problem, 'p_number': problem_number, 'record': get_record,
-                       'result': get_result})
+                       'result': get_result, 'trycount': submit_try})
     return render(req, 'AMS/after_submit.html',
-                  {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result})
+                  {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'trycount': submit_try})

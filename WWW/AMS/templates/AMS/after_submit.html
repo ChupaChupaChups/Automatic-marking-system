@@ -46,7 +46,7 @@
                         {% if result.record.language == 4 %} Python {% endif %}
                     </td>
                     <td>{{ result.correct_percent }}</td>
-                    <td>{{ result.process_time }}</td>
+                    <td>{{ result.process_time }}ms</td>
                     {% if problem.p_hint_integer != 100 %}
 
                         {% if problem.p_hint_integer <= result.correct_percent %}
@@ -58,7 +58,11 @@
                     {% else %}
                         <td>false</td>
                     {% endif %}
-                    <td></td>
+                    <td>
+                        {% if trycount %}
+                        {{ trycount.submit_try }}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endif %}
             </tbody>

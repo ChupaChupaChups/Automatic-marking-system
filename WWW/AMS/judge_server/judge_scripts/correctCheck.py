@@ -8,18 +8,24 @@ pattern = re.compile(r'\s+')
 def ignore_last_whitespace(submit, expected):
     for out, exp in zip(submit.split('\n'), expected.split('\n')):
         if out.rstrip() != exp.rstrip():
-            print("Expected Result : " + exp.rstrip())
-            print("Submit Result : " + out.rstrip())
-            return False
+            if sys.argv[4] == '0':
+                print("Expected Result : " + exp.rstrip())
+                print("Submit Result : " + out.rstrip())
+                return False
+            else:
+                return False
     return True
 #줄의 모든 공백 무시
 def ignore_all(submit, expected):
     global pattern
     for out, exp in zip(submit.split('\n'), expected.split('\n')):
         if re.sub(pattern, '', out) != re.sub(pattern, '', exp):
-            print("Expected Result : " + exp.rstrip())
-            print("Submit Result : " + out.rstrip())
-            return False
+            if sys.argv[4] == '0':
+                print("Expected Result : " + exp.rstrip())
+                print("Submit Result : " + out.rstrip())
+                return False
+            else:
+                return False
     return True
 
 def correctCheck():

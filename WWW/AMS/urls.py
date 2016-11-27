@@ -6,13 +6,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import RedirectView
 from . import views
+from .models import Problem, SubmitTry
 
 
 def logout_required(view):
     def f(request, *args, **kwargs):
         if request.user.is_anonymous() and request.POST.get('action') == "Sign up":
             try:
-                User.objects.create_user(username=request.POST['username'], password=request.POST['password'])
+                user = User.objects.create_user(username=request.POST['username'], password=request.POST['password'])
+                problems = Problem.objects.all()
+                for problem in problems:
+                    SubmitTry.objects.create(userpk=user.pk, problempk=problem.pk)
                 return HttpResponseRedirect(request.GET['next'])
             except:
                 return view(request, *args, **kwargs)

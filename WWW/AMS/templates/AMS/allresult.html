@@ -30,7 +30,7 @@
             </tr>
             </thead>
             <tbody>
-            {% for rst in result %}
+            {% for rst in result reversed %}
                 <tr>
 
                     <td>{{rst.record.user}}</td>
@@ -61,7 +61,13 @@
                     {% else %}
                         <td>false</td>
                     {% endif %}
-                    <td></td>
+                    <td>
+                        {% for try in trycount %}
+                            {% if rst.record.user.pk == try.userpk %}
+                                {{try.submit_try}}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>

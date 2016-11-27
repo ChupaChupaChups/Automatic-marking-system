@@ -9,7 +9,6 @@ declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
 declare -i check=0
-
 cc=false
 
 gcc $flagContent -o /compiler_and_judge/a.out ${arg_obj}
@@ -24,13 +23,21 @@ if [ -f /compiler_and_judge/a.out ]; then
             resulttime=$temp
         fi
         if [ $blank == "false" ]; then
-            python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0
+            if [ $infilelen == 1 ]; then
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0 0
+            else
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 0 1
+            fi
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1
             fi
         else
-            python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1
+            if [ $infilelen == 1 ]; then
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1 0
+            else
+                python3 /compiler_and_judge/correctCheck.py /resultfiles/${filename%.*}.out /outputfiles/${filename%.*}.out 1 1
+            fi
             returnval=$?
             if [ $returnval == 1 ]; then
                 correct=$correct+1

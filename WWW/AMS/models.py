@@ -41,10 +41,13 @@ class SubmitRecord(models.Model):
     submit_time = models.DateTimeField()
     language = models.IntegerField(choices=LANGUAGE_CHOICES, default=1)  # 1 = c 2 = cpp 3 = java 4 = py
     entry_point = models.TextField(null=False, default='')
-
     def __str__(self):
         return str(self.problem)
 
+class SubmitTry(models.Model):
+    problempk = models.IntegerField(default=0)
+    userpk = models.IntegerField(default=0)
+    submit_try = models.IntegerField(default=0)
 
 class SubmitFile(models.Model):
     def _save_path(self, filename):
