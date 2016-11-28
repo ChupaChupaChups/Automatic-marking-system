@@ -84,6 +84,7 @@ def problem_update(req, problem_number):
         if form.is_valid():
             # shutil.move(prev_folder_name, next_folder_name)
             form.save()
+            save_flagContent(req.POST)
             return redirect('/problem/list')
     else:
         form = ProblemForm(instance=problem)
