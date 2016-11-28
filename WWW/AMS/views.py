@@ -20,6 +20,21 @@ from bs4 import BeautifulSoup
 
 # Create your views here.
 
+def fileCount(folder):
+    "count the number of files in a directory"
+
+    count = 0
+
+    for filename in os.listdir(folder):
+        path = os.path.join(folder, filename)
+
+        if os.path.isfile(path):
+            count += 1
+        elif os.path.isdir(path):
+            count += fileCount(path)
+
+    return count
+
 def web_logout(req):
     logout(req)
     return redirect('/')
@@ -117,8 +132,9 @@ def answer_submit(req, problem_number):
             media_path = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name,
                                       'submit', str(req.user), str(instance.pk), 'code')
             inputfiles = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name, 'inputfile')
-            judgeServer.start_judge(media_path, inputfiles, outputfiles)
-
+            files = fileCount(inputfiles)
+            print(files)
+            judgeServer.start_judge(media_path, inputfiles, outputfiles, int(instance.problem.p_time_limit)*files)
             # result store to database
             test_path = os.path.join(settings.MEDIA_ROOT, instance.problem.p_name,
                                      'submit', str(req.user), str(instance.pk), 'result.json')
@@ -168,7 +184,8 @@ def save_metadata(instance):
                 'entry_point': instance.entry_point,
                 'problem_number': instance.problem.pk,
                 'problem_name': instance.problem.p_name,
-                'problem_blank': instance.problem.p_blank_accpet
+                'problem_blank': instance.problem.p_blank_accpet,
+                'time_limit': instance.problem.p_time_limit,
             },
             file, ensure_ascii=False)
 
@@ -176,7 +193,8 @@ def save_metadata(instance):
 @login_required
 def submit_result(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
-    submit_try = SubmitTry(userpk=req.user.pk, problempk=problem.pk)
+
+    submit_try = SubmitTry.objects.get(userpk=req.user.pk, problempk=problem.pk)
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
     get_result = SubmitResult.objects.filter(record__in=get_record)
     return render(
@@ -188,14 +206,22 @@ def submit_result(req, problem_number):
 
 @login_required
 def all_result(req, problem_number):
+    data = []
     problem = Problem.objects.get(pk=problem_number)
     submit_try = SubmitTry.objects.filter(problempk=problem.pk)
-    get_record = SubmitRecord.objects.filter(problem=problem)
-    get_result = SubmitResult.objects.filter(record__in=get_record)
+    users = User.objects.all()
+    for user in users:
+        try:
+            get_record = SubmitRecord.objects.filter(problem=problem, user=user)
+            get_result = SubmitResult.objects.filter(record__in=get_record).latest('record')
+            data.append(get_result)
+        except:
+            pass
+
     return render(
         req,
         'AMS/allresult.html',
-        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'trycount': submit_try}
+        {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': data, 'trycount': submit_try}
     )
 
 
@@ -329,22 +355,27 @@ def after_submit(req, problem_number):
     problem = Problem.objects.get(pk=problem_number)
     submit_try = SubmitTry.objects.get(userpk=req.user.pk, problempk=problem_number)
     get_record = SubmitRecord.objects.filter(user=req.user, problem=problem)
-    get_result = SubmitResult.objects.filter(record__in=get_record).latest('record')
-    if get_result.result == False:
-        errorlistpath = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'submit', str(get_result.record.user),
-                                     str(get_result.pk), 'log.txt')
-        with open(errorlistpath, 'r') as f:
-            content = f.read()
-        return render(req, 'AMS/after_submit.html',
+    try:
+        get_result = SubmitResult.objects.filter(record__in=get_record).latest('record')
+        if get_result.result == False:
+            errorlistpath = os.path.join(settings.MEDIA_ROOT, problem.p_name, 'submit', str(get_result.record.user),
+                                         str(get_result.pk), 'log.txt')
+            with open(errorlistpath, 'r') as f:
+                content = f.read()
+            return render(req, 'AMS/after_submit.html',
                       {'content': content, 'problem': problem, 'p_number': problem_number, 'record': get_record,
                        'result': get_result, 'trycount': submit_try})
-    return render(req, 'AMS/after_submit.html',
+        return render(req, 'AMS/after_submit.html',
                   {'problem': problem, 'p_number': problem_number, 'record': get_record, 'result': get_result, 'trycount': submit_try})
+    except:
+        return render(req, 'AMS/no_matching.html', {'problem': problem, 'p_number': problem_number})
+
 def hint(req, problem_number, rst_number):
+
     problemname = Problem.objects.get(pk=problem_number).p_name
     rstuser = SubmitResult.objects.get(pk=rst_number).record.user
     hintpath = os.path.join(settings.MEDIA_ROOT, problemname, 'submit', str(rstuser), rst_number, 'hint.txt')
     with open(hintpath, 'r') as f:
         content = f.read()
-
+    f.close()
     return render(req, 'AMS/hint.html', {'content': content})

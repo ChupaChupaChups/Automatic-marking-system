@@ -1,12 +1,15 @@
 #!/usr/bin/env bash
 
 input_files=$(find /inputfiles -name "*.in")
-flagContent=$(jq '.flagContent' /json_file/flag.json | cut -d "\"" -f 2)
+flagContent=$(jq '.flagContent' /flagfiles/flag.json | cut -d "\"" -f 2)
 entry=$(jq '.entry_point' /json_file/config.json | cut -d "\"" -f 2)
 blank=$(jq '.problem_blank' /json_file/config.json)
+timelimit=$(jq '.time_limit' /json_file/config.json)
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
+declare -i cc=0
+declare -i cc2=0
 
 # (time python3 /source_code/$entry < /inputfiles/input.txt >> /source_code/result.txt) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/proctime.txt
 
@@ -20,6 +23,10 @@ for input_file in $input_files; do
     temp=$(</resultfiles/${filename%.*}.time)
     if [ $temp -gt $resulttime ]; then
         resulttime=$temp
+    fi
+    if [ $temp -gt $(($timelimit*1000)) ]; then
+        cc2=$cc2+1
+        break
     fi
     if [ $blank == "false" ]; then
         if [ $infilelen == 1 ]; then
@@ -49,12 +56,14 @@ for input_file in $input_files; do
         fi
     fi
 done
-correct=$correct*100
 if [ $infilelen -eq 0 ]; then
-    temp=0
-else
-    temp=$(($correct/$infilelen))
+    python3 /compiler_and_judge/result_dump.py 0 0 1
 fi
-python3 /compiler_and_judge/result_dump.py $temp $resulttime
-
+if [ $cc2 == 0 ]; then
+    correct=$correct*100
+    temp=$(($correct/$infilelen))
+    python3 /compiler_and_judge/result_dump.py $temp $resulttime 1
+else
+    python3 /compiler_and_judge/result_dump.py 0 0 0
+fi
 chmod -R 777 /json_file

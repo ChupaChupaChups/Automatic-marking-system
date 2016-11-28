@@ -56,7 +56,7 @@ def build_image():
 #		print("'{0}' image is already exist".format(docker_tag))
 
 
-def start_judge(media_path, inputfiles, outputfiles):
+def start_judge(media_path, inputfiles, outputfiles, timelimit):
     client = _get_client()
     image_tag = Config["Docker"]["tag"]
 
@@ -87,10 +87,12 @@ def start_judge(media_path, inputfiles, outputfiles):
         print(len(_docker_queue))
         if len(_docker_queue) <= 5:
             client.start(container)
+            message = bytes("", 'utf-8')
             try:
                 print("try")
                 item = _docker_queue.popleft()
-                client.wait(container=item, timeout=5)
+                print(timelimit)
+                client.wait(container=item, timeout=timelimit)
                 message = client.logs(item)
                 client.remove_container(item)
             except:
@@ -106,7 +108,6 @@ def start_judge(media_path, inputfiles, outputfiles):
                     file, ensure_ascii=False)
 
                 #print(client.logs(item))
-
             subprocess.call(['chmod', '777', json_path])
             log_path = os.path.join(json_path, 'log.txt')
             log = open(log_path, "wb")

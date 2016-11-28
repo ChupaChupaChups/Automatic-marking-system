@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
 
-arg_obj=$(find /source_code -iname "*.c")
+arg_obj=$(find /source_code -iname "*.cpp")
 input_files=$(find /inputfiles -name "*.in")
 blank=$(jq '.problem_blank' /json_file/config.json)
 flagContent=$(jq '.flagContent' /flagfiles/flag.json | cut -d "\"" -f 2)
-
+timelimit=$(jq '.time_limit' /json_file/config.json)
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
 declare -i check=0
-
-cc=false
+declare -i cc=0
+declare -i cc2=0
 
 g++ $flagContent -o /compiler_and_judge/a.out ${arg_obj}
 if [ -f /compiler_and_judge/a.out ]; then
@@ -19,6 +19,10 @@ if [ -f /compiler_and_judge/a.out ]; then
         filename=$(basename $input_file)
         (time /compiler_and_judge/a.out < $input_file > /resultfiles/${filename%.*}.out) 2>&1 >/dev/null | tail -n 3 |head -1 | awk '{print $2}' | awk 'BEGIN {FS="[ms]"} {print ($1*60000+$2*1000)}' > /resultfiles/${filename%.*}.time
         temp=$(</resultfiles/${filename%.*}.time)
+        if [ $temp -gt $(($timelimit*1000)) ]; then
+            cc2=$cc2+1
+            break
+        fi
         if [ $temp -gt $resulttime ];
         then
             resulttime=$temp
@@ -51,13 +55,16 @@ if [ -f /compiler_and_judge/a.out ]; then
             fi
         fi
     done
-    correct=$correct*100
-    temp=$(($correct/$infilelen))
-    python3 /compiler_and_judge/result_dump.py $temp $resulttime
-
+    if [ $cc2 == 0 ]; then
+        correct=$correct*100
+        temp=$(($correct/$infilelen))
+        python3 /compiler_and_judge/result_dump.py $temp $resulttime 1
+    else
+        python3 /compiler_and_judge/result_dump.py 0 0 0
+    fi
     rm /compiler_and_judge/a.out
 else
-    python3 /compiler_and_judge/result_dump.py 0 0
+    python3 /compiler_and_judge/result_dump.py 0 0 1
 fi
 
 chmod -R 777 /json_file

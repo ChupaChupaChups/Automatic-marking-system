@@ -6,9 +6,12 @@ input_files=$(find /inputfiles -name "*.in")
 output_files=$(find /outputfiles -name "*.out")
 flagContent=$(jq '.flagContent' /flagfiles/flag.json | cut -d "\"" -f 2)
 blank=$(jq '.problem_blank' /json_file/config.json)
+timelimit=$(jq '.time_limit' /json_file/config.json)
 declare -i correct=0
 declare -i infilelen=0
 declare -i resulttime=0
+declare -i cc=0
+declare -i cc2=0
 
 mkdir /compiler_and_judge/class
 entry=$(jq '.entry_point' /json_file/config.json | cut -d "\"" -f 2)
@@ -23,6 +26,10 @@ if [ $(du -sb /compiler_and_judge/class | cut -f1) -ne '4096' ]; then
         if [ $temp -gt $resulttime ];
         then
             resulttime=$temp
+        fi
+        if [ $temp -gt $(($timelimit*1000)) ]; then
+            cc2=$cc2+1
+            break
         fi
         if [ $blank == "false" ]; then
             if [ $infilelen == 1 ]; then
@@ -52,13 +59,16 @@ if [ $(du -sb /compiler_and_judge/class | cut -f1) -ne '4096' ]; then
             fi
         fi
     done
-    correct=$correct*100
-    temp=$(($correct/$infilelen))
-    python3 /compiler_and_judge/result_dump.py $temp $resulttime
-
+    if [ $cc2 == 0 ]; then
+        correct=$correct*100
+        temp=$(($correct/$infilelen))
+        python3 /compiler_and_judge/result_dump.py $temp $resulttime 1
+    else
+        python3 /compiler_and_judge/result_dump.py 0 0 0
+    fi
     rm -rf /compiler_and_judge/class
     rm /compiler_and_judge/source_list.txt
 else
-    python3 /compiler_and_judge/result_dump.py 0 0
+    python3 /compiler_and_judge/result_dump.py 0 0 1
 fi
 chmod -R 777 /json_file

@@ -49,7 +49,7 @@
 					{% if rst.record.language == 4 %} Python {% endif %}
 				</td>
 				<td>{{ rst.correct_percent }}</td>
-				<td>{{ rst.process_time }}</td>
+				<td>{{ rst.process_time }}ms</td>
                     {% if problem.p_hint_integer != 100 %}
 
                     {% if problem.p_hint_integer <= rst.correct_percent %}
@@ -64,11 +64,7 @@
                     <td>false</td>
                     {% endif %}
 				<td>
-                    {% for try in trycount %}
-                        {% if try.userpk == rst.record.user.pk %}
-                            {% try.submit_try %}
-                        {% endif %}
-                    {% endfor %}
+                    {{ trycount.submit_try }}
                 </td>
 			</tr>
 			{% endfor %}

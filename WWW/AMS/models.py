@@ -20,6 +20,7 @@ class Problem(models.Model):
     p_day_not_over = models.BooleanField(default=True)
     p_blank_accpet = models.BooleanField(default=False)
     p_flagContent = models.CharField(max_length=100, default="", blank=True)
+    p_time_limit = models.IntegerField(default=1)
     # Problem content
     p_content = models.TextField(null=True, blank=True)  # 문제 내용
     p_pdffile = models.FileField(upload_to=_get_upload_to_pdf, null=True, blank=True)
