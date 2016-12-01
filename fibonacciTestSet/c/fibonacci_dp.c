@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-int dp[1001] = {0, 1, 1, }
+int dp[1001] = {0, 1, 1, };
 
 int fibonacci(int i){
 	if(i == 0) return 0;

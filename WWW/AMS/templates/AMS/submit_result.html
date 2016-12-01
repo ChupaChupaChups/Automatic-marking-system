@@ -52,7 +52,7 @@
 				<td>{{ rst.process_time }}ms</td>
                     {% if problem.p_hint_integer != 100 %}
 
-                    {% if problem.p_hint_integer <= rst.correct_percent %}
+                    {% if problem.p_hint_integer <= rst.correct_percent && rst.correct_percent != 100 %}
                     <td><button type="button" class="modalButton btn-link" data-toggle="modal" data-p-name="{{ problem.p_name }}"
                                 data-src="{% url 'hint' problem.pk rst.pk%}"
                                 data-target="#myModal" data-video-fullscreen=""> <font color="#191970">힌트</font></button></td>
