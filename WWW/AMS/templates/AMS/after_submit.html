@@ -47,9 +47,9 @@
                     </td>
                     <td>{{ result.correct_percent }}</td>
                     <td>{{ result.process_time }}ms</td>
-                    {% if problem.p_hint_integer != 100 %}
+                    {% if problem.p_hint_integer != 100 and result.correct_percent != 100 %}
 
-                    {% if problem.p_hint_integer <= result.correct_percent && result.correct_percent != 100 %}
+                    {% if problem.p_hint_integer <= result.correct_percent %}
                     <td><button type="button" class="modalButton btn-link" data-toggle="modal" data-p-name="{{ problem.p_name }}"
                                 data-src="{% url 'hint' problem.pk result.pk %}"
                                 data-target="#myModal" data-video-fullscreen=""> <font color="#191970">힌트</font></button></td>
@@ -58,7 +58,7 @@
                     {% endif %}
 
                     {% else %}
-                    <td>false</td>
+                    <td>힌트없음</td>
                     {% endif %}
                     <td>
                         {% if trycount %}
