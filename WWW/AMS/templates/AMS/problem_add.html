@@ -65,7 +65,7 @@
 				</fieldset>
 				<fieldset class="col-md-12 form-group" id="language-wrapper">
 					<h2>채점시 공백 확인</h2>
-					<label class="switch-slide">
+					<label class="switch-slide" >
 						{{ form.p_blank_accpet|add_class:'switch-input' }}
 						<span class="switch-label" data-on="공백 검사" data-off="공백 검사 안함"></span>
 					</label>
@@ -100,9 +100,11 @@
 
 				<fieldset class="col-md-12 form-group ">
 					<h2>컴파일 플래그</h2>
+					<h6 id="flagWarning" style="color: red">실행파일 이름 변경 금지</h6>
 					<div id="flagContent">
 						{{ form.p_flagContent|add_class:'form-control input-lg' }}
 					</div>
+
 				</fieldset>
 				<fieldset class="col-md-12 form-group ">
 					<h2>시간 제한(seconds)</h2>
