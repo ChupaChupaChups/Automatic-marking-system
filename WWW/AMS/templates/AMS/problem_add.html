@@ -37,17 +37,13 @@
 	<div class="content container">
 		<form enctype="multipart/form-data" method="post" id="form-add" onsubmit="return checkUpload()">
 			{% csrf_token %}
-			<div class="col-md-5">
+			<div class="col-md-12">
 				<fieldset class="col-md-12 form-group p_name">
 					<h2>문제 이름</h2>
 					{{ form.p_name|add_class:'form-control input-lg'|attr:'placeholder:Problem Name' }}
 				</fieldset>
-
-				<fieldset class="col-md-12 form-group">
-					<h2>마감기한</h2>
-					{{ form.p_day_limit|add_class:'form-control' }}
-				</fieldset>
-
+			</div>
+			<div class="col-md-6">
 				<fieldset class="col-md-12 form-group" id="language-wrapper">
 					<h2>허용되는 언어</h2>
 					<label class="switch-slide">
@@ -67,18 +63,14 @@
 						<span class="switch-label" data-on="PYTHON on" data-off="PYTHON off"></span>
 					</label>
 				</fieldset>
-				<fieldset class="col-md-12 form-group ">
-					<h2>컴파일 플래그</h2>
-					<div id="flagContent">
-						{{ form.p_flagContent|add_class:'form-control input-lg' }}
-					</div>
+				<fieldset class="col-md-12 form-group" id="language-wrapper">
+					<h2>채점시 공백 확인</h2>
+					<label class="switch-slide" >
+						{{ form.p_blank_accpet|add_class:'switch-input' }}
+						<span class="switch-label" data-on="공백 검사" data-off="공백 검사 안함"></span>
+					</label>
 				</fieldset>
-				<fieldset class="col-md-12 form-group ">
-					<h2>시간 제한(seconds)</h2>
-					<div id="timeLimit">
-						{{ form.p_time_limit|add_class:'form-control input-lg' }}
-					</div>
-				</fieldset>
+
 				<fieldset class="col-md-12 form-group" id="hint-wrapper">
 					<h2>힌트여부</h2>
 					<div class="col-md-12">
@@ -88,27 +80,40 @@
 					<script type="text/javascript">
 						var slider = new Slider('#id_p_hint_integer', {
 							formatter: function (value) {
-                                var str = "전체 테스트케이스 중 " + value + "% 이상 정답 시, 힌트를 보여줍니다.";
-                                if(value == 100) str = "힌트를 보여주지 않습니다.";
-                                else if (value == 0) str = "항상 힌트를 보여줍니다.";
-                                document.getElementById("percent").innerHTML = str;
+								var str = "전체 테스트케이스 중 " + value + "% 이상 정답 시, 힌트를 보여줍니다.";
+								if(value == 100) str = "힌트를 보여주지 않습니다.";
+								else if (value == 0) str = "항상 힌트를 보여줍니다.";
+								document.getElementById("percent").innerHTML = str;
 								return value + '%';
 							}
 						});
 
 					</script>
 				</fieldset>
-
-                <fieldset class="col-md-12 form-group" id="language-wrapper">
-                    <h2>채점시 공백 확인</h2>
-                    <label class="switch-slide">
-                        {{ form.p_blank_accpet|add_class:'switch-input' }}
-                        <span class="switch-label" data-on="공백 검사" data-off="공백 검사 안함"></span>
-                    </label>
-                </fieldset>
 			</div>
 
-			<div class="col-md-7">
+			<div class="col-md-6">
+				<fieldset class="col-md-12 form-group">
+					<h2>마감기한</h2>
+					{{ form.p_day_limit|add_class:'form-control' }}
+				</fieldset>
+
+				<fieldset class="col-md-12 form-group ">
+					<h2>컴파일 플래그</h2>
+					<h6 id="flagWarning" style="color: red">실행파일 이름 변경 금지</h6>
+					<div id="flagContent">
+						{{ form.p_flagContent|add_class:'form-control input-lg' }}
+					</div>
+
+				</fieldset>
+				<fieldset class="col-md-12 form-group ">
+					<h2>시간 제한(seconds)</h2>
+					<div id="timeLimit">
+						{{ form.p_time_limit|add_class:'form-control input-lg' }}
+					</div>
+				</fieldset>
+			</div>
+			<div class="col-md-12">
 				<h2>문제 내용</h2>
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="active"><a data-toggle="tab" href="#editor">텍스트로 작성</a></li>
