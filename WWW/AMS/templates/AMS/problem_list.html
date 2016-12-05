@@ -61,6 +61,13 @@
 								{% if problem.p_py_ok == True %} Python  {% endif %}
 							</h4>
 						</div>
+
+						<div class="row col-md-12">
+							<h3>시간 제한</h3>
+							<h4>
+								{% if problem.p_time_limit %} {{ problem.p_time_limit }}초{% endif %}
+							</h4>
+						</div>
 						<table>
 							<tr>
 								<!-- The Modal -->

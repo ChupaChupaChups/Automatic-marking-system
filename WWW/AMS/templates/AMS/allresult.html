@@ -49,7 +49,7 @@
                         {% if rst.record.language == 4 %} Python {% endif %}
                     </td>
                     <td>{{ rst.correct_percent }}</td>
-                    <td>{{ rst.process_time }}</td>
+                    <td>{{ rst.process_time }}ms</td>
                     {% if problem.p_hint_integer != 100 and rst.correct_percent != 100 %}
 
                         {% if problem.p_hint_integer <= rst.correct_percent %}
