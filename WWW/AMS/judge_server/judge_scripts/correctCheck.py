@@ -2,7 +2,7 @@ import sys
 import re
 #-*- coding: utf-8 -*-
 
-pattern = re.compile(r'\s+')
+pattern = re.compile(r'\s+|\n+')
 
 #줄의 마지막 공백 무시
 def ignore_last_whitespace(submit, expected):
@@ -18,7 +18,11 @@ def ignore_last_whitespace(submit, expected):
 #줄의 모든 공백 무시
 def ignore_all(submit, expected):
     global pattern
-    for out, exp in zip(submit.split('\n'), expected.split('\n')):
+    outs = submit.split('\n')
+    exps = expected.split('\n')
+    while '' in outs: outs.remove('')
+    while '' in exps: exps.remove('')
+    for out, exp in zip(outs, exps):
         if re.sub(pattern, '', out) != re.sub(pattern, '', exp):
             if sys.argv[4] == '0':
                 print("Expected Result : " + exp.rstrip())
