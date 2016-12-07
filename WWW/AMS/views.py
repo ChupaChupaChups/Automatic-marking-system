@@ -278,6 +278,7 @@ def problem_files(req):
             handle_upload_file(req, inputfolder, inputfile_path, 2)
 
         outputCreatorPath = os.path.join(os.path.dirname(__file__), 'outfileCreator', 'outFile.sh')
+        print(entry_point)
         call([outputCreatorPath, str(language), codefile_path, inputfile_path, outputfile_path, entry_point])
 
     elif web_tab_number == "2":
