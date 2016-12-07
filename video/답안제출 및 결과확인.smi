@@ -1,0 +1,90 @@
+<SAMI>
+<HEAD>
+<STYLE TYPE="text/css">
+<!--
+P {margin-left:8pt; margin-right:8pt; margin-bottom:2pt; margin-top:2pt;
+  text-align:center; font-size:20pt; font-family:arial, sans-serif;
+  font-weight:normal; color:White;}
+  .KRCC {Name:한국어; lang:kr-KR; SAMIType:CC;}
+  .ENUSCC { name: English; lang: en-US ; SAMIType: CC ; }
+-->
+</STYLE>
+</HEAD>
+<BODY>
+
+<SYNC Start=0001>
+<P Class=KRCC>답안제출을 위해 학생계정 생성 및 로그인</P>
+</SYNC>
+<SYNC Start=4000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=6100>
+<P Class=KRCC>답안제출 및 문제확인을 위해 문제 클릭</P>
+</SYNC>
+<SYNC Start=10000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=14600>
+<P Class=KRCC>문제 확인 가능</P>
+</SYNC>
+<SYNC Start=21800>
+<P Class=KRCC>답안 제출 하기(가능한 언어가 있으면 언어 선택이 가능)</P>
+</SYNC>
+<SYNC Start=24000>
+<P Class=KRCC>소스파일 업로드 및 제출 (정답코드)</P>
+</SYNC>
+<SYNC Start=30000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=33500>
+<P Class=KRCC>바로 나오는 결과는 가장 최근의 결과</P>
+</SYNC>
+<SYNC Start=38000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=42000>
+<P Class=KRCC>내 결과는 자신의 모든 결과 확인 가능</P>
+</SYNC>
+<SYNC Start=46000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=48500>
+<P Class=KRCC>다음 답안 제출은 힌트 기능을 보여 주는 소스코드(70프로의 정답)</P>
+</SYNC>
+<SYNC Start=60000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=62000>
+<P Class=KRCC>조건을 만족하면 힌트여부에 링크가 생기고 링크를 누르면 힌트 확인 가능</P>
+</SYNC>
+<SYNC Start=65000>
+<P Class=KRCC>힌트의 경우 하나의 테스트케이스에 대한 입력과 출력을 알려줌</P>
+</SYNC>
+<SYNC Start=70000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=74000>
+<P Class=KRCC>다음 답안 제출은 시간 초과를 판별해주는 소스코드(dynamic programming으로 코드를 작성하지 않은 피보나치 소스 코드)</P>
+</SYNC>
+<SYNC Start=84000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=100000>
+<P Class=KRCC>관리자(교수님)계정으로 로그인 후 학생들의 제출 결과를 확인</P>
+</SYNC>
+<SYNC Start=110000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=113000>
+<P Class=KRCC>교수님의 경우에는 학생이 마지막으로 제출한 결과와 시도회수를 알 수 있</P>
+</SYNC>
+<SYNC Start=120000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+</BODY>
+
+</SAMI> 

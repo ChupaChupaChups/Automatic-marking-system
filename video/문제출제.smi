@@ -1,0 +1,143 @@
+<SAMI>
+<HEAD>
+<STYLE TYPE="text/css">
+<!--
+P {margin-left:8pt; margin-right:8pt; margin-bottom:2pt; margin-top:2pt;
+  text-align:center; font-size:20pt; font-family:arial, sans-serif;
+  font-weight:normal; color:White;}
+  .KRCC {Name:한국어; lang:kr-KR; SAMIType:CC;}
+  .ENUSCC { name: English; lang: en-US ; SAMIType: CC ; }
+-->
+</STYLE>
+</HEAD>
+<BODY>
+<SYNC Start=0001>
+<P Class=KRCC>문제출제를 위한 관리자(교수님)계정으로 로그인</P>
+</SYNC>
+
+<SYNC Start=4000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=6000>
+<P Class=KRCC>문제출제를 위해 문제출제 버튼 클릭</P>
+</SYNC>
+
+<SYNC Start=9000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=11500>
+<P Class=KRCC>문제 이름 입력</P>
+</SYNC>
+
+<SYNC Start=20000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=21000>
+<P Class=KRCC>학생이 제출 가능한 언어 선택(C, C++, python3, java)</P>
+</SYNC>
+
+<SYNC Start=27500>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=29500>
+<P Class=KRCC>마감 기한 입력(마감 기한이 지나면 학생에게 보이지 않음)</P>
+</SYNC>
+
+<SYNC Start=33000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=34000>
+<P Class=KRCC>채점시 공백 확인 설정</P>
+</SYNC>
+
+<SYNC Start=35000>
+<P Class=KRCC>공백을 검사 한다면 테스트케이스 결과의 뒤 쪽 공백을 제외하고 모두 비교</P>
+</SYNC>
+
+<SYNC Start=36000>
+<P Class=KRCC>공백을 검사 하지 않는다면 모든 공백을 제거 후 테스트케이스 결과 비교</P>
+</SYNC>
+
+<SYNC Start=37500>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=38000>
+<P Class=KRCC>학생에 제출 할 때 사용될 컴파일 옵션(실행 파일 이름 설정 옵션은 사용 불가)</P>
+</SYNC>
+
+<SYNC Start=42000>
+<P Class=KRCC>컴파일 옵션 사용시 허용되는 언어는 1개만 선택해야함</P>
+</SYNC>
+
+<SYNC Start=47000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=48000>
+<P Class=KRCC>힌트 여부 설정</P>
+</SYNC>
+
+<SYNC Start=49000>
+<P Class=KRCC>학생이 제출한 답안이 선택한 특정 퍼센트 이상 정답 시 틀린 테스트 케이스 1개를 보여줌</P>
+</SYNC>
+
+<SYNC Start=56000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=57000>
+<P Class=KRCC>시간 제한 설정(각 테스트케이스 마다 채점 시간 결정)</P>
+</SYNC>
+<SYNC Start=60000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=61500> 
+<P Class=KRCC>문제 내용 입력</P>
+</SYNC>
+<SYNC Start=63000>
+<P Class=KRCC>문제 내용은 텍스트에디터 또는 만들어진 PDF파일을 사용</P>
+</SYNC>
+<SYNC Start=68000>
+<P Class=KRCC>텍스트에디터로 작성한 내용과 PDF파일 둘 중 하나는 반드시 존재해야함</P>
+</SYNC>
+<SYNC Start=76000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+
+<SYNC Start=77000>
+<P Class=KRCC>입/출력/코드 옵션 설정</P>
+</SYNC>
+<SYNC Start=78000>
+<P Class=KRCC>입력 + 코드는 테스트케이스 *.in파일과 정답소스코드</P>
+</SYNC>
+<SYNC Start=83000>
+<P Class=KRCC>코드는 정답소스코드를 이용하여 테스트케이스 입력을 직접 넣어 생성(미구현)</P>
+</SYNC>
+<SYNC Start=87000>
+<P Class=KRCC>입력 + 출력은 테스트케이스 *.in파일과 정답파일 *.out파일</P>
+</SYNC>
+<SYNC Start=93000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=107000>
+<P Class=KRCC>SAVE시 문제 출제 완료</P>
+</SYNC>
+<SYNC Start=110000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+<SYNC Start=111000>
+<P Class=KRCC>출제된 문제 확인 가능</P>
+</SYNC>
+<SYNC Start=113000>
+<P Class=KRCC>&nbsp</P>
+</SYNC>
+</BODY>
+
+</SAMI> 
